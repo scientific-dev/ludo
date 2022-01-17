@@ -279,4 +279,8 @@ body {
 		max-height: calc(min(100vh, 100vw) - 120px);
 		width: calc(min(100vh, 100vw) - 120px);
 	}
+
+	.board-wrapper {
+		transform: scale(0.95);
+	}
 }

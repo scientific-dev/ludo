@@ -18,6 +18,6 @@
 		<p>A simple site to play Ludo (Pachisi Variant)!</p>
 
 		<a href="?game" class="cover-btn">Lets play!</a>
-		<p class="credits">Made by <a href="https://github.com/github.com/scientific-dev">scientific-dev</a></p>
+		<p class="credits">Made by <a href="https://github.com/scientific-dev">scientific-dev</a></p>
 	</div>
 {/if}
