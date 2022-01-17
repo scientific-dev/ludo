@@ -35,6 +35,25 @@ export default class LudoEngine {
 
     nullPoints = [33, 69, 39, 3];
 
+    diceHTMLSides = [
+        `<div class="dot"></div>`,
+        `<div class="dot"></div> <div class="dot"></div>`,
+        `<div class="dot"></div> <div class="dot"></div> <div class="dot"></div>`,
+        `
+            <div class="flex"><div class="dot"></div> <div class="dot"></div></div> 
+            <div class="flex"><div class="dot"></div> <div class="dot"></div></div>
+        `,
+        `
+            <div class="flex"><div class="dot"></div> <div class="e-dot"></div> <div class="dot"></div></div> 
+            <div class="flex"><div class="e-dot"></div> <div class="dot"></div></div> 
+            <div class="flex"><div class="dot"></div> <div class="e-dot"></div> <div class="dot"></div></div>`,
+        `
+            <div class="flex"><div class="dot"></div> <div class="dot"></div></div>
+            <div class="flex"><div class="dot"></div> <div class="dot"></div></div>
+            <div class="flex"><div class="dot"></div> <div class="dot"></div></div>
+        `,
+    ];
+
     onWindowLoad () {
         let styleElement = document.createElement('style');
         styleElement.innerHTML = 
@@ -52,27 +71,107 @@ export default class LudoEngine {
 
     async alert (message, waitTill = 2000) {
         let parentElement = document.querySelector('.board-wrapper');
-        let alertElement = document.createElement('div');
-        alertElement.className = 'alert';
-        alertElement.style.opacity = 0;
-
         let pElement = document.createElement('p');
         pElement.innerHTML = message;
 
-        alertElement.appendChild(pElement);
-        parentElement.appendChild(alertElement);
-
-        await LudoEngine.sleep(1000)
-        alertElement.style.opacity = 1;
+        let lalert = await new LudoAlert()
+            .setParent(parentElement)
+            .appendChildren(pElement)
+            .display();
+        
         await LudoEngine.sleep(waitTill);
-        alertElement.style.opacity = 0;
-        await LudoEngine.sleep(200);
+        await lalert.undisplay()
+    }
 
-        parentElement.removeChild(alertElement)
+    async diceRoll (userName = 'Your', result = this.getRandomDiceNumber()) {
+        let parentElement = document.querySelector('.board-wrapper');
+        let pElement = document.createElement('p');
+        pElement.innerHTML = `${userName} Turn`;
+
+        let diceElement = document.createElement('div');
+        diceElement.className = 'dice';
+        diceElement.innerHTML = this.getRandomDiceSideHTML();
+
+        let lalert = await new LudoAlert()
+            .appendChildren(pElement, diceElement)
+            .setParent(parentElement)
+            .display();
+
+        for (let i = 0; i < 6; i++) {
+            await LudoEngine.sleep(i * 50);
+            diceElement.innerHTML = this.getRandomDiceSideHTML();
+        }
+
+        await LudoEngine.sleep(300);
+        diceElement.innerHTML = this.getDiceSideHTML(result);
+        await LudoEngine.sleep(400);
+        diceElement.style.transform = 'scale(1.2)';
+        await LudoEngine.sleep(250);
+        diceElement.style.transform = 'scale(1)';
+        await LudoEngine.sleep(750);
+        await lalert.undisplay();
+
+        return result;
+    }
+
+    getRandomDiceSideHTML () {
+        return this.getDiceSideHTML(this.getRandomDiceNumber());
+    }
+
+    getRandomDiceNumber () {
+        return Math.floor(Math.random() * this.diceHTMLSides.length);
+    }
+
+    getDiceSideHTML (n) {
+        return `<div class="dside-${n + 1}">${this.diceHTMLSides[n]}</div>`;
     }
 
     static sleep(ms) {
         return new Promise(r => setTimeout(r, ms));
+    }
+
+}
+
+export class LudoAlert {
+
+    constructor () {
+        let alertElement = document.createElement('div');
+        alertElement.className = 'alert';
+        alertElement.style.opacity = 0;
+        this.element = alertElement;
+    }
+
+    setInnerHTML (html) {
+        this.element.innerHTML = html;
+        return this;
+    }
+
+    appendChildren (...children) {
+        this.element.append(...children);
+        return this;
+    }
+
+    setParent (elem) {
+        this.parent = elem;
+        elem.append(this.element);
+        return this;
+    }
+
+    removeParent () {
+        this.parent.removeChild(this.element);
+        return this;
+    }
+
+    async display () {
+        await LudoEngine.sleep(1000)
+        this.element.style.opacity = 1;
+        return this;
+    }
+
+    async undisplay () {
+        this.element.style.opacity = 0;
+        await LudoEngine.sleep(200);
+        return this.removeParent();
     }
 
 }

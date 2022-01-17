@@ -26,6 +26,7 @@
     window.addEventListener('load', () => {
         setCSSDimensions();
         engine.onWindowLoad();
+        engine.diceRoll()
         // document.querySelectorAll('.step').forEach(e => e.innerHTML = e.id.split('-')[1]);
     });
 

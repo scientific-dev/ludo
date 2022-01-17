@@ -108,3 +108,131 @@ body {
 	text-align: center;
 	margin-top: 40vh;
 }
+
+.dice {
+	background-color: var(--red-house);
+	border-radius: 20px;
+	width: 100px;
+	height: 100px;
+	margin-left: calc(50% - 50px);
+	margin-top: -50px;
+	-o-transition: .2s;
+	-moz-transition: .2s;
+	transition: .1s;
+}
+
+.dot, .e-dot {
+	border-radius: 100%;
+	background-color: white;
+	padding: 12px;
+	display: inline-block;
+}
+
+.e-dot {
+	background-color: transparent;
+}
+
+.dside-1 .dot {
+	margin-left: calc(50px - 12px);
+	margin-top: calc(50px - 12px);
+}
+
+.dside-2 {
+	margin-left: calc(50px - 24px);
+	margin-top: calc(50px - 12px);
+	display: inline-block;
+	transform: rotate(30deg);
+}
+
+.dside-3 {
+	margin-left: calc(50px - 40px);
+	margin-top: calc(50px - 12px);
+	display: inline-block;
+	transform: rotate(30deg);
+}
+
+.dside-4 {
+	margin-left: calc(50px - 28px);
+	margin-top: calc(50px - 28px);
+	display: inline-block;
+}
+
+.dside-4 .dot, .dside-6 .dot {
+	margin: 2px;
+}
+
+.dside-5 {
+	margin-left: calc(50px - 36px);
+	margin-top: calc(50px - 36px);
+	display: inline-block;
+}
+
+.dside-6 {
+	margin-left: calc(50px - 28px);
+	margin-top: calc(50px - 42px);
+	display: inline-block;
+}
+
+.cover {
+	font-family: "Titillium Web";
+	padding: 100px;
+}
+
+.cover h1 {
+	font-size: 80px;
+	margin: 0;
+}
+
+.cover p {
+	margin: 0;
+	font-size: 20px;
+}
+
+.cover-btn {
+	border-radius: 20px;
+	padding: 10px 100px;
+	text-decoration: none;
+	color: black;
+	border: 2px solid black;
+	margin-top: 10px;
+	display: inline-block;
+	text-transform: uppercase;
+}
+
+.cover-btn:hover {
+	color: white;
+	background-color: black;
+}
+
+.cover .credits {
+	margin-top: 10px;
+}
+
+.cover .credits a {
+	color: black;
+}
+
+@media (max-width: 750px) {
+	.cover {
+		padding: 50px;
+	}
+
+	.cover p {
+		font-size: 15px;
+	}
+	
+	.cover h1 {
+		font-size: 30;
+		line-height: 1;
+		margin-top: 30px;
+	}
+
+	.cover-btn {
+		padding: 5px 50px;
+		border: 1px solid black;
+	}
+
+	.alert p {
+		margin-top: 30vh;
+	}
+}
