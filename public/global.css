@@ -236,3 +236,47 @@ body {
 		margin-top: 30vh;
 	}
 }
+
+.info-tab {
+	padding: 10px;
+	font-family: "Titillium Web";
+}
+
+.info-tab h1 {
+	margin: 0;
+	line-height: 1;
+	font-size: 60px;
+}
+
+.info-tab {
+	padding: 60px;
+}
+
+.game-page {
+	display: flex;
+}
+
+@media (max-width: 750px) {
+	.game-page {
+		display: block;
+	}
+
+	.info-tab, .board-wrapper {
+		margin-left: calc(50% - min(100vh, 100vw) / 2);
+	}
+
+	.info-tab {
+		padding: 30px;
+	}
+
+	.info-tab h1 {
+		font-size: 40px;
+	}
+}
+
+@media (min-width: 750px) {
+	.info-tab {
+		max-height: calc(min(100vh, 100vw) - 120px);
+		width: calc(min(100vh, 100vw) - 120px);
+	}
+}

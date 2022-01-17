@@ -1,5 +1,6 @@
 <script>
 	import Board from './Board.svelte';
+	import InfoTab from './InfoTab.svelte';
 
 	const queries = new URLSearchParams(window.location.search);
 
@@ -7,7 +8,10 @@
 </script>
 
 {#if isGame}
-	<Board/>
+	<div class="game-page">
+		<Board/>
+		<InfoTab/>
+	</div>
 {:else}	
 	<div class="cover">
 		<h1>Ludo</h1>

@@ -26,18 +26,19 @@
     window.addEventListener('load', () => {
         setCSSDimensions();
         engine.onWindowLoad();
-        engine.diceRoll()
         // document.querySelectorAll('.step').forEach(e => e.innerHTML = e.id.split('-')[1]);
     });
 
     window.addEventListener('resize', () => {
         setCSSDimensions();
     });
+
+    // margin-{marginSide}: {(maxSide - minSide) / 2}px;
 </script>
 
 <div class="wrap" id="wrap"/>
 
-<div class="board-wrapper" style="height: {minSide - 10}px; width: {minSide}px; margin-{marginSide}: {(maxSide - minSide) / 2}px;">
+<div class="board-wrapper" style="height: {minSide - 10}px; width: {minSide}px;">
     <div class="board">
         <div class="board-inner">
             <div class="flex flex-nowrap">
