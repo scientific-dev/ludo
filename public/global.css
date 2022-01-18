@@ -292,6 +292,19 @@ body {
 	background-color: var(--dark-wood);
 }
 
+.pt-btn {
+	margin: 10px;
+	display: inline-block;
+	color: white;
+	text-decoration: none;
+	font-family: "Titillium Web";
+	background-color: var(--dark-wood);
+	padding: 5px 10px;
+	border-radius: 4px;
+	text-align: center;
+	width: calc(50% - 40px);
+}
+
 .inline-block { display: inline-block; }
 .block { display: block; }
 .strong { font-weight: bold; }
@@ -312,6 +325,12 @@ body {
 .r-game-page .player-tab { 
 	margin: 5px; 
 	width: calc(50% - 10px);
+}
+
+.r-game-page .pt-btn {
+	padding-top: 5px 0;
+	width: calc(100% - 30px);
+	margin: 5px;
 }
 
 .r-game-page .player-tab h3, .r-game-page .player-input { font-size: 25px; }

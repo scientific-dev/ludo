@@ -21,5 +21,9 @@
             <PlayerTab color="green" started={started}/>
             <AddPlayer started={started}/>
         </div>
+
+        {#if !started}
+            <a class="pt-btn" href="#wrap">Start Game</a>
+        {/if}
     </div>
 </div>

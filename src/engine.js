@@ -74,6 +74,8 @@ export default class LudoEngine extends TinyEmitter {
     }
 
     updatePlayerName(color, name) {
+        // The engine may crash if wrong values supplied but
+        // only if someone makes a fault in the engine.
         this.players[color].name = name;
         this.emit(`${color}Update`);
     }
