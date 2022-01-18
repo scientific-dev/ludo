@@ -1,5 +1,6 @@
 <script>
-    export let i, cellSize, color;
+    export let i, cellSize;
+    export let color = null;
 </script>
 
 <div 

@@ -1,0 +1,29 @@
+<script>
+    import { engine } from "../../engine";
+
+    export let started;
+
+    let toDisplay = !started && (engine.playerCount != 4);
+    engine.on('playerCountUpdate', () => toDisplay = !started && (engine.playerCount != 4));
+
+    function createBot () {
+        if (!engine.createPlayer(true)) engine.alert('Player limit has been reached...');
+    }
+
+    function createPlayer () {
+        if (!engine.createPlayer()) engine.alert('Player limit has been reached...');
+    }
+</script>
+
+{#if toDisplay}
+    <div class="player-tab">
+        <div class="head" style="background-color: var(--dull-player);">
+            <h3>Add</h3>
+        </div>
+
+        <div class="foot">
+            <a href="#wrap" on:click={createBot}>Add Bot?</a>
+            <a href="#wrap" on:click={createPlayer}>Add Player?</a>
+        </div>
+    </div>
+{/if}

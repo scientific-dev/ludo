@@ -5,6 +5,10 @@ Array.prototype.random = function () {
     return this[Math.floor(Math.random() * this.length)];
 }
 
+String.prototype.toProperCase = function () {
+    return this.charAt(0).toUpperCase() + this.substring(1).toLowerCase();
+}
+
 export async function sleep (ms) {
     return new Promise(r => setTimeout(r, ms));
 }
@@ -15,6 +19,8 @@ export function getRandom (n) {
 
 export default class LudoEngine extends TinyEmitter {
 
+    started = false;
+    botCount = 0;
     players = {
         red: new LudoPlayer('You'),
         green: LudoPlayer.NULL_PLAYER,
@@ -22,27 +28,61 @@ export default class LudoEngine extends TinyEmitter {
         blue: LudoPlayer.NULL_PLAYER
     };
 
+    get playersArray () {
+        return Object.values(this.players);
+    }
+
+    get playerCount () {
+        return this.playersArray.filter(x => !x.isNull).length;
+    }
+
     onWindowLoad () {
         let styleElement = document.createElement('style');
 
         styleElement.innerHTML = 
-            Object.entries(START_POINTS)
-                .map(([color, id]) => `#step-${id} {background-color:var(--${color}-player)!important}`)
-                .join('');
-
-        styleElement.innerHTML += 
             NULL_POINTS
                 .map(id => `#step-${id} {background-color:var(--dark-wood)!important}`)
                 .join('');
 
+        styleElement.innerHTML += 
+            Object.entries(START_POINTS)
+                .map(([color, id]) => `#step-${id} {background-color:var(--${color}-player)!important}`)
+                .join('');
+
         document.getElementById('wrap').append(styleElement);
+    }
+
+    createPlayer (isBot = false) {
+        let entry = Object.entries(this.players).find(([_, player]) => player.isNull);
+        if (!entry) return null;
+
+        if (isBot) this.botCount += 1;
+        this.players[entry[0]] = new LudoPlayer(isBot ? `Bot ${this.botCount}` : 'Player', isBot);
+        this.emit(`${entry[0]}Update`);
+        this.emit('playerCountUpdate');
+        return this.players[entry[0]];
+    }
+
+    deletePlayer (color) {
+        if (this.playerCount == 1) return null;
+        let player = this.players[color];
+        if (player.isBot) this.botCount -= 1;
+        this.players[color] = LudoPlayer.NULL_PLAYER;
+        this.emit(`${color}Update`);
+        this.emit('playerCountUpdate');
+        return player;
+    }
+
+    updatePlayerName(color, name) {
+        this.players[color].name = name;
+        this.emit(`${color}Update`);
     }
 
     async alert (message, waitTill = 2000) {
         let alrt = await new LudoAlert()
             .setParent(document.querySelector('.board-wrapper'))
             .setInnerHTML(`<p>${message}</p>`)
-            .display();
+            .display(0);
         
         await sleep(waitTill);
         await alrt.undisplay()
@@ -118,8 +158,8 @@ export class LudoAlert {
         return this;
     }
 
-    async display () {
-        await sleep(1000)
+    async display (ms = 200) {
+        await sleep(ms)
         this.element.style.opacity = 1;
         return this;
     }
@@ -134,17 +174,18 @@ export class LudoAlert {
 
 export class LudoPlayer {
 
-    static NULL_PLAYER = new LudoPlayer('No Player', true);
+    static NULL_PLAYER = new LudoPlayer('No Player', false, true);
 
-    kills = [0, 0, 0, 0]; // [r, g, b, y]
+    kills = 0;
     cors = [null, null, null, null];
     // Coordinates of coins. 
     // - number, if the coin is on track
     // - null, if coin at start.
     // - NaN, if coin has reached the house.
 
-    constructor (name, isNull = false) {
+    constructor (name, isBot = false, isNull = false) {
         this.name = name;
+        if (isBot) this.isBot = true;
         if (isNull) this.isNull = true;
     }
 
@@ -159,6 +200,12 @@ export class LudoPlayer {
 
     get coinsOutside () {
         return this.cors.filter(x => !isNaN(x) && typeof x == "number").length;
+    }
+
+    get type () {
+        if (this.isBot) return 'bot';
+        if (this.isNull) return 'null';
+        else return 'player';
     }
 
 }

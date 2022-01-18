@@ -1,7 +1,7 @@
 :root {
-	--background: #eee;
 	--board-color: #04D4F0;
 	--border-color: var(--background);
+	--dull-player: rgb(160, 160, 160);
 	--red-player: #f02d20;
 	--blue-player: #2dc7ff;
 	--yellow-player: #ffd643;
@@ -73,12 +73,6 @@ body {
 	margin: 2px;
 }
 
-.coin, .prison-inner, .step {
-	box-shadow: -3px 3px 0px 0px rgba(0,0,0,0.13);
-	-webkit-box-shadow: -3px 3px 0px 0px rgba(0,0,0,0.13);
-	-moz-box-shadow: -3px 3px 0px 0px rgba(0,0,0,0.13);
-}
-
 .flex { display: flex; }
 .flex-wrap { flex-wrap: wrap; }
 .flex-nowrap { flex-wrap: nowrap; }
@@ -95,9 +89,6 @@ body {
 	height: 100%;
 	background-color: rgba(0,0,0,0.6);
 	z-index: 1;
-	-o-transition: .2s;
-	-moz-transition: .2s;
-	transition: .1s;
 }
 
 .alert p {
@@ -105,7 +96,8 @@ body {
 	font-size: 40px;
 	color: white;
 	text-align: center;
-	margin-top: 40vh;
+	line-height: 1;
+	margin-top: calc(50% - 60px);
 }
 
 .dice {
@@ -115,9 +107,6 @@ body {
 	height: 100px;
 	margin-left: calc(50% - 50px);
 	margin-top: -50px;
-	-o-transition: .2s;
-	-moz-transition: .2s;
-	transition: .1s;
 }
 
 .dot, .e-dot {
@@ -191,15 +180,14 @@ body {
 	padding: 10px 100px;
 	text-decoration: none;
 	color: white;
-	border: 2px solid var(--wood);
+	border: 2px solid var(--dark-wood);
 	margin-top: 10px;
 	display: inline-block;
 	text-transform: uppercase;
 }
 
 .cover-btn:hover {
-	background-color: var(--wood);
-	color: white;
+	background-color: var(--dark-wood);
 }
 
 .cover .credits {
@@ -229,10 +217,6 @@ body {
 		padding: 5px 50px;
 		border: 1px solid black;
 	}
-
-	.alert p {
-		margin-top: 30vh;
-	}
 }
 
 .game-page {
@@ -247,28 +231,69 @@ body {
 
 .players-tab {
 	padding: 30px;
-	width: calc(100% - 40px);
+	width: 100%;
 }
 
 .player-tab {
-	border-radius: 6px;
 	color: white;
 	font-family: "Titillium Web";
 	margin: 10px;
-	padding: 10px;
-	width: calc(50% - 40px);
+	width: calc(50% - 20px);
 }
 
-.player-tab h3 {
+.player-tab .foot { 
+	background-color: white;
+	border-bottom-left-radius: 4px;
+	border-bottom-right-radius: 4px;
+	padding: 5px 10px;
+	height: calc(100% - 50px);
+}
+
+.player-tab .head {
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
+	padding: 0 10px;
+}
+
+.player-tab h3, .player-input {
 	margin: 0;
 	font-size: 30px;
 }
 
-.player-tab p {
+.player-input {
+	background-color: transparent;
+	outline: none;
+	border: none;
+	width: 100%;
+	color: white;
+	font-weight: bold;
+	font-family: "Titillium Web";
+}
+
+.player-tab p  {
 	margin: 0;
+	color: black;
+}
+
+.player-tab a { 
+	margin: 0;
+	cursor: pointer;
+	text-decoration: none;
+	color: black;
+	border-radius: 2px;
+	padding: 2px 6px;
+	margin-top: 2px;
+	display: block;
+	text-align: center;
+}
+
+.player-tab a:hover {
+	color: white;
+	background-color: var(--dark-wood);
 }
 
 .inline-block { display: inline-block; }
+.block { display: block; }
 .strong { font-weight: bold; }
 
 .r-game-page {
@@ -277,4 +302,35 @@ body {
 
 .r-game-page .board-wrapper {
 	margin-left: calc(50% - min(50vw, 50vh));
+}
+
+.r-game-page .players-tab {
+	padding: 10px;
+	width: calc(100% - 20px);
+}
+
+.r-game-page .player-tab { 
+	margin: 5px; 
+	width: calc(50% - 10px);
+}
+
+.r-game-page .player-tab h3, .r-game-page .player-input { font-size: 25px; }
+.r-game-page .player-tab p { font-size: 15px; }
+
+.coin, .prison-inner, .step, .player-tab {
+	box-shadow: -3px 3px 0px 0px rgba(0,0,0,0.13);
+	-webkit-box-shadow: -3px 3px 0px 0px rgba(0,0,0,0.13);
+	-moz-box-shadow: -3px 3px 0px 0px rgba(0,0,0,0.13);
+}
+
+.dice, .alert, .player-tab {
+	-o-transition: .15s;
+	-moz-transition: .15s;
+	transition: .15s;
+}
+
+.player-tab:hover {
+	-o-transform: scale(1.05);
+	-moz-transform: scale(1.05);
+	transform: scale(1.05);
 }
