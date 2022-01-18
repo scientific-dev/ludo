@@ -10,8 +10,9 @@
         let wh = wrapElement.clientHeight;
         let ww = wrapElement.clientWidth;
 
+		// For responsive css
 		document.querySelector('.game-page')
-			.classList[(ww < (wh * 1.5)) ? 'add' : 'remove']('r-game-page');
+			.classList[(ww < (wh * 2)) ? 'add' : 'remove']('r-game-page');
 	}
 
 	onMount(() => {

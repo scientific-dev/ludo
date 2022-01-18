@@ -1,16 +1,16 @@
 <script>
     import Coin from './Coin.svelte';
 
-    export let code, cellSize, houseSize;
-    let innerHouseSize;
+    export let code, cellSize, prisonSize;
 
-    $: innerHouseSize = (2 * cellSize) + 8;
+    let innerPrisonSize;
+    $: innerPrisonSize = (2 * cellSize) + 8;
 </script>
 
-<div class="house" style="width: {houseSize}px; height: {houseSize}px;">
+<div class="prison" style="width: {prisonSize}px; height: {prisonSize}px;">
     <div 
-        class="house-inner" 
-        style="margin: {(houseSize - innerHouseSize - 10) / 2}px; width: {innerHouseSize}px"    
+        class="prison-inner" 
+        style="margin: {(prisonSize - innerPrisonSize - 10) / 2}px; width: {innerPrisonSize}px"    
     >
         <div style="display: flex; flex-wrap: nowrap;">
             <div>

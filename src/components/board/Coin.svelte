@@ -5,5 +5,5 @@
 <div 
     class="coin" 
     id="coin-{code}-{i}" 
-    style="background-color: var(--{code}-house); width: {cellSize}px; height: {cellSize}px;"
+    style="background-color: var(--{code}-player); width: {cellSize}px; height: {cellSize}px;"
 ></div>

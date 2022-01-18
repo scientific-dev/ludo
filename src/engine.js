@@ -1,3 +1,4 @@
+import { TinyEmitter } from 'tiny-emitter';
 import { DICE_HTML_SIDES, NULL_POINTS, START_POINTS } from "./constants";
 
 Array.prototype.random = function () {
@@ -12,13 +13,13 @@ export function getRandom (n) {
     return Math.floor(Math.random() * n);
 }
 
-export default class LudoEngine {
+export default class LudoEngine extends TinyEmitter {
 
     players = {
         red: new LudoPlayer('You'),
-        green: null,
-        yellow: null,
-        blue: null
+        green: LudoPlayer.NULL_PLAYER,
+        yellow: LudoPlayer.NULL_PLAYER,
+        blue: LudoPlayer.NULL_PLAYER
     };
 
     onWindowLoad () {
@@ -26,7 +27,7 @@ export default class LudoEngine {
 
         styleElement.innerHTML = 
             Object.entries(START_POINTS)
-                .map(([color, id]) => `#step-${id} {background-color:var(--${color}-house)!important}`)
+                .map(([color, id]) => `#step-${id} {background-color:var(--${color}-player)!important}`)
                 .join('');
 
         styleElement.innerHTML += 
@@ -133,16 +134,18 @@ export class LudoAlert {
 
 export class LudoPlayer {
 
-    static NULL_PLAYER = new LudoPlayer('No Player');
+    static NULL_PLAYER = new LudoPlayer('No Player', true);
 
     kills = [0, 0, 0, 0]; // [r, g, b, y]
     cors = [null, null, null, null];
     // Coordinates of coins. 
-    // - null if coin at start.
-    // - NaN if coin has reached the house.
+    // - number, if the coin is on track
+    // - null, if coin at start.
+    // - NaN, if coin has reached the house.
 
-    constructor (name) {
+    constructor (name, isNull = false) {
         this.name = name;
+        if (isNull) this.isNull = true;
     }
 
     get coinsReached () {
@@ -159,3 +162,7 @@ export class LudoPlayer {
     }
 
 }
+
+
+// The default and primary ludo engine where the game process exists...
+export const engine = new LudoEngine();

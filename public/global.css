@@ -2,10 +2,10 @@
 	--background: #eee;
 	--board-color: #04D4F0;
 	--border-color: var(--background);
-	--red-house: #f02d20;
-	--blue-house: #2dc7ff;
-	--yellow-house: #ffd643;
-	--green-house: #00cc00;
+	--red-player: #f02d20;
+	--blue-player: #2dc7ff;
+	--yellow-player: #ffd643;
+	--green-player: #00cc00;
 	--wood: #BA8C63;
 	--dark-wood: #945b29;
 }
@@ -65,11 +65,11 @@ body {
 	height: 100%;
 }
 
-.house {
+.prison {
 	display: inline-block;
 }
 
-.house-inner {
+.prison-inner {
 	background-color: var(--wood);
 	border-radius: 2px;
 	padding: 5px;
@@ -80,7 +80,7 @@ body {
 	margin: 2px;
 }
 
-.coin, .house-inner, .step {
+.coin, .prison-inner, .step {
 	box-shadow: -3px 3px 0px 0px rgba(0,0,0,0.13);
 	-webkit-box-shadow: -3px 3px 0px 0px rgba(0,0,0,0.13);
 	-moz-box-shadow: -3px 3px 0px 0px rgba(0,0,0,0.13);
@@ -121,7 +121,7 @@ body {
 }
 
 .dice {
-	background-color: var(--red-house);
+	background-color: var(--red-player);
 	border-radius: 20px;
 	width: 100px;
 	height: 100px;
@@ -261,7 +261,7 @@ body {
 
 .players-tab {
 	padding: 30px;
-	width: 100%;
+	width: calc(100% - 40px);
 }
 
 .player-tab {
@@ -270,7 +270,7 @@ body {
 	font-family: "Titillium Web";
 	margin: 10px;
 	padding: 10px;
-	width: calc(50% - 80px);
+	width: calc(50% - 40px);
 }
 
 .player-tab h3 {
@@ -284,3 +284,11 @@ body {
 
 .inline-block { display: inline-block; }
 .strong { font-weight: bold; }
+
+.r-game-page {
+	display: block!important;
+}
+
+.r-game-page .board-wrapper {
+	margin-left: calc(50% - min(50vw, 50vh));
+}

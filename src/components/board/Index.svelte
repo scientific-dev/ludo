@@ -1,27 +1,20 @@
 <script>
     import { onMount } from 'svelte';
-    import House from './House.svelte';
+    import Prison from './Prison.svelte';
     import Walkway from './Walkway.svelte';
-    import LudoEngine from '../../engine';
+    import { engine } from '../../engine';
 
-    export let engine = new LudoEngine();
-    let minSide, cellSize, houseSize, walkwayWidth;
+    let minSide, cellSize, prisonSize, walkwayWidth;
 
     function setCSSDimensions () {
         let wrapElement = document.getElementById('wrap');
-        let wh = wrapElement.clientHeight;
-        let ww = wrapElement.clientWidth;
-
-        minSide = Math.min(ww, wh);
-        // maxSide = Math.max(ww, wh);
-        // marginSide = wrapElement.clientWidth > wrapElement.clientHeight ? 'left' : 'top';
+        minSide = Math.min(wrapElement.clientHeight,  wrapElement.clientWidth);
     }
 
     $: {
         cellSize = (minSide - 70) / 15;
-        houseSize = (6 * cellSize) + 24;
+        prisonSize = (6 * cellSize) + 24;
         walkwayWidth = cellSize + 4;
-        // walkwayHeight = houseSize;
     }
 
     onMount(() => {
@@ -29,17 +22,16 @@
         engine.onWindowLoad();
         window.addEventListener('resize', () => setCSSDimensions());
     });
-
-    // margin-{marginSide}: {(maxSide - minSide) / 2}px;
 </script>
 
+<!-- This element just wraps the whole body... -->
 <div class="wrap" id="wrap"/>
 
 <div class="board-wrapper" style="height: {minSide - 10}px; width: {minSide}px;">
     <div class="board">
         <div class="board-inner">
             <div class="flex flex-nowrap">
-                <House code="red" cellSize={cellSize} houseSize={houseSize}/>
+                <Prison code="red" cellSize={cellSize} prisonSize={prisonSize}/>
 
                 <!-- 0 to 6 -->
                 <Walkway cellSize={cellSize} offsetIndex={1} flexDirection="column"/>
@@ -48,7 +40,7 @@
                 <!-- 13 to 18 -->
                 <Walkway cellSize={cellSize} offsetIndex={13} flexDirection="column"/>
 
-                <House code="blue" cellSize={cellSize} houseSize={houseSize}/>
+                <Prison code="blue" cellSize={cellSize} prisonSize={prisonSize}/>
             </div>
 
             <div class="flex flex-nowrap">
@@ -74,7 +66,7 @@
             </div>
 
             <div class="flex flex-nowrap">
-                <House code="green" cellSize={cellSize} houseSize={houseSize}/>
+                <Prison code="green" cellSize={cellSize} prisonSize={prisonSize}/>
 
                 <!-- 55 to 60 -->
                 <Walkway cellSize={cellSize} offsetIndex={55} flexDirection="column-r"/>
@@ -83,7 +75,7 @@
                 <!-- 67 to 72 -->
                 <Walkway cellSize={cellSize} offsetIndex={67} flexDirection="column-r"/>
 
-                <House code="yellow" cellSize={cellSize} houseSize={houseSize}/>
+                <Prison code="yellow" cellSize={cellSize} prisonSize={prisonSize}/>
             </div>
         </div>
     </div>
