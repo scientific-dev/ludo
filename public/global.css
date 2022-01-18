@@ -19,21 +19,10 @@ body {
 	background-color: transparent;
 }
 
-::-webkit-scrollbar {
-	width: 7px;
-}
-  
-::-webkit-scrollbar-track {
-	background: #18181d;
-}
-  
-::-webkit-scrollbar-thumb {
-	background: #6580b1;
-}
-  
-::-webkit-scrollbar-thumb:hover {
-	background: #7298da;
-}
+::-webkit-scrollbar { width: 7px; }
+::-webkit-scrollbar-track { background: #18181d; }
+::-webkit-scrollbar-thumb { background: #6580b1; }
+::-webkit-scrollbar-thumb:hover { background: #7298da; }
 
 .bg-cover {
 	width: 100%;
@@ -54,15 +43,14 @@ body {
 	z-index: -1;
 }
 
-.board {
+.board, .board-inner {
 	width: 100%;
 	height: 100%;
-	padding: 5px;
+	
 }
 
-.board-inner {
-	width: 100%;
-	height: 100%;
+.board {
+	padding: 5px;
 }
 
 .prison {
@@ -80,6 +68,11 @@ body {
 	margin: 2px;
 }
 
+.step {
+	background-color: var(--wood);
+	margin: 2px;
+}
+
 .coin, .prison-inner, .step {
 	box-shadow: -3px 3px 0px 0px rgba(0,0,0,0.13);
 	-webkit-box-shadow: -3px 3px 0px 0px rgba(0,0,0,0.13);
@@ -93,11 +86,6 @@ body {
 .flex-column-r { flex-direction: column-reverse; }
 .flex-row { flex-direction: row; }
 .flex-row-r { flex-direction: row-reverse; }
-
-.step {
-	background-color: var(--wood);
-	margin: 2px;
-}
 
 .alert {
 	position: fixed;
@@ -134,14 +122,12 @@ body {
 
 .dot, .e-dot {
 	border-radius: 100%;
-	background-color: white;
 	padding: 12px;
 	display: inline-block;
 }
 
-.e-dot {
-	background-color: transparent;
-}
+.dot { background-color: white; }
+.e-dot { background-color: transparent; }
 
 .dside-1 .dot {
 	margin-left: calc(50px - 12px);
