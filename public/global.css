@@ -16,7 +16,7 @@ html {
 
 body {
 	margin: 0;
-	background-color: var(--background);
+	background-color: transparent;
 }
 
 ::-webkit-scrollbar {
@@ -35,6 +35,18 @@ body {
 	background: #7298da;
 }
 
+.bg-cover {
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	z-index: -1;
+	background-color: #252931;
+	background-image: url(/scenary.jpg);
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-blend-mode: multiply;
+}
+
 .wrap {
 	width: 100vw;
 	height: 100vh;
@@ -43,7 +55,6 @@ body {
 }
 
 .board {
-	background-color: var(--board-color);
 	width: 100%;
 	height: 100%;
 	padding: 5px;
@@ -176,6 +187,7 @@ body {
 .cover {
 	font-family: "Titillium Web";
 	padding: 100px;
+	color: white;
 }
 
 .cover h1 {
@@ -192,16 +204,16 @@ body {
 	border-radius: 20px;
 	padding: 10px 100px;
 	text-decoration: none;
-	color: black;
-	border: 2px solid black;
+	color: white;
+	border: 2px solid var(--wood);
 	margin-top: 10px;
 	display: inline-block;
 	text-transform: uppercase;
 }
 
 .cover-btn:hover {
+	background-color: var(--wood);
 	color: white;
-	background-color: black;
 }
 
 .cover .credits {
@@ -209,7 +221,7 @@ body {
 }
 
 .cover .credits a {
-	color: black;
+	color: white;
 }
 
 @media (max-width: 750px) {
@@ -237,50 +249,12 @@ body {
 	}
 }
 
-.info-tab {
-	padding: 10px;
-	font-family: "Titillium Web";
-}
-
-.info-tab h1 {
-	margin: 0;
-	line-height: 1;
-	font-size: 60px;
-}
-
-.info-tab {
-	padding: 60px;
-}
-
 .game-page {
 	display: flex;
 }
 
-@media (max-width: 750px) {
-	.game-page {
-		display: block;
-	}
-
-	.info-tab, .board-wrapper {
-		margin-left: calc(50% - min(100vh, 100vw) / 2);
-	}
-
-	.info-tab {
-		padding: 30px;
-	}
-
-	.info-tab h1 {
-		font-size: 40px;
-	}
-}
-
-@media (min-width: 750px) {
-	.info-tab {
-		max-height: calc(min(100vh, 100vw) - 120px);
-		width: calc(min(100vh, 100vw) - 120px);
-	}
-
-	.board-wrapper {
-		transform: scale(0.95);
-	}
+.board-wrapper {
+	-o-transform: scale(0.95);
+	-moz-transform: scale(0.95);
+	transform: scale(0.95);
 }

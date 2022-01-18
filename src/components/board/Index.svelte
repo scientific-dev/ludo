@@ -1,26 +1,27 @@
 <script>
     import House from './House.svelte';
     import Walkway from './Walkway.svelte';
-    import LudoEngine from './engine';
+    import LudoEngine from '../../engine';
 
     const engine = new LudoEngine();
-    let minSide, maxSide, marginSide, cellSize, houseSize, walkwayWidth, walkwayHeight;
+
+    let minSide, cellSize, houseSize, walkwayWidth;
 
     function setCSSDimensions () {
         let wrapElement = document.getElementById('wrap');
+        let wh = wrapElement.clientHeight;
+        let ww = wrapElement.clientWidth;
 
-        minSide = Math.min(wrapElement.clientHeight, wrapElement.clientWidth);
-        maxSide = Math.max(wrapElement.clientHeight, wrapElement.clientWidth);
-        marginSide = wrapElement.clientWidth > wrapElement.clientHeight
-                        ? 'left'
-                        : 'top';
+        minSide = Math.min(ww, wh);
+        // maxSide = Math.max(ww, wh);
+        // marginSide = wrapElement.clientWidth > wrapElement.clientHeight ? 'left' : 'top';
     }
 
     $: {
         cellSize = (minSide - 70) / 15;
         houseSize = (6 * cellSize) + 24;
         walkwayWidth = cellSize + 4;
-        walkwayHeight = houseSize;
+        // walkwayHeight = houseSize;
     }
 
     window.addEventListener('load', () => {
