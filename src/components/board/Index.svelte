@@ -27,7 +27,7 @@
 <!-- This element just wraps the whole body... -->
 <div class="wrap" id="wrap"/>
 
-<div class="board-wrapper" style="height: {minSide - 10}px; width: {minSide}px;">
+<div class="board-wrapper" style="height: {minSide - 10}px; width: {minSide}px; --cell-size: {cellSize}px">
     <div class="board">
         <div class="board-inner">
             <div class="flex flex-nowrap">

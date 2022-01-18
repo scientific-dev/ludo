@@ -3,8 +3,8 @@
 
     export let started;
 
-    let toDisplay = !started && (engine.playerCount != 4);
-    engine.on('playerCountUpdate', () => toDisplay = !started && (engine.playerCount != 4));
+    let toDisplay = engine.playerCount != 4;
+    engine.on('playerCountUpdate', () => toDisplay = engine.playerCount != 4);
 
     function createBot () {
         if (!engine.createPlayer(true)) engine.alert('Player limit has been reached...');
@@ -15,7 +15,7 @@
     }
 </script>
 
-{#if toDisplay}
+{#if !started && toDisplay}
     <div class="player-tab">
         <div class="head" style="background-color: var(--dull-player);">
             <h3>Add</h3>

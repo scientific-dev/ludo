@@ -23,7 +23,11 @@
         </div>
 
         {#if !started}
-            <a class="pt-btn" href="#wrap">Start Game</a>
+            <a class="pt-btn" href="#wrap" on:click={async () => {
+                if (!(await engine.start(true))) engine.alert('Minimum two players are required.');
+            }}>Start Game</a>
+        {:else}
+            <a class="pt-btn" href="#wrap" on:click={() => engine.emit('diceRoll')}>Roll Dice</a>
         {/if}
     </div>
 </div>

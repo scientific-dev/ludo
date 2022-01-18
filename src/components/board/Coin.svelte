@@ -1,9 +1,9 @@
 <script>
-    export let code, i, cellSize;
+    export let code, i
 </script>
 
 <div 
     class="coin" 
     id="coin-{code}-{i}" 
-    style="background-color: var(--{code}-player); width: {cellSize}px; height: {cellSize}px;"
+    style="background-color: var(--{code}-player);"
 ></div>

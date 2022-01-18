@@ -21,6 +21,9 @@ export default class LudoEngine extends TinyEmitter {
 
     started = false;
     botCount = 0;
+    actualPlayers = []; // Will be defined when the game starts...
+    currentTurn = 0;
+    ranks = [];
     players = {
         red: new LudoPlayer('You'),
         green: LudoPlayer.NULL_PLAYER,
@@ -34,6 +37,10 @@ export default class LudoEngine extends TinyEmitter {
 
     get playerCount () {
         return this.playersArray.filter(x => !x.isNull).length;
+    }
+
+    get currentTurnPlayer () {
+        return this.actualPlayers[this.currentTurn];
     }
 
     onWindowLoad () {
@@ -80,6 +87,57 @@ export default class LudoEngine extends TinyEmitter {
         this.emit(`${color}Update`);
     }
 
+    nextTurn () {
+        let x = this.actualPlayers.length - 1;
+        this.currentTurn += (this.currentTurn == x) ? -x : 1;
+    }
+
+    async start (toAlert = false) {
+        if (this.started) return false;
+
+        this.actualPlayers = [];
+        Object.entries(this.players).forEach(x => {
+            if (!x[1].isNull) this.actualPlayers.push(new LudoLinkedPlayer(x));
+        });
+
+        if (this.actualPlayers.length < 2) return false;
+
+        this.started = true;
+        this.emit('start');
+        if (toAlert) await this.alert('The game has started...', 1000);
+        return this.startTurns();
+    }
+
+    async startTurns () {
+        while (true) {
+            let current = this.currentTurnPlayer;
+
+            if (current.completed) continue;
+            this.emit(`turn`, current.color);
+            await this.waitToRollDice();
+
+            let diceNumber = (await this.diceRoll(current.name + '\'s')) + 1;
+            let coinsInside = current.coinsAtStart;
+            let coinsOutside = current.coinsOutside;
+
+            if (diceNumber == 6) {
+                if (coinsOutside) {}
+                else if (coinsInside == 4) {
+                    await this.moveCoin(`coin-${current.color}-1`, current.startPoint);
+                    current.setCor(1, 0);
+                    engine.emit(`${current.color}Update`);
+                }
+            } else {
+                if (coinsOutside) {}
+                else if (coinsInside == 4) await this.alert('Unfortunate!', 1200);
+            }
+
+            this.nextTurn();
+        }
+
+        return true;
+    }
+
     async alert (message, waitTill = 2000) {
         let alrt = await new LudoAlert()
             .setParent(document.querySelector('.board-wrapper'))
@@ -118,6 +176,31 @@ export default class LudoEngine extends TinyEmitter {
         await alrt.undisplay();
 
         return result;
+    }
+
+    async moveCoin (coinID, stepID) {
+        let coinElement = document.getElementById(coinID);
+        let stepElement = document.getElementById(`step-${stepID}`);
+        let clonedCoin = coinElement.cloneNode();
+        
+        coinElement.classList.add('coin-exit');
+        await sleep(500);
+        coinElement.parentElement.removeChild(coinElement);
+
+        clonedCoin.classList.add('coin-entry');
+        stepElement.appendChild(clonedCoin);
+        await sleep(400);
+    }
+
+    waitToRollDice () {
+        return new Promise (resolve => {
+            const event = () => {
+                this.off('diceRoll', event);
+                resolve()
+            };
+
+            this.on('diceRoll', event);
+        });
     }
 
     getRandomDiceSideHTML () {
@@ -186,6 +269,7 @@ export class LudoPlayer {
     // - NaN, if coin has reached the house.
 
     constructor (name, isBot = false, isNull = false) {
+        if (name instanceof LudoPlayer) return name;
         this.name = name;
         if (isBot) this.isBot = true;
         if (isNull) this.isNull = true;
@@ -204,14 +288,34 @@ export class LudoPlayer {
         return this.cors.filter(x => !isNaN(x) && typeof x == "number").length;
     }
 
+    get completed () {
+        return this.coinsReached == 4;
+    }
+
     get type () {
         if (this.isBot) return 'bot';
         if (this.isNull) return 'null';
         else return 'player';
     }
 
+    setCor(coin, value) {
+        this.cors[coin - 1] = value;
+    }
+
 }
 
+export class LudoLinkedPlayer extends LudoPlayer {
+
+    constructor ([color, player]) {
+        super(player);
+        this.color = color;
+
+        Object.defineProperties(this, {
+            startPoint: { get: () => START_POINTS[this.color] }
+        })
+    }
+
+}
 
 // The default and primary ludo engine where the game process exists...
 export const engine = new LudoEngine();

@@ -2,10 +2,12 @@
     import { engine } from "../../engine";
 
     export let color, started;
-    let player = engine.players[color];
 
-    // To trigger state update...
+    let player = engine.players[color];
+    let isTurn = false;
+
     engine.on(`${color}Update`, () => player = engine.players[color]);
+    engine.on(`turn`, turnColor => isTurn = turnColor == color);
 
     function removePlayer () {
         if (!engine.deletePlayer(color)) engine.alert('You cannot remove yourself from the game!');
@@ -43,6 +45,10 @@
 
             {#if !started}
                 <a href="#wrap" on:click={removePlayer}>Remove {player.type.toProperCase()}?</a>
+            {/if}
+
+            {#if isTurn}
+                <p class="ct-label">CURRENT TURN</p>
             {/if}
         </div>
     </div>

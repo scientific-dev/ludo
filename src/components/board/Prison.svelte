@@ -14,12 +14,12 @@
     >
         <div style="display: flex; flex-wrap: nowrap;">
             <div>
-                <Coin code={code} i={1} cellSize={cellSize}/>
-                <Coin code={code} i={3} cellSize={cellSize}/>
+                <Coin code={code} i={1}/>
+                <Coin code={code} i={3}/>
             </div>
             <div>
-                <Coin code={code} i={2} cellSize={cellSize}/>
-                <Coin code={code} i={4} cellSize={cellSize}/>
+                <Coin code={code} i={2}/>
+                <Coin code={code} i={4}/>
             </div>
         </div>
     </div>
