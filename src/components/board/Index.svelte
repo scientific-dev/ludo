@@ -1,10 +1,10 @@
 <script>
+    import { onMount } from 'svelte';
     import House from './House.svelte';
     import Walkway from './Walkway.svelte';
     import LudoEngine from '../../engine';
 
-    const engine = new LudoEngine();
-
+    export let engine = new LudoEngine();
     let minSide, cellSize, houseSize, walkwayWidth;
 
     function setCSSDimensions () {
@@ -24,14 +24,10 @@
         // walkwayHeight = houseSize;
     }
 
-    window.addEventListener('load', () => {
+    onMount(() => {
         setCSSDimensions();
         engine.onWindowLoad();
-        // document.querySelectorAll('.step').forEach(e => e.innerHTML = e.id.split('-')[1]);
-    });
-
-    window.addEventListener('resize', () => {
-        setCSSDimensions();
+        window.addEventListener('resize', () => setCSSDimensions());
     });
 
     // margin-{marginSide}: {(maxSide - minSide) / 2}px;

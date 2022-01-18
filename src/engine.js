@@ -1,68 +1,36 @@
-/**
- * Ludo Steps ID Map Reference
- * 
- *                    01 07 13
- *                    02 08 14
- *                    03 09 15
- *                    04 10 16
- *                    05 11 17
- *                    06 12 18
- *  19 20 21 22 23 24          42 41 40 39 38 37
- *  25 26 27 28 29 30          48 47 46 45 44 43
- *  31 32 33 34 35 36          54 53 52 51 50 49 
- *                    60 66 72
- *                    59 65 71
- *                    58 64 70
- *                    57 63 69
- *                    56 62 68
- *                    55 61 67
- */
+import { DICE_HTML_SIDES, NULL_POINTS, START_POINTS } from "./constants";
+
+Array.prototype.random = function () {
+    return this[Math.floor(Math.random() * this.length)];
+}
+
+export async function sleep (ms) {
+    return new Promise(r => setTimeout(r, ms));
+}
+
+export function getRandom (n) {
+    return Math.floor(Math.random() * n);
+}
 
 export default class LudoEngine {
 
-    path = [
-        19, 20, 21, 22, 23, 24, 6, 5, 4, 3, 2, 1, 7, 13, 14, 15, 16, 17, 18,
-        42, 41, 40, 39, 38, 37, 43, 49, 50, 51, 52, 53, 54, 72, 71, 70, 69, 
-        68, 67, 61, 55, 56, 57, 58, 59, 60, 36, 35, 34, 33, 32, 31, 25
-    ];
-
-    startPoints = {
-        red: 20, 
-        blue: 14,
-        yellow: 50,
-        green: 56
+    players = {
+        red: new LudoPlayer('You'),
+        green: null,
+        yellow: null,
+        blue: null
     };
-
-    nullPoints = [33, 69, 39, 3];
-
-    diceHTMLSides = [
-        `<div class="dot"></div>`,
-        `<div class="dot"></div> <div class="dot"></div>`,
-        `<div class="dot"></div> <div class="dot"></div> <div class="dot"></div>`,
-        `
-            <div class="flex"><div class="dot"></div> <div class="dot"></div></div> 
-            <div class="flex"><div class="dot"></div> <div class="dot"></div></div>
-        `,
-        `
-            <div class="flex"><div class="dot"></div> <div class="e-dot"></div> <div class="dot"></div></div> 
-            <div class="flex"><div class="e-dot"></div> <div class="dot"></div></div> 
-            <div class="flex"><div class="dot"></div> <div class="e-dot"></div> <div class="dot"></div></div>`,
-        `
-            <div class="flex"><div class="dot"></div> <div class="dot"></div></div>
-            <div class="flex"><div class="dot"></div> <div class="dot"></div></div>
-            <div class="flex"><div class="dot"></div> <div class="dot"></div></div>
-        `,
-    ];
 
     onWindowLoad () {
         let styleElement = document.createElement('style');
+
         styleElement.innerHTML = 
-            Object.entries(this.startPoints)
+            Object.entries(START_POINTS)
                 .map(([color, id]) => `#step-${id} {background-color:var(--${color}-house)!important}`)
                 .join('');
 
         styleElement.innerHTML += 
-            this.nullPoints
+            NULL_POINTS
                 .map(id => `#step-${id} {background-color:var(--dark-wood)!important}`)
                 .join('');
 
@@ -70,21 +38,16 @@ export default class LudoEngine {
     }
 
     async alert (message, waitTill = 2000) {
-        let parentElement = document.querySelector('.board-wrapper');
-        let pElement = document.createElement('p');
-        pElement.innerHTML = message;
-
-        let lalert = await new LudoAlert()
-            .setParent(parentElement)
-            .appendChildren(pElement)
+        let alrt = await new LudoAlert()
+            .setParent(document.querySelector('.board-wrapper'))
+            .setInnerHTML(`<p>${message}</p>`)
             .display();
         
-        await LudoEngine.sleep(waitTill);
-        await lalert.undisplay()
+        await sleep(waitTill);
+        await alrt.undisplay()
     }
 
-    async diceRoll (userName = 'Your', result = this.getRandomDiceNumber()) {
-        let parentElement = document.querySelector('.board-wrapper');
+    async diceRoll (userName = 'Your', result = getRandom(6)) {
         let pElement = document.createElement('p');
         pElement.innerHTML = `${userName} Turn`;
 
@@ -92,42 +55,34 @@ export default class LudoEngine {
         diceElement.className = 'dice';
         diceElement.innerHTML = this.getRandomDiceSideHTML();
 
-        let lalert = await new LudoAlert()
+        let alrt = await new LudoAlert()
             .appendChildren(pElement, diceElement)
-            .setParent(parentElement)
+            .setParent(document.querySelector('.board-wrapper'))
             .display();
 
-        for (let i = 0; i < 6; i++) {
-            await LudoEngine.sleep(i * 50);
+        for (let i = 0; i < 4; i++) {
+            await sleep(i * 50);
             diceElement.innerHTML = this.getRandomDiceSideHTML();
         }
 
-        await LudoEngine.sleep(300);
+        await sleep(200);
         diceElement.innerHTML = this.getDiceSideHTML(result);
-        await LudoEngine.sleep(400);
+        await sleep(400);
         diceElement.style.transform = 'scale(1.2)';
-        await LudoEngine.sleep(250);
+        await sleep(250);
         diceElement.style.transform = 'scale(1)';
-        await LudoEngine.sleep(750);
-        await lalert.undisplay();
+        await sleep(750);
+        await alrt.undisplay();
 
         return result;
     }
 
     getRandomDiceSideHTML () {
-        return this.getDiceSideHTML(this.getRandomDiceNumber());
-    }
-
-    getRandomDiceNumber () {
-        return Math.floor(Math.random() * this.diceHTMLSides.length);
+        return this.getDiceSideHTML(getRandom(6));
     }
 
     getDiceSideHTML (n) {
-        return `<div class="dside-${n + 1}">${this.diceHTMLSides[n]}</div>`;
-    }
-
-    static sleep(ms) {
-        return new Promise(r => setTimeout(r, ms));
+        return `<div class="dside-${n + 1}">${DICE_HTML_SIDES[n]}</div>`;
     }
 
 }
@@ -163,15 +118,44 @@ export class LudoAlert {
     }
 
     async display () {
-        await LudoEngine.sleep(1000)
+        await sleep(1000)
         this.element.style.opacity = 1;
         return this;
     }
 
     async undisplay () {
         this.element.style.opacity = 0;
-        await LudoEngine.sleep(200);
+        await sleep(200);
         return this.removeParent();
+    }
+
+}
+
+export class LudoPlayer {
+
+    static NULL_PLAYER = new LudoPlayer('No Player');
+
+    kills = [0, 0, 0, 0]; // [r, g, b, y]
+    cors = [null, null, null, null];
+    // Coordinates of coins. 
+    // - null if coin at start.
+    // - NaN if coin has reached the house.
+
+    constructor (name) {
+        this.name = name;
+    }
+
+    get coinsReached () {
+        return this.cors.filter(x => isNaN(x)).length;
+    }
+
+    get coinsAtStart () {
+        // Because null is object and others are number including NaN.
+        return this.cors.filter(x => typeof x == "object").length;
+    }
+
+    get coinsOutside () {
+        return this.cors.filter(x => !isNaN(x) && typeof x == "number").length;
     }
 
 }

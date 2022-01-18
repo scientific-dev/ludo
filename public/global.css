@@ -3,7 +3,7 @@
 	--board-color: #04D4F0;
 	--border-color: var(--background);
 	--red-house: #f02d20;
-	--blue-house: #74D7FC;
+	--blue-house: #2dc7ff;
 	--yellow-house: #ffd643;
 	--green-house: #00cc00;
 	--wood: #BA8C63;
@@ -258,3 +258,29 @@ body {
 	-moz-transform: scale(0.95);
 	transform: scale(0.95);
 }
+
+.players-tab {
+	padding: 30px;
+	width: 100%;
+}
+
+.player-tab {
+	border-radius: 6px;
+	color: white;
+	font-family: "Titillium Web";
+	margin: 10px;
+	padding: 10px;
+	width: calc(50% - 80px);
+}
+
+.player-tab h3 {
+	margin: 0;
+	font-size: 30px;
+}
+
+.player-tab p {
+	margin: 0;
+}
+
+.inline-block { display: inline-block; }
+.strong { font-weight: bold; }

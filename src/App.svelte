@@ -1,5 +1,6 @@
 <script>
-	import Board from './components/board/Index.svelte';
+	import { onMount } from 'svelte';
+	import GamePage from './GamePage.svelte';
 
 	const queries = new URLSearchParams(window.location.search);
 	let isGame = queries.has('game');
@@ -13,16 +14,16 @@
 			.classList[(ww < (wh * 1.5)) ? 'add' : 'remove']('r-game-page');
 	}
 
-	window.addEventListener('load', gamePageResponsiveHandler);
-	window.addEventListener('resize', gamePageResponsiveHandler);
+	onMount(() => {
+		gamePageResponsiveHandler();
+		window.addEventListener('resize', gamePageResponsiveHandler);
+	})
 </script>
 
 <div class="bg-cover"></div>
 
 {#if isGame}
-	<div class="game-page">
-		<Board/> 
-	</div>
+	<GamePage/>
 {:else}	
 	<div class="cover">
 		<h1>Ludo</h1>
