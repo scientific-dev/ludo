@@ -162,8 +162,6 @@ export default class LudoEngine extends TinyEmitter {
                     this.emit(`${current.color}Update`);
                 } else await this.alert('Unfortunate!', 1200);
             } else {
-                if (current.color == "green") diceNumber = 19;
-
                 let prisonElement = document.getElementById(`prison-${current.color}`);
                 prisonElement.classList.add('prison-selectable');
 
@@ -466,7 +464,7 @@ export class LudoPlayer {
         pl.cors = json.cors;
         pl.kills = json.kills;
         if (json.rank) pl.rank = json.rank;
-        
+
         return pl;
     }
 
