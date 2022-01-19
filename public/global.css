@@ -79,6 +79,8 @@ body {
 .step {
 	background-color: var(--wood);
 	margin: 2px;
+	width: var(--cell-size);
+	height: var(--cell-size);
 }
 
 .step .coin:not(:first-child) {

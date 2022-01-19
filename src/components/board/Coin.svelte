@@ -5,5 +5,5 @@
 <div 
     class="coin" 
     id="coin-{code}-{i}" 
-    style="background-color: var(--{code}-player); color: transparent"
->x</div>
+    style="background-color: var(--{code}-player);"
+></div>

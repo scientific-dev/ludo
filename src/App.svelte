@@ -1,27 +1,11 @@
 <script>
-	import { onMount } from 'svelte';
 	import GamePage from './GamePage.svelte';
 
 	const queries = new URLSearchParams(window.location.search);
 	let isGame = queries.has('game');
-
-	function gamePageResponsiveHandler () {
-		let wrapElement = document.getElementById('wrap');
-        let wh = wrapElement.clientHeight;
-        let ww = wrapElement.clientWidth;
-
-		// For responsive css
-		document.querySelector('.game-page')
-			.classList[(ww < (wh * 2)) ? 'add' : 'remove']('r-game-page');
-	}
-
-	onMount(() => {
-		gamePageResponsiveHandler();
-		window.addEventListener('resize', gamePageResponsiveHandler);
-	})
 </script>
 
-<div class="bg-cover"></div>
+<div class="bg-cover"/>
 
 {#if isGame}
 	<GamePage/>

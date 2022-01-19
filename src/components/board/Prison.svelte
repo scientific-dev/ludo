@@ -16,16 +16,19 @@
 >
     <div 
         class="prison-inner" 
-        style="margin: {(prisonSize - innerPrisonSize - 10) / 2}px; width: {innerPrisonSize}px"    
+        style="
+            margin: {(prisonSize - innerPrisonSize - 10) / 2}px; 
+            width: {innerPrisonSize}px
+        "    
     >
         <div style="display: flex; flex-wrap: nowrap;">
             <div>
-                <Coin code={code} i={1}/>
-                <Coin code={code} i={3}/>
+                <Coin {code} i={1}/>
+                <Coin {code} i={3}/>
             </div>
             <div>
-                <Coin code={code} i={2}/>
-                <Coin code={code} i={4}/>
+                <Coin {code} i={2}/>
+                <Coin {code} i={4}/>
             </div>
         </div>
     </div>
