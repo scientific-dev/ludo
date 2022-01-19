@@ -21,7 +21,7 @@
             width: {innerPrisonSize}px
         "    
     >
-        <div style="display: flex; flex-wrap: nowrap;">
+        <div class="flex flex-nowrap">
             <div>
                 <Coin {code} i={1}/>
                 <Coin {code} i={3}/>
@@ -33,3 +33,19 @@
         </div>
     </div>
 </div>
+
+<style>
+    .prison {
+	    display: inline-block;
+    }
+
+    .prison-inner {
+	    background-color: var(--wood);
+	    border-radius: 2px;
+	    padding: 5px;
+    }
+
+    :global(.prison-selectable) {
+	    cursor: pointer;
+    }
+</style>

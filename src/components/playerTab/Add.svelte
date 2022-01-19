@@ -27,3 +27,14 @@
         </div>
     </div>
 {/if}
+
+<style>
+    .player-tab h3 {
+	    margin: 0;
+	    font-size: 30px;
+    }
+
+    :global(.mobile-view) .player-tab h3 { 
+        font-size: 25px; 
+    }
+</style>

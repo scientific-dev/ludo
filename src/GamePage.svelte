@@ -5,7 +5,7 @@
     import AddPlayer from './components/playerTab/Add.svelte';
     import { engine } from './engine';
 
-    let rGamePage = false;
+    let mobileView = false;
     let started = engine.started;
 
     engine.on('start', () => started = true);
@@ -18,7 +18,7 @@
 
     function gamePageResponsiveHandler () {
         let wrapElement = document.getElementById('wrap');
-        rGamePage = wrapElement.clientWidth < (wrapElement.clientHeight * 2);
+        mobileView = wrapElement.clientWidth < (wrapElement.clientHeight * 2);
 	}
 
 	onMount(() => {
@@ -30,7 +30,7 @@
 <!-- This element just wraps the whole body... -->
 <div class="wrap" id="wrap"/>
 
-<div class="game-page" class:r-game-page={rGamePage}>
+<div class="flex" class:mobile-view={mobileView}>
     <Board/> 
 
     <div class="players-tab">
@@ -44,16 +44,58 @@
 
         {#if !started}
             <a 
-                class="pt-btn" 
+                class="player-tab-btn" 
                 href="#wrap" 
                 on:click={startGame}
             >Start Game</a>
         {:else}
             <a 
-                class="pt-btn" 
+                class="player-tab-btn" 
                 href="#wrap" 
                 on:click={() => engine.emit('diceRoll')}
             >Roll Dice</a>
         {/if}
     </div>
 </div>
+
+<style>
+    .wrap {
+	    width: 100vw;
+	    height: 100vh;
+    	position: fixed;
+	    z-index: -1;
+    }
+
+    .players-tab {
+	    padding: 30px;
+	    width: 100%;
+    }
+
+    .player-tab-btn {
+        display: inline-block;
+	    margin: 10px;
+        width: calc(50% - 40px);
+        padding: 5px 10px;
+        background-color: var(--dark-wood);
+	    color: white;
+	    font-family: "Titillium Web";
+	    border-radius: 4px;
+    	text-align: center;
+        text-decoration: none;
+    }
+
+    .mobile-view {
+	    display: block!important;
+    }
+
+    .mobile-view .players-tab {
+	    padding: 10px;
+	    width: calc(100% - 20px);
+    }
+
+    .mobile-view .player-tab-btn {
+	    padding-top: 5px;
+	    width: calc(100% - 30px);
+	    margin: 5px;
+    }
+</style>

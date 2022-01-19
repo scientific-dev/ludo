@@ -27,13 +27,13 @@
 <div 
     class="board-wrapper" 
     style="
-        height: {minSide - 10}px;
-        width: {minSide}px;
+        height: {minSide - 10}px; 
+        width: {minSide}px; 
         --cell-size: {cellSize}px;
     "
 >
-    <div class="board">
-        <div class="board-inner">
+    <div class="board w-full h-full">
+        <div class="board-inner w-full h-full">
             <div class="flex flex-nowrap">
                 <Prison code="red" {cellSize} {prisonSize}/>
 
@@ -84,3 +84,13 @@
         </div>
     </div>
 </div>
+
+<style>
+    .board {
+        padding: 5px;
+    }
+
+    :global(.mobile-view) .board-wrapper {
+	    margin-left: calc(50% - min(50vw, 50vh));
+    }
+</style>

@@ -210,7 +210,7 @@ export default class LudoEngine extends TinyEmitter {
         coinElement.parentElement.removeChild(coinElement);
 
         clonedCoin.addEventListener('click', () => this.emit(`${color}Select`, parseInt(number)));
-        clonedCoin.classList.add('coin-entry');
+        clonedCoin.classList.add('coin-active');
         stepElement.appendChild(clonedCoin);
         stepElement.setNodeIDCss();
         await sleep(400);

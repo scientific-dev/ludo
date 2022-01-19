@@ -48,8 +48,83 @@
             {/if}
 
             {#if isTurn}
-                <p class="ct-label">CURRENT TURN</p>
+                <p class="turn-label">CURRENT TURN</p>
             {/if}
         </div>
     </div>
 {/if}
+
+<style>
+    :global(.player-tab) {
+	    color: white;
+	    font-family: "Titillium Web";
+    	margin: 10px;
+	    width: calc(50% - 20px);
+    }
+
+    :global(.mobile-view .player-tab) { 
+	    margin: 5px; 
+	    width: calc(50% - 10px);
+    }
+
+    :global(.player-tab .foot) { 
+	    background-color: white;
+    	border-bottom-left-radius: 4px;
+	    border-bottom-right-radius: 4px;
+    	padding: 5px 10px;
+	    height: calc(100% - 50px);
+    }
+
+    :global(.player-tab .head) {
+    	border-top-left-radius: 4px;
+	    border-top-right-radius: 4px;
+	    padding: 0 10px;
+    }
+
+    :global(.player-tab p) {
+    	margin: 0;
+	    color: black;
+    }
+
+    :global(.player-tab a) { 
+	    margin: 2px 0 0 0;
+	    cursor: pointer;
+	    text-decoration: none;
+	    color: black;
+	    border-radius: 2px;
+	    padding: 2px 6px;
+    	display: block;
+	    text-align: center;
+    }
+    
+    :global(.player-tab a:hover) {
+	    color: white;
+    	background-color: var(--dark-wood);
+    }
+
+    :global(.mobile-view) .player-input { 
+        font-size: 25px; 
+    }
+
+    .mobile-view .player-tab p { 
+        font-size: 15px; 
+    }
+
+    .player-input {
+	    margin: 0;
+	    background-color: transparent;
+	    outline: none;
+    	border: none;
+	    width: 100%;
+    	color: white;
+        font-size: 30px;
+	    font-weight: bold;
+    	font-family: "Titillium Web";
+    }
+
+    .turn-label {
+	    font-weight: bold;
+	    border-radius: 3px;
+	    text-align: center;
+    }
+</style>

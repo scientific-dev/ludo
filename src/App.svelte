@@ -11,10 +11,79 @@
 	<GamePage/>
 {:else}	
 	<div class="cover">
-		<h1>Ludo</h1>
-		<p>A simple site to play Ludo (Pachisi Variant)!</p>
+		<h1 class="m-0">Ludo</h1>
+		<p class="m-0">A simple site to play Ludo (Pachisi Variant)!</p>
 
 		<a href="?game" class="cover-btn">Lets play!</a>
-		<p class="credits">Made by <a href="https://github.com/scientific-dev">scientific-dev</a></p>
+		<p class="credits m-0">Made by <a href="https://github.com/scientific-dev">scientific-dev</a></p>
 	</div>
 {/if}
+
+<style>
+	.bg-cover {
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		z-index: -1;
+		background: #252931 url(/scenary.jpg) no-repeat;
+		background-size: cover;
+		background-blend-mode: multiply;
+	}
+
+	.cover {
+		font-family: "Titillium Web";
+		padding: 100px;
+		color: white;
+	}
+
+	.cover h1 {
+		font-size: 80px;
+	}
+
+	.cover p {
+		font-size: 20px; 
+	}
+
+	.cover-btn {
+		border-radius: 20px;
+		padding: 10px 100px;
+		text-decoration: none;
+		color: white;
+		border: 2px solid var(--dark-wood);
+		margin-top: 10px;
+		display: inline-block;
+		text-transform: uppercase;
+	}
+
+	.cover-btn:hover {
+		background-color: var(--dark-wood);
+	}
+
+	.credits {
+		margin-top: 10px;
+	}
+
+	.credits a {
+		color: white;
+	}
+
+	@media (max-width: 750px) {
+		.cover {
+			padding: 50px;
+		}
+
+		.cover p {
+			font-size: 15px;
+		}
+	
+		.cover h1 {
+			line-height: 1;
+			margin-top: 30px;
+		}
+
+		.cover-btn {
+			padding: 5px 50px;
+			border: 1px solid black;
+		}
+	}
+</style>
