@@ -69,7 +69,12 @@ export default class LudoEngine extends TinyEmitter {
                 .map(([color, id]) => `#step-${id} {background-color:var(--${color}-player)!important}`)
                 .join('');
 
-        document.getElementById('wrap').append(styleElement);
+        document.getElementById('wrap').append(styleElement)
+
+        if (this.started) {
+            this.emit('start');
+            this.alert('Resuming your game...', 1200);
+        }
     }
 
     createPlayer () {
@@ -117,6 +122,7 @@ export default class LudoEngine extends TinyEmitter {
         if (this.activePlayers.length < 2) return false;
         this.started = true;
         this.emit('start');
+        this.clearSaved();
 
         if (toAlert) await this.alert('The game has started...', 1000);
         return this.startTurns();
@@ -127,6 +133,8 @@ export default class LudoEngine extends TinyEmitter {
 
         while (!this.completed) {
             let current = this.currentTurnPlayer;
+            // Autosaves the progress so you don't mess up later!
+            this.save(); 
 
             if (!isBonusRoll) {
                 if (current.completed) continue;
@@ -315,6 +323,58 @@ export default class LudoEngine extends TinyEmitter {
         return `<div class="dside-${n + 1}">${DICE_HTML_SIDES[n]}</div>`;
     }
 
+    toJSON () {
+        return {
+            started: true,
+            currentTurn: this.currentTurn,
+            players: this.activePlayers.map(player => ({
+                kills: player.kills,
+                cors: player.cors,
+                name: player.name,
+                color: player.color
+            }))
+        };
+    }
+
+    save () {
+        localStorage.setItem('ludo_data', JSON.stringify(this.toJSON()));
+    }
+
+    clearSaved () {
+        localStorage.removeItem('ludo_data');
+    }
+
+    async startFromSaved () {
+        let data = JSON.parse(localStorage.getItem('ludo_data') || '{}');
+        let promises = [];
+
+        if (data.started) {
+            this.started = true;
+            this.currentTurn = data.currentTurn;
+            this.activePlayers = data.players.map(LudoPlayer.fromJSON);
+            this.players.red = LudoPlayer.NULL_PLAYER;
+
+            for (let i = 0; i < this.activePlayers.length; i++) {
+                let player = this.activePlayers[i];
+                let path = PLAYER_PATHS[player.color];
+
+                this.players[player.color] = player;
+                this.emit(`${player.color}Update`);
+
+                for (let i = 0; i < player.cors.length; i++) {
+                    let n = player.cors[i];
+                    if (!isNaN(n) && typeof n == "number")
+                        promises.push(this.moveCoin(player.color, i + 1, path[n]));
+                }
+            }
+        }
+
+        this.emit('start');
+        await Promise.all(promises);
+        await this.alert('The game has resumed...', 1000);
+        await this.startTurns();
+    }
+
 }
 
 export class LudoAlert {
@@ -378,6 +438,14 @@ export class LudoPlayer {
         if (isNull) this.isNull = true;
     }
 
+    static fromJSON (json) {
+        let pl = new LudoPlayer(json.name, json.color);
+
+        pl.cors = json.cors;
+        pl.kills = json.kills;
+        return pl;
+    }
+
     get coinsReached () {
         return this.cors.filter(x => isNaN(x)).length;
     }
@@ -403,3 +471,4 @@ export class LudoPlayer {
 
 // The default and primary ludo engine where the game process exists...
 export const engine = new LudoEngine();
+export const hasSaved = Boolean(localStorage.getItem('ludo_data'));

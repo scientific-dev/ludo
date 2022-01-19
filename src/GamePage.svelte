@@ -3,7 +3,7 @@
     import Board from './components/board/Index.svelte';
     import PlayerTab from './components/playerTab/Index.svelte';
     import AddPlayer from './components/playerTab/Add.svelte';
-    import { engine } from './engine';
+    import { engine, hasSaved } from './engine';
 
     let mobileView = false;
     let started = engine.started;
@@ -42,19 +42,44 @@
             <AddPlayer {started}/>
         </div>
 
-        {#if !started}
-            <a 
-                class="player-tab-btn" 
-                href="#wrap" 
-                on:click={startGame}
-            >Start Game</a>
-        {:else}
-            <a 
-                class="player-tab-btn" 
-                href="#wrap" 
-                on:click={() => engine.emit('diceRoll')}
-            >Roll Dice</a>
-        {/if}
+        <div class="flex flex-wrap">
+            {#if !started}
+                <a 
+                    class="player-tab-btn" 
+                    href="#wrap" 
+                    on:click={startGame}
+                >New Game</a>
+
+                {#if hasSaved}
+                    <a 
+                        class="player-tab-btn" 
+                        href="#wrap" 
+                        on:click={() => engine.startFromSaved()}
+                    >Resume Game</a>
+                {/if}
+            {:else}
+                <a 
+                    class="player-tab-btn" 
+                    href="#wrap" 
+                    on:click={() => engine.emit('diceRoll')}
+                >Roll Dice</a>
+
+                <a 
+                    class="player-tab-btn" 
+                    href="#wrap" 
+                    on:click={() => engine.save()}
+                >Save Game</a>
+
+                <a 
+                    class="player-tab-btn" 
+                    href="#wrap" 
+                    on:click={() => {
+                        engine.clearSaved();
+                        window.location.href = "?game";
+                    }}
+                >New Game</a>
+            {/if}
+        </div>
     </div>
 </div>
 
@@ -73,7 +98,7 @@
 
     .player-tab-btn {
         display: inline-block;
-	    margin: 10px;
+	    margin: 10px 10px 0 10px;
         width: calc(50% - 40px);
         padding: 5px 10px;
         background-color: var(--dark-wood);
