@@ -23,6 +23,6 @@
     }
 
     :global(.step .coin:not(:first-child)) {
-	    margin-top: calc(0px - var(--cell-size) - (4px * var(--node-id)));
+	    margin-top: calc(0px - var(--cell-size) - (4px * var(--node-id)))!important;
     }
 </style>

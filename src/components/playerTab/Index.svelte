@@ -44,7 +44,7 @@
             <p class="inline-block">{player.kills}</p><br/>
 
             {#if !started}
-                <a href="#wrap" on:click={removePlayer}>Remove {player.type.toProperCase()}?</a>
+                <a href="#wrap" on:click={removePlayer}>Remove player?</a>
             {/if}
 
             {#if isTurn}

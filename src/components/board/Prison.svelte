@@ -5,7 +5,7 @@
     export let code, cellSize, prisonSize;
 
     let innerPrisonSize;
-    $: innerPrisonSize = (2 * cellSize) + 8;
+    $: innerPrisonSize = (2 * cellSize) + 12;
 </script>
 
 <div 
@@ -18,18 +18,14 @@
         class="prison-inner" 
         style="
             margin: {(prisonSize - innerPrisonSize - 10) / 2}px; 
-            width: {innerPrisonSize}px
+            width: {innerPrisonSize}px;
         "    
     >
-        <div class="flex flex-nowrap">
-            <div>
-                <Coin {code} i={1}/>
-                <Coin {code} i={3}/>
-            </div>
-            <div>
-                <Coin {code} i={2}/>
-                <Coin {code} i={4}/>
-            </div>
+        <div class="flex flex-wrap">
+            <Coin {code} i={1}/>
+            <Coin {code} i={2}/>
+            <Coin {code} i={3}/>
+            <Coin {code} i={4}/>
         </div>
     </div>
 </div>

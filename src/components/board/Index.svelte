@@ -3,6 +3,7 @@
     import Prison from './Prison.svelte';
     import Walkway from './Walkway.svelte';
     import { engine } from '../../engine';
+import { PLAYER_PATHS } from '../../constants';
 
     let minSide, cellSize, prisonSize, walkwayWidth;
 
@@ -20,7 +21,7 @@
     onMount(() => {
         setCSSDimensions();
         engine.onWindowLoad();
-        window.addEventListener('resize', () => setCSSDimensions());
+        window.addEventListener('resize', setCSSDimensions);
     });
 </script>
 

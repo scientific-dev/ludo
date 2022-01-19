@@ -26,12 +26,11 @@ export function getRandom (n) {
 export default class LudoEngine extends TinyEmitter {
 
     started = false;
-    botCount = 0;
-    actualPlayers = []; // Will be defined when the game starts...
+    activePlayers = []; // Will be defined when the game starts...
     currentTurn = 0;
     ranks = [];
     players = {
-        red: new LudoPlayer('You'),
+        red: new LudoPlayer('You', 'red'),
         green: LudoPlayer.NULL_PLAYER,
         yellow: LudoPlayer.NULL_PLAYER,
         blue: LudoPlayer.NULL_PLAYER
@@ -46,7 +45,15 @@ export default class LudoEngine extends TinyEmitter {
     }
 
     get currentTurnPlayer () {
-        return this.actualPlayers[this.currentTurn];
+        return this.activePlayers[this.currentTurn];
+    }
+
+    get completed () {
+        for (let i = 0; i < this.activePlayers.length; i++) {
+            if (!this.activePlayers[i].completed) return false;
+        }
+
+        return true;
     }
 
     onWindowLoad () {
@@ -65,24 +72,24 @@ export default class LudoEngine extends TinyEmitter {
         document.getElementById('wrap').append(styleElement);
     }
 
-    createPlayer (isBot = false) {
+    createPlayer () {
         let entry = Object.entries(this.players).find(([_, player]) => player.isNull);
         if (!entry) return null;
 
-        if (isBot) this.botCount += 1;
-        this.players[entry[0]] = new LudoPlayer(isBot ? `Bot ${this.botCount}` : 'Player', isBot);
-        this.emit(`${entry[0]}Update`);
-        this.emit('playerCountUpdate');
+        this.players[entry[0]] = new LudoPlayer('Player', entry[0]);
+        this.emit(`${entry[0]}Update`)
+            .emit('playerCountUpdate');
+
         return this.players[entry[0]];
     }
 
     deletePlayer (color) {
         if (this.playerCount == 1) return null;
         let player = this.players[color];
-        if (player.isBot) this.botCount -= 1;
         this.players[color] = LudoPlayer.NULL_PLAYER;
-        this.emit(`${color}Update`);
-        this.emit('playerCountUpdate');
+        this.emit(`${color}Update`)
+            .emit('playerCountUpdate');
+
         return player;
     }
 
@@ -94,65 +101,73 @@ export default class LudoEngine extends TinyEmitter {
     }
 
     nextTurn () {
-        let x = this.actualPlayers.length - 1;
+        let x = this.activePlayers.length - 1;
         this.currentTurn += (this.currentTurn == x) ? -x : 1;
     }
 
     async start (toAlert = false) {
         if (this.started) return false;
+        this.activePlayers = [];
 
-        this.actualPlayers = [];
-        Object.entries(this.players).forEach(x => {
-            if (!x[1].isNull) this.actualPlayers.push(new LudoLinkedPlayer(x));
-        });
+        Object.entries(this.players)
+            .forEach(x => {
+                if (!x[1].isNull) this.activePlayers.push(x[1]);
+            });
 
-        if (this.actualPlayers.length < 2) return false;
-
+        if (this.activePlayers.length < 2) return false;
         this.started = true;
         this.emit('start');
+
         if (toAlert) await this.alert('The game has started...', 1000);
         return this.startTurns();
     }
 
     async startTurns () {
-        while (true) {
+        let isBonusRoll = false;
+
+        while (!this.completed) {
             let current = this.currentTurnPlayer;
 
-            if (current.completed) continue;
-            this.emit(`turn`, current.color);
-            await this.waitForEvent('diceRoll');
+            if (!isBonusRoll) {
+                if (current.completed) continue;
+                this.emit(`turn`, current.color);
+                await this.waitForEvent('diceRoll');
+            }
 
             let diceNumber = (await this.diceRoll(current.name + '\'s')) + 1;
             diceNumber = 6;
             let coinsInside = current.coinsAtStart;
-            let coinsOutside = current.coinsOutside;
+            isBonusRoll = diceNumber == 6;
 
             if (coinsInside == 4) {
                 if (diceNumber == 6) {
-                    await this.moveCoin(`coin-${current.color}-1`, current.startPoint);
-                    current.setCor(1, 0);
+                    current.cors[0] = 0;
+                    await this.moveCoin(current.color, 1, current.startPoint);
                     this.emit(`${current.color}Update`);
                 } else await this.alert('Unfortunate!', 1200);
             } else {
+                if (current.color == "green") diceNumber = 19;
                 let prisonElement = document.getElementById(`prison-${current.color}`);
                 prisonElement.classList.add('prison-selectable');
 
-                await this.alert('Select your move...', 1200);
+                await this.alert('Select your move...', 1100);
                 const type = await this.waitForEvent(`${current.color}Select`);
 
                 if (type == 'house') {
                     let x = 5 - coinsInside;
-                    await this.moveCoin(`coin-${current.color}-${x}`, current.startPoint);
-                    current.setCor(x, 0);
+                    current.cors[x - 1] = 0;
+                    await this.moveCoin(current.color, x, current.startPoint);
                     this.emit(`${current.color}Update`);
                 } else if (typeof type[0] == "number") {
-                    await this.moveCoinInPath(current.color, type[0], current, diceNumber);
+                    isBonusRoll = (await this.moveCoinInPath(current.color, type[0], current, diceNumber)) || isBonusRoll;
                 }
 
                 prisonElement.classList.remove('prison-selectable');
+                isBonusRoll = (await this.killCoins()) || isBonusRoll;
             }
 
-            this.nextTurn();
+            if ((diceNumber == 6) || isBonusRoll) await this.alert('Rolling again...', 750);
+            else this.nextTurn();
         }
 
         return true;
@@ -198,10 +213,35 @@ export default class LudoEngine extends TinyEmitter {
         return result;
     }
 
-    async moveCoin (coinID, stepID) {
-        const [_, color, number] = coinID.split('-');
+    async killCoins (currentPlayer, step) {
+        if (NULL_POINTS.includes(step)) return;
 
-        let coinElement = document.getElementById(coinID);
+        // Find a better way to do this thing...
+        for (let i = 0; i < this.activePlayers; i++) {
+            let player = this.activePlayers[i];
+            let path = PLAYER_PATHS[player.color];
+            let kills = 0;
+
+            for (let i = 0; i < player.cors; i++) {
+                if (path[player.cors[i]] == step) {
+                    player.cors[i] = null;
+                    kills += 1;
+                    await this.moveCoinToPrison(player.color, i + 1);
+                }
+            }
+
+            if (kills) {
+                currentPlayer.kills += kills;
+                this.emit(`${player.color}Update`)
+                    .emit(`${currentPlayer.color}Update`);
+
+                return true;
+            }
+        }
+    }
+
+    async moveCoin (color, number, stepID) {
+        let coinElement = document.getElementById(`coin-${color}-${number}`);
         let stepElement = document.getElementById(`step-${stepID}`);
         let clonedCoin = coinElement.cloneNode();
         
@@ -209,7 +249,7 @@ export default class LudoEngine extends TinyEmitter {
         await sleep(500);
         coinElement.parentElement.removeChild(coinElement);
 
-        clonedCoin.addEventListener('click', () => this.emit(`${color}Select`, parseInt(number)));
+        clonedCoin.addEventListener('click', () => this.emit(`${color}Select`, number));
         clonedCoin.classList.add('coin-active');
         stepElement.appendChild(clonedCoin);
         stepElement.setNodeIDCss();
@@ -230,7 +270,22 @@ export default class LudoEngine extends TinyEmitter {
         }
 
         player.cors[id - 1] = cor;
-        await this.moveCoin(coinID, newStep);
+        await this.moveCoin(color, id, newStep);
+    }
+
+    async moveCoinToPrison (color, n) {
+        let coinElement = document.getElementById(`coin-${color}-${n}`);
+        let stepElement = coinElement.parentElement; // Since the coin is active one
+        let clonedCoin = coinElement.cloneNode();
+        
+        coinElement.classList.add('coin-exit');
+        await sleep(500);
+        coinElement.parentElement.removeChild(coinElement);
+
+        clonedCoin.classList.add('coin-active');
+        document.querySelector(`#prison-${color} .prison-inner div`).appendChild(clonedCoin);
+        stepElement.setNodeIDCss();
+        await sleep(400);
     }
 
     waitForEvent (evt) {
@@ -300,7 +355,7 @@ export class LudoAlert {
 
 export class LudoPlayer {
 
-    static NULL_PLAYER = new LudoPlayer('No Player', false, true);
+    static NULL_PLAYER = new LudoPlayer('No Player', "null", true);
 
     kills = 0;
     cors = [null, null, null, null];
@@ -309,10 +364,9 @@ export class LudoPlayer {
     // - null, if coin at start.
     // - NaN, if coin has reached the house.
 
-    constructor (name, isBot = false, isNull = false) {
-        if (name instanceof LudoPlayer) return name;
+    constructor (name, color, isNull = false) {
         this.name = name;
-        if (isBot) this.isBot = true;
+        this.color = color;
         if (isNull) this.isNull = true;
     }
 
@@ -333,29 +387,8 @@ export class LudoPlayer {
         return this.coinsReached == 4;
     }
 
-    get type () {
-        if (this.isBot) return 'bot';
-        if (this.isNull) return 'null';
-        else return 'player';
-    }
-
-    setCor(coin, value) {
-        this.cors[coin - 1] = value;
-    }
-
-}
-
-export class LudoLinkedPlayer extends LudoPlayer {
-
-    constructor ([color, player]) {
-        super(player);
-        this.color = color;
-
-        try {
-            Object.defineProperties(this, {
-                startPoint: { get: () => START_POINTS[this.color] }
-            })
-        } catch (e) {}
+    get startPoint () {
+        return START_POINTS[this.color];
     }
 
 }

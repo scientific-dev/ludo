@@ -6,10 +6,6 @@
     let toDisplay = engine.playerCount != 4;
     engine.on('playerCountUpdate', () => toDisplay = engine.playerCount != 4);
 
-    function createBot () {
-        if (!engine.createPlayer(true)) engine.alert('Player limit has been reached...');
-    }
-
     function createPlayer () {
         if (!engine.createPlayer()) engine.alert('Player limit has been reached...');
     }
@@ -22,7 +18,6 @@
         </div>
 
         <div class="foot">
-            <a href="#wrap" on:click={createBot}>Add Bot?</a>
             <a href="#wrap" on:click={createPlayer}>Add Player?</a>
         </div>
     </div>

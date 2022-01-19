@@ -58,9 +58,9 @@ body {
 }
 
 .coin-active:hover {
-	border-width: 2px;
-	margin-left: -1px;
-	margin-top: -1px;
+	border-width: 2px!important;
+	margin-left: -2px!important;
+	margin-top: -2px!important;
 }
 
 /** Animation CSS */
