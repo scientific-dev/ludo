@@ -275,7 +275,7 @@ export class LudoAlert {
 
     setParent (elem) {
         this.parent = elem;
-        elem.append(this.element);
+        this.parent.prepend(this.element);
         return this;
     }
 

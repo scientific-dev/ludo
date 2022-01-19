@@ -13,7 +13,7 @@
 
     async function startGame () {
         let success = await engine.start(true);
-        if (!success) engine.alert('Minimum two players are required.');
+        if (!success) engine.alert('Minimum two players are required.', 1000);
     }
 
     function gamePageResponsiveHandler () {

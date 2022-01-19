@@ -27,13 +27,13 @@
 <div 
     class="board-wrapper" 
     style="
-        height: {minSide - 10}px; 
-        width: {minSide}px; 
+        --board-width: {minSide}px; 
+        --board-height: {minSide}px;
         --cell-size: {cellSize}px;
     "
 >
     <div class="board w-full h-full">
-        <div class="board-inner w-full h-full">
+        <div class="board-inner w-full">
             <div class="flex flex-nowrap">
                 <Prison code="red" {cellSize} {prisonSize}/>
 
@@ -90,7 +90,34 @@
         padding: 5px;
     }
 
+    .board-wrapper {
+        -webkit-transform: scale(0.95);
+		-moz-transform: scale(0.95);
+		-o-transform: scale(0.95);
+		transform: scale(0.95);
+    }
+
     :global(.mobile-view) .board-wrapper {
 	    margin-left: calc(50% - min(50vw, 50vh));
+    }
+
+    :global(.alert) {
+	    position: absolute;
+	    background-color: rgba(0,0,0,0.6);
+	    z-index: 5;
+    }
+
+    :global(.alert p) {
+	    font-family: "Titillium Web";
+	    font-size: 30px;
+    	color: white;
+	    text-align: center;
+    	line-height: 1;
+	    margin-top: calc(50% - 50px);
+    }
+
+    :global(.alert), .board-wrapper {
+        width: var(--board-width);
+        height: var(--board-height);
     }
 </style>

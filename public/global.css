@@ -117,27 +117,6 @@ body {
 	transform: scale(1.05);
 }
 
-/** Alert CSS */
-
-.alert {
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: calc(100% + 4px);
-	background-color: rgba(0,0,0,0.6);
-	z-index: 1;
-}
-
-.alert p {
-	font-family: "Titillium Web";
-	font-size: 30px;
-	color: white;
-	text-align: center;
-	line-height: 1;
-	margin-top: calc(50% - 60px);
-}
-
 /** Dice CSS */
 
 .dice {

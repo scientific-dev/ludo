@@ -16,8 +16,4 @@
 	    width: var(--cell-size);
 	    height: var(--cell-size);
     }
-
-    :global(.step .coin:not(:first-child)) {
-	    margin-top: calc(0px - var(--cell-size) - (2px * var(--node-id)));
-    }
 </style>
