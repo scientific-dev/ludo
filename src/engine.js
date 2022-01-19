@@ -143,7 +143,6 @@ export default class LudoEngine extends TinyEmitter {
             }
 
             let diceNumber = (await this.diceRoll(current.name + '\'s')) + 1;
-            diceNumber = 6;
             let coinsInside = current.coinsAtStart;
             isBonusRoll = diceNumber == 6;
 
@@ -230,14 +229,11 @@ export default class LudoEngine extends TinyEmitter {
         for (let i = 0; i < this.activePlayers.length; i++) {
             let player = this.activePlayers[i];
             if (player == currentPlayer) continue;
-            console.log(player)
 
             let path = PLAYER_PATHS[player.color];
             let kills = 0;
 
             for (let i = 0; i < player.cors.length; i++) {
-                console.log(player.cors, i, player.cors[i], path, step)
-                console.log(path[player.cors[i]], step);
                 if (path[player.cors[i]] == step) {
                     player.cors[i] = null;
                     kills += 1;
