@@ -98,7 +98,7 @@ body {
 }
 
 /** Global CSS */
-.coin, .prison-inner, .step, .player-tab {
+.coin, .prison-inner, .step, .player-tab, .result-tab {
 	box-shadow: -3px 3px 0px 0px rgba(0,0,0,0.13);
 	-webkit-box-shadow: -3px 3px 0px 0px rgba(0,0,0,0.13);
 	-moz-box-shadow: -3px 3px 0px 0px rgba(0,0,0,0.13);

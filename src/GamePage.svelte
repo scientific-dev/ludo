@@ -3,13 +3,18 @@
     import Board from './components/board/Index.svelte';
     import PlayerTab from './components/playerTab/Index.svelte';
     import AddPlayer from './components/playerTab/Add.svelte';
+    import Result from './components/result/Index.svelte';
     import { engine, hasSaved } from './engine';
 
     let mobileView = false;
+    let ended = false;
     let started = engine.started;
 
     engine.on('start', () => started = true);
-    engine.on('end', () => started = false);
+    engine.on('end', () => {
+        ended = false;
+        engine.emit('displayResult');
+    });
 
     async function startGame () {
         let success = await engine.start(true);
@@ -29,6 +34,8 @@
 
 <!-- This element just wraps the whole body... -->
 <div class="wrap" id="wrap"/>
+
+<Result {started}/>
 
 <div class="flex" class:mobile-view={mobileView}>
     <Board/> 
@@ -56,6 +63,14 @@
                         href="#wrap" 
                         on:click={() => engine.startFromSaved()}
                     >Resume Game</a>
+                {/if}
+
+                {#if ended}
+                    <a 
+                        class="player-tab-btn" 
+                        href="#wrap" 
+                        on:click={() => engine.emit('displayResult')}
+                    >Results</a>
                 {/if}
             {:else}
                 <a 

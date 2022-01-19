@@ -23,9 +23,17 @@ export function getRandom (n) {
     return Math.floor(Math.random() * n);
 }
 
+export function nthString (n) {
+    if (n == 1) return '1st';
+    else if (n == 2) return '2nd';
+    else if (n == 3) return '3rd';
+    else return `${n}th`;
+}
+
 export default class LudoEngine extends TinyEmitter {
 
     started = false;
+    ended = false;
     activePlayers = []; // Will be defined when the game starts...
     currentTurn = 0;
     ranks = [];
@@ -275,8 +283,17 @@ export default class LudoEngine extends TinyEmitter {
         if (!newStep) {
             let coinElement = document.getElementById(coinID);
             coinElement.parentElement.removeChild(coinElement);
+
             player.cors[id - 1] = NaN;
+
+            if (player.completed) {
+                await this.alert(`${player.name} has won the ${nthString(this.ranks.length)} place!`, 1100);
+                this.ranks.push(player);
+                player.rank = this.ranks.length;
+            }
+
             this.emit(`${color}Update`);
+
             return [true, NaN];
         }
 
@@ -321,8 +338,10 @@ export default class LudoEngine extends TinyEmitter {
 
     toJSON () {
         return {
-            started: true,
+            started: this.started,
+            ended: this.ended,
             currentTurn: this.currentTurn,
+            ranks: this.ranks.map(x => x.color),
             players: this.activePlayers.map(player => ({
                 kills: player.kills,
                 cors: player.cors,
@@ -363,12 +382,18 @@ export default class LudoEngine extends TinyEmitter {
                         promises.push(this.moveCoin(player.color, i + 1, path[n]));
                 }
             }
+
+            for (let i = 0; i < data.ranks.length; i++) 
+                this.ranks.push(this.players[data.ranks[i]]);
         }
 
         this.emit('start');
         await Promise.all(promises);
-        await this.alert('The game has resumed...', 1000);
-        await this.startTurns();
+        
+        if (data.started) {
+            await this.alert('The game has resumed...', 1000);
+            await this.startTurns();
+        } else if (data.ended) this.emit('displayResult');
     }
 
 }

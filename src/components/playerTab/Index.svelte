@@ -1,31 +1,35 @@
 <script>
-    import { engine } from "../../engine";
+    import { engine, nthString } from "../../engine";
 
     export let color, started;
+    export let editable = true;
 
     let player = engine.players[color];
     let isTurn = false;
 
-    engine.on(`${color}Update`, () => player = engine.players[color]);
-    engine.on(`turn`, turnColor => isTurn = turnColor == color);
+    if (!editable) {
+        engine.on(`${color}Update`, () => player = engine.players[color]);
+        engine.on(`turn`, turnColor => isTurn = turnColor == color);
+    }
 
     function removePlayer () {
         if (!engine.deletePlayer(color)) engine.alert('You cannot remove yourself from the game!');
     }
 </script>
 
-{#if player.isNull}
-    <!-- Just keep this empty... -->
-{:else}
+{#if !player.isNull}
     <div class="player-tab">
         <div class="head" style="background-color: var(--{color}-player);">
             <input
                 class="player-input"
                 type="text"
                 value={player.name.slice(0, 10)}
+                readonly={!editable}
                 on:blur={e => {
-                    engine.updatePlayerName(color, e.target.value);
-                    engine.alert('Name updated', 1000);
+                    if (editable) {
+                        engine.updatePlayerName(color, e.target.value);
+                        engine.alert('Name updated', 1000);
+                    }
                 }}
             />
         </div>
@@ -43,12 +47,14 @@
             <p class="inline-block strong">Kills: </p>
             <p class="inline-block">{player.kills}</p><br/>
 
-            {#if !started}
+            {#if !started && editable}
                 <a href="#wrap" on:click={removePlayer}>Remove player?</a>
             {/if}
 
             {#if isTurn}
                 <p class="turn-label">CURRENT TURN</p>
+            {:else if player.rank}
+                <p class="turn-label">{nthString(player.rank)} Place</p>
             {/if}
         </div>
     </div>
