@@ -1,5 +1,5 @@
 import { TinyEmitter } from 'tiny-emitter';
-import { DICE_HTML_SIDES, NULL_POINTS, START_POINTS } from "./constants";
+import { COLORS, DICE_HTML_SIDES, NULL_POINTS, PLAYER_PATHS, START_POINTS } from "./constants";
 
 Array.prototype.random = function () {
     return this[Math.floor(Math.random() * this.length)];
@@ -7,6 +7,12 @@ Array.prototype.random = function () {
 
 String.prototype.toProperCase = function () {
     return this.charAt(0).toUpperCase() + this.substring(1).toLowerCase();
+}
+
+Element.prototype.setNodeIDCss = function () {
+    for (let i = 0; i < this.children.length; i++) {
+        this.children[i].style.setProperty('--node-id', i + 1);
+    }
 }
 
 export async function sleep (ms) {
@@ -114,22 +120,36 @@ export default class LudoEngine extends TinyEmitter {
 
             if (current.completed) continue;
             this.emit(`turn`, current.color);
-            await this.waitToRollDice();
+            await this.waitForEvent('diceRoll');
 
             let diceNumber = (await this.diceRoll(current.name + '\'s')) + 1;
+            diceNumber = 6;
             let coinsInside = current.coinsAtStart;
             let coinsOutside = current.coinsOutside;
 
-            if (diceNumber == 6) {
-                if (coinsOutside) {}
-                else if (coinsInside == 4) {
+            if (coinsInside == 4) {
+                if (diceNumber == 6) {
                     await this.moveCoin(`coin-${current.color}-1`, current.startPoint);
                     current.setCor(1, 0);
-                    engine.emit(`${current.color}Update`);
-                }
+                    this.emit(`${current.color}Update`);
+                } else await this.alert('Unfortunate!', 1200);
             } else {
-                if (coinsOutside) {}
-                else if (coinsInside == 4) await this.alert('Unfortunate!', 1200);
+                let prisonElement = document.getElementById(`prison-${current.color}`);
+                prisonElement.classList.add('prison-selectable');
+
+                await this.alert('Select your move...', 1200);
+                const type = await this.waitForEvent(`${current.color}Select`);
+
+                if (type == 'house') {
+                    let x = 5 - coinsInside;
+                    await this.moveCoin(`coin-${current.color}-${x}`, current.startPoint);
+                    current.setCor(x, 0);
+                    this.emit(`${current.color}Update`);
+                } else if (typeof type[0] == "number") {
+                    await this.moveCoinInPath(current.color, type[0], current, diceNumber);
+                }
+
+                prisonElement.classList.remove('prison-selectable');
             }
 
             this.nextTurn();
@@ -179,6 +199,8 @@ export default class LudoEngine extends TinyEmitter {
     }
 
     async moveCoin (coinID, stepID) {
+        const [_, color, number] = coinID.split('-');
+
         let coinElement = document.getElementById(coinID);
         let stepElement = document.getElementById(`step-${stepID}`);
         let clonedCoin = coinElement.cloneNode();
@@ -187,19 +209,38 @@ export default class LudoEngine extends TinyEmitter {
         await sleep(500);
         coinElement.parentElement.removeChild(coinElement);
 
+        clonedCoin.addEventListener('click', () => this.emit(`${color}Select`, parseInt(number)));
         clonedCoin.classList.add('coin-entry');
         stepElement.appendChild(clonedCoin);
+        stepElement.setNodeIDCss();
         await sleep(400);
     }
 
-    waitToRollDice () {
+    async moveCoinInPath(color, id, player, toAdd) {
+        let coinID = `coin-${color}-${id}`;
+        let cor = player.cors[id - 1] + toAdd;
+        let newStep = PLAYER_PATHS[color][cor];
+
+        if (!newStep) {
+            let coinElement = document.getElementById(coinID);
+            coinElement.parentElement.removeChild(coinElement);
+            player.cors[id - 1] = NaN;
+            this.emit(`${color}Update`);
+            return true;
+        }
+
+        player.cors[id - 1] = cor;
+        await this.moveCoin(coinID, newStep);
+    }
+
+    waitForEvent (evt) {
         return new Promise (resolve => {
-            const event = () => {
-                this.off('diceRoll', event);
-                resolve()
+            const event = (...args) => {
+                this.off(evt, event);
+                resolve(args);
             };
 
-            this.on('diceRoll', event);
+            this.on(evt, event);
         });
     }
 
@@ -310,9 +351,11 @@ export class LudoLinkedPlayer extends LudoPlayer {
         super(player);
         this.color = color;
 
-        Object.defineProperties(this, {
-            startPoint: { get: () => START_POINTS[this.color] }
-        })
+        try {
+            Object.defineProperties(this, {
+                startPoint: { get: () => START_POINTS[this.color] }
+            })
+        } catch (e) {}
     }
 
 }

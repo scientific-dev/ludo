@@ -52,6 +52,8 @@ export const PLAYER_PATHS =
         })
     )
 
+console.log(PLAYER_PATHS)
+
 // TODO(scientific-dev): Find a better way for dice html sides...
 export const DICE_HTML_SIDES = [
     `<div class="dot"></div>`,

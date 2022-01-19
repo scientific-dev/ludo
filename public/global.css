@@ -64,6 +64,10 @@ body {
 	padding: 5px;
 }
 
+.prison-selectable {
+	cursor: pointer;
+}
+
 .coin {
 	border-radius: 100%;
 	margin: 2px;
@@ -75,6 +79,10 @@ body {
 .step {
 	background-color: var(--wood);
 	margin: 2px;
+}
+
+.step .coin:not(:first-child) {
+	margin-top: calc(0px - var(--cell-size) - (2px * var(--node-id)));
 }
 
 .flex { display: flex; }
@@ -90,7 +98,7 @@ body {
 	top: 0;
 	left: 0;
 	width: 100%;
-	height: 100%;
+	height: calc(100% + 4px);
 	background-color: rgba(0,0,0,0.6);
 	z-index: 1;
 }
@@ -356,13 +364,13 @@ body {
 	-moz-box-shadow: -3px 3px 0px 0px rgba(0,0,0,0.13);
 }
 
-.dice, .alert, .player-tab, .coin-entry {
+.dice, .alert, .player-tab, .coin-entry, .prison-selectable {
 	-o-transition: .15s;
 	-moz-transition: .15s;
 	transition: .15s;
 }
 
-.player-tab:hover {
+.player-tab:hover, .prison-selectable:hover {
 	-o-transform: scale(1.05);
 	-moz-transform: scale(1.05);
 	transform: scale(1.05);

@@ -1,5 +1,6 @@
 <script>
     import Coin from './Coin.svelte';
+    import { engine } from '../../engine';
 
     export let code, cellSize, prisonSize;
 
@@ -7,7 +8,12 @@
     $: innerPrisonSize = (2 * cellSize) + 8;
 </script>
 
-<div class="prison" style="width: {prisonSize}px; height: {prisonSize}px;">
+<div 
+    class="prison" 
+    style="width: {prisonSize}px; height: {prisonSize}px;" 
+    id="prison-{code}"
+    on:click={() => engine.emit(`${code}Select`, 'house')}
+>
     <div 
         class="prison-inner" 
         style="margin: {(prisonSize - innerPrisonSize - 10) / 2}px; width: {innerPrisonSize}px"    
