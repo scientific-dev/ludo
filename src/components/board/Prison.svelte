@@ -12,7 +12,7 @@
     class="prison" 
     style="width: {prisonSize}px; height: {prisonSize}px;" 
     id="prison-{code}"
-    on:click={() => engine.emit(`${code}Select`, 'house')}
+    on:click={() => engine.emit(`${code}Select`, 'prison')}
 >
     <div 
         class="prison-inner" 

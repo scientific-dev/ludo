@@ -147,23 +147,25 @@ export default class LudoEngine extends TinyEmitter {
                 } else await this.alert('Unfortunate!', 1200);
             } else {
                 if (current.color == "green") diceNumber = 19;
+
                 let prisonElement = document.getElementById(`prison-${current.color}`);
                 prisonElement.classList.add('prison-selectable');
 
                 await this.alert('Select your move...', 1100);
                 const type = await this.waitForEvent(`${current.color}Select`);
 
-                if (type == 'house') {
+                if (type == 'prison') {
                     let x = 5 - coinsInside;
                     current.cors[x - 1] = 0;
                     await this.moveCoin(current.color, x, current.startPoint);
                     this.emit(`${current.color}Update`);
                 } else if (typeof type[0] == "number") {
-                    isBonusRoll = (await this.moveCoinInPath(current.color, type[0], current, diceNumber)) || isBonusRoll;
+                    let [cond, x] = await this.moveCoinInPath(current.color, type[0], current, diceNumber);
+                    isBonusRoll = isBonusRoll || cond;
+                    if (!isNaN(x)) isBonusRoll = (await this.killCoins(current, x)) || isBonusRoll;
                 }
 
                 prisonElement.classList.remove('prison-selectable');
-                isBonusRoll = (await this.killCoins()) || isBonusRoll;
             }
 
             if ((diceNumber == 6) || isBonusRoll) await this.alert('Rolling again...', 750);
@@ -217,12 +219,17 @@ export default class LudoEngine extends TinyEmitter {
         if (NULL_POINTS.includes(step)) return;
 
         // Find a better way to do this thing...
-        for (let i = 0; i < this.activePlayers; i++) {
+        for (let i = 0; i < this.activePlayers.length; i++) {
             let player = this.activePlayers[i];
+            if (player == currentPlayer) continue;
+            console.log(player)
+
             let path = PLAYER_PATHS[player.color];
             let kills = 0;
 
-            for (let i = 0; i < player.cors; i++) {
+            for (let i = 0; i < player.cors.length; i++) {
+                console.log(player.cors, i, player.cors[i], path, step)
+                console.log(path[player.cors[i]], step);
                 if (path[player.cors[i]] == step) {
                     player.cors[i] = null;
                     kills += 1;
@@ -266,11 +273,12 @@ export default class LudoEngine extends TinyEmitter {
             coinElement.parentElement.removeChild(coinElement);
             player.cors[id - 1] = NaN;
             this.emit(`${color}Update`);
-            return true;
+            return [true, NaN];
         }
 
         player.cors[id - 1] = cor;
         await this.moveCoin(color, id, newStep);
+        return [false, newStep]
     }
 
     async moveCoinToPrison (color, n) {
