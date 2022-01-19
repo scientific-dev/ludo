@@ -128,6 +128,7 @@ export default class LudoEngine extends TinyEmitter {
             });
 
         if (this.activePlayers.length < 2) return false;
+
         this.started = true;
         this.emit('start');
         this.clearSaved();
@@ -464,6 +465,8 @@ export class LudoPlayer {
 
         pl.cors = json.cors;
         pl.kills = json.kills;
+        if (json.rank) pl.rank = json.rank;
+        
         return pl;
     }
 
