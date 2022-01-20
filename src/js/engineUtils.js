@@ -65,8 +65,9 @@ export class LudoPlayer {
     static fromJSON (json) {
         let pl = new LudoPlayer(json.name, json.color);
 
-        pl.cors = json.cors;
+        pl.cors = json.cors.map(x => x == 'null' ? NaN : x);
         pl.kills = json.kills;
+        
         if (json.rank) pl.rank = json.rank;
         if (json.bot) pl.isBot = json.bot;
 
@@ -122,6 +123,16 @@ export class LudoPlayer {
     null () {
         this.isNull = true;
         return this;
+    }
+
+    toJSON () {
+        return {
+            kills: this.kills,
+            cors: this.cors.map(x => isNaN(x) ? 'nan' : x),
+            name: this.name,
+            color: this.color,
+            bot: this.isBot
+        };
     }
 
 } 

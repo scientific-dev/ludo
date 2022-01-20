@@ -1,5 +1,3 @@
-// JSON.stringify(NaN, Infinity) = null
-
 import { TinyEmitter } from 'tiny-emitter';
 import { DICE_HTML_SIDES, NULL_POINTS, PLAYER_PATHS, START_POINTS } from "./constants";
 import { LudoAlert, LudoPlayer } from './engineUtils';
@@ -385,13 +383,7 @@ export default class LudoEngine extends TinyEmitter {
             ended: this.ended,
             currentTurn: this.currentTurn,
             ranks: this.ranks.map(x => x.color),
-            players: this.activePlayers.map(player => ({
-                kills: player.kills,
-                cors: player.cors,
-                name: player.name,
-                color: player.color,
-                bot: player.isBot
-            }))
+            players: this.activePlayers.map(player => player.toJSON())
         };
     }
 
