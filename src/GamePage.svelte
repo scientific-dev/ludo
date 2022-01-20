@@ -16,11 +16,6 @@
         engine.emit('displayResult');
     });
 
-    async function startGame () {
-        let success = await engine.start(true);
-        if (!success) engine.alert('Minimum two players are required.', 1000);
-    }
-
     function gamePageResponsiveHandler () {
         let wrapElement = document.getElementById('wrap');
         mobileView = wrapElement.clientWidth < (wrapElement.clientHeight * 2);
@@ -54,7 +49,11 @@
                 <a 
                     class="player-tab-btn" 
                     href="#wrap" 
-                    on:click={startGame}
+                    on:click={async () => {
+                        if (hasSaved && !confirm('Are you sure? Your old game data might be deleted!')) return;
+                        let success = await engine.start(true);
+                        if (!success) engine.alert('Minimum two players are required.', 1000);
+                    }}
                 >New Game</a>
 
                 {#if hasSaved}
@@ -89,8 +88,10 @@
                     class="player-tab-btn" 
                     href="#wrap" 
                     on:click={() => {
-                        engine.clearSaved();
-                        window.location.href = "?game";
+                        if (confirm('Are you sure? Your old game data might be deleted!')) {
+                            engine.clearSaved();
+                            window.location.href = "?game";
+                        }
                     }}
                 >New Game</a>
             {/if}
