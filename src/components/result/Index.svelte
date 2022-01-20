@@ -51,6 +51,11 @@
         background-color: whitesmoke;
         border-radius: 5px;
         margin-top: 5%;
+        -webkit-transform: scale(0);
+		-moz-transform: scale(0);
+		-o-transform: scale(0);
+		transform: scale(0);
+        animation: coin-entry .3s forwards;
     }
 
     .result-tab h3, .result-tab h5 {
