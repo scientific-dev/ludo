@@ -192,6 +192,7 @@ export default class LudoEngine extends TinyEmitter {
             else this.nextTurn();
         }
 
+        this.emit('end');
         return true;
     }
 
@@ -295,6 +296,7 @@ export default class LudoEngine extends TinyEmitter {
                 await this.alert(`${player.name} has won the ${nthString(this.ranks.length)} place!`, 1100);
                 this.ranks.push(player);
                 player.rank = this.ranks.length;
+                this.emit('canDisplayResults');
             }
 
             this.emit(`${color}Update`);

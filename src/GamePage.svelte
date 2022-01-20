@@ -7,12 +7,13 @@
     import { engine, hasSaved } from './js/engine';
 
     let mobileView = false;
-    let ended = false;
+    let canDisplayResultBtn = false;
     let started = engine.started;
 
     engine.on('start', () => started = true);
+    engine.on('canDisplayResults', () => canDisplayResultBtn = true);
     engine.on('end', () => {
-        ended = false;
+        canDisplayResultBtn = true;
         engine.emit('displayResult');
     });
 
@@ -64,7 +65,7 @@
                     >Resume Game</a>
                 {/if}
 
-                {#if ended}
+                {#if canDisplayResultBtn}
                     <a 
                         class="player-tab-btn" 
                         href="#wrap" 
