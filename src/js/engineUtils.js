@@ -94,13 +94,21 @@ export class LudoPlayer {
         return START_POINTS[this.color];
     }
 
-    get activeCoinsIndex () {
+    get activeCoinsIndices () {
         let coins = [];
 
         for (let i = 0; i < this.cors.length; i++) {
             let x = this.cors[i];
-            if (!isNaN(x) && typeof x == "number") coins.push(x);
+            if (!isNaN(x) && typeof x == "number") coins.push(i);
         }
+
+        return coins;
+    }
+
+    get coinsInsideIndices () {
+        let coins = [];
+        for (let i = 0; i < this.cors.length; i++)
+            if (typeof this.cors[i] == "object") coins.push(i);
 
         return coins;
     }

@@ -155,11 +155,11 @@ export default class LudoEngine extends TinyEmitter {
             }
 
             let diceNumber = (await this.diceRoll(current.name + '\'s')) + 1;
-            let coinsInside = current.coinsAtStart;
+            let coinsInside = current.coinsInsideIndices;
             let is6 = diceNumber == 6;
             isBonusRoll = is6;
 
-            if (coinsInside == 4) {
+            if (coinsInside.length == 4) {
                 if (is6) {
                     current.cors[0] = 0;
                     await this.moveCoin(current.color, 1, current.startPoint);
@@ -175,9 +175,9 @@ export default class LudoEngine extends TinyEmitter {
                 } else type = this.getRandomBotChoice(current, is6);
 
                 if (type == 'prison') {
-                    let x = 5 - coinsInside;
-                    current.cors[x - 1] = 0;
-                    await this.moveCoin(current.color, x, current.startPoint);
+                    let x = coinsInside.random();
+                    current.cors[x] = 0;
+                    await this.moveCoin(current.color, x + 1, current.startPoint);
                     this.emit(`${current.color}Update`);
                 } else if (typeof type[0] == "number") {
                     let [cond, x] = await this.moveCoinInPath(current.color, type[0], current, diceNumber);
@@ -288,8 +288,8 @@ export default class LudoEngine extends TinyEmitter {
         if (!newStep) {
             let coinElement = document.getElementById(coinID);
             coinElement.parentElement.removeChild(coinElement);
-
             player.cors[id - 1] = NaN;
+            await this.alert(`${player.name}'s coin has reached the house!`, 1100);
 
             if (player.completed) {
                 await this.alert(`${player.name} has won the ${nthString(this.ranks.length)} place!`, 1100);
@@ -333,8 +333,10 @@ export default class LudoEngine extends TinyEmitter {
     }
 
     getRandomBotChoice (current, is6) {
-        if (is6 && getRandom(2)) return 'house';
-        else return current.activeCoinsIndex.random();
+        window.kek = current;
+        return is6 && getRandom(2)
+            ? 'house'
+            : [current.activeCoinsIndices.random() + 1];
     }
 
     getRandomDiceSideHTML () {
