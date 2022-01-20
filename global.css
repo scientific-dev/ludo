@@ -1,0 +1,188 @@
+:root {
+	--board-color: #04D4F0;
+	--border-color: var(--background);
+	--dull-player: rgb(160, 160, 160);
+	--red-player: #f02d20;
+	--blue-player: #2dc7ff;
+	--yellow-player: #ffd643;
+	--green-player: #00cc00;
+	--wood: #BA8C63;
+	--dark-wood: #945b29;
+	--cell-size: 0px;
+}
+
+html {
+	scroll-behavior: smooth;    
+}
+
+body {
+	margin: 0;
+	background-color: transparent;
+}
+
+::-webkit-scrollbar { width: 7px; }
+::-webkit-scrollbar-track { background: #18181d; }
+::-webkit-scrollbar-thumb { background: #6580b1; }
+::-webkit-scrollbar-thumb:hover { background: #7298da; }
+
+.flex { display: flex; }
+.flex-wrap { flex-wrap: wrap; }
+.flex-nowrap { flex-wrap: nowrap; }
+.flex-column { flex-direction: column; }
+.flex-column-r { flex-direction: column-reverse; }
+.flex-row { flex-direction: row; }
+.flex-row-r { flex-direction: row-reverse; }
+
+.m-0 { margin: 0; }
+.w-full { width: 100%; }
+.h-full { height: 100%; }
+
+.inline-block { display: inline-block; }
+.block { display: block; }
+.strong { font-weight: bold; }
+
+/** Animation element css */
+.coin-exit {
+	animation: coin-exit .5s forwards;
+}
+
+.coin-active {
+	-o-transform: scale(0);
+	-moz-transform: scale(0);
+	transform: scale(0);
+	animation: coin-entry .4s forwards;
+	margin: 0;
+	margin-left: -0.5px;
+	margin-top: -0.5px;
+	cursor: pointer;
+}
+
+.coin-active:hover {
+	border-width: 2px!important;
+	margin-left: -2px!important;
+	margin-top: -2px!important;
+}
+
+/** Animation CSS */
+
+@keyframes coin-exit {
+	20% {
+		-webkit-transform: scale(1.2);
+		-moz-transform: scale(1.2);
+		-o-transform: scale(1.2);
+		transform: scale(1.2);
+	}
+
+	100% {
+		-webkit-transform: scale(0);
+		-moz-transform: scale(0);
+		-o-transform: scale(0);
+		transform: scale(0);
+	}
+}
+
+@keyframes coin-entry {
+	20% {
+		-webkit-transform: scale(1.2);
+		-moz-transform: scale(1.2);
+		-o-transform: scale(1.2);
+		transform: scale(1.2);
+	}
+
+	100% {
+		-webkit-transform: scale(1.05);
+		-moz-transform: scale(1.05);
+		-o-transform: scale(1.05);
+		transform: scale(1.05);
+	}
+}
+
+/** Global CSS */
+.coin, .prison-inner, .step, .player-tab, .result-tab {
+	box-shadow: -3px 3px 0px 0px rgba(0,0,0,0.13);
+	-webkit-box-shadow: -3px 3px 0px 0px rgba(0,0,0,0.13);
+	-moz-box-shadow: -3px 3px 0px 0px rgba(0,0,0,0.13);
+}
+
+.dice, .alert, .player-tab, .coin-active, .prison-selectable {
+	-o-transition: .15s;
+	-moz-transition: .15s;
+	transition: .15s;
+}
+
+.player-tab:hover, .prison-selectable:hover {
+	-webkit-transform: scale(1.05);
+	-moz-transform: scale(1.05);
+	-o-transform: scale(1.05);
+	transform: scale(1.05);
+}
+
+/** Dice CSS */
+
+.dice {
+	background-color: var(--red-player);
+	border-radius: 20px;
+	width: 100px;
+	height: 100px;
+	margin-left: calc(50% - 50px);
+	margin-top: -20px;
+}
+
+.dot, .e-dot {
+	border-radius: 100%;
+	padding: 12px;
+	display: inline-block;
+}
+
+.dot { 
+	background-color: white; 
+}
+
+.e-dot { 
+	background-color: transparent; 
+}
+
+.dside-1 .dot {
+	margin-left: calc(50px - 12px);
+	margin-top: calc(50px - 12px);
+}
+
+.dside-2 {
+	margin-left: calc(50px - 26px);
+	margin-top: calc(50px - 14px);
+	display: inline-block;
+	transform: rotate(30deg);
+}
+
+.dside-3 {
+	margin-left: calc(50px - 42px);
+	margin-top: calc(50px - 14px);
+	display: inline-block;
+	transform: rotate(30deg);
+}
+
+.dside-2 .dot, .dside-3 .dot {
+	margin: 2px;
+}
+
+.dside-4 {
+	margin-left: calc(50px - 28px);
+	margin-top: calc(50px - 28px);
+	display: inline-block;
+}
+
+.dside-4 .dot, .dside-6 .dot {
+	margin: 2px;
+}
+
+.dside-5 {
+	margin-left: calc(50px - 36px);
+	margin-top: calc(50px - 36px);
+	display: inline-block;
+}
+
+.dside-6 {
+	margin-left: calc(50px - 28px);
+	margin-top: calc(50px - 42px);
+	display: inline-block;
+}
