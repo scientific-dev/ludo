@@ -9,7 +9,7 @@ import { HOUSE_SIDES } from '../../js/constants';
     let innerPrisonSize, prisonInnerMargin;
 
     $: {
-        innerPrisonSize = (2 * cellSize) + 12;
+        innerPrisonSize = (4 * cellSize) + 4;
         prisonInnerMargin = (prisonSize - innerPrisonSize - 10) / 2;
     }
 </script>
@@ -53,6 +53,10 @@ import { HOUSE_SIDES } from '../../js/constants';
 	    background-color: var(--step-color);
 	    border-radius: 5px;
 	    padding: 5px;
+    }
+
+    :global(.prison-inner .coin) {
+        margin: calc(var(--cell-size) / 2)!important;
     }
 
     .prison-cover {
