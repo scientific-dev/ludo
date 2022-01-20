@@ -2,8 +2,7 @@
     import { onMount } from 'svelte';
     import Prison from './Prison.svelte';
     import Walkway from './Walkway.svelte';
-    import { engine } from '../../engine';
-import { PLAYER_PATHS } from '../../constants';
+    import { engine } from '../../js/engine';
 
     let minSide, cellSize, prisonSize, walkwayWidth;
 

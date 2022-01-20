@@ -1,6 +1,6 @@
 <script>
     import PlayerTab from '../playerTab/Index.svelte';
-    import { engine } from "../../engine";
+    import { engine } from "../../js/engine";
 
     export let started;
     let displayResult = false;

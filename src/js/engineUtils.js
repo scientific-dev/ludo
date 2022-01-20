@@ -1,0 +1,119 @@
+import { START_POINTS } from "./constants";
+import { sleep } from "./engine";
+
+export class LudoAlert {
+
+    constructor () {
+        let alertElement = document.createElement('div');
+        alertElement.className = 'alert';
+        alertElement.style.opacity = 0;
+        this.element = alertElement;
+    }
+
+    setInnerHTML (html) {
+        this.element.innerHTML = html;
+        return this;
+    }
+
+    appendChildren (...children) {
+        this.element.append(...children);
+        return this;
+    }
+
+    setParent (elem) {
+        this.parent = elem;
+        this.parent.prepend(this.element);
+        return this;
+    }
+
+    removeParent () {
+        this.parent.removeChild(this.element);
+        return this;
+    }
+
+    async display (ms = 200) {
+        await sleep(ms)
+        this.element.style.opacity = 1;
+        return this;
+    }
+
+    async undisplay () {
+        this.element.style.opacity = 0;
+        await sleep(200);
+        return this.removeParent();
+    }
+
+}
+
+export class LudoPlayer {
+
+    static NULL_PLAYER = new LudoPlayer('No Player', "null").null();
+
+    kills = 0;
+    cors = [null, null, null, null];
+    // Coordinates of coins. 
+    // - number, if the coin is on track
+    // - null, if coin at start.
+    // - NaN, if coin has reached the house.
+
+    constructor (name, color, isBot) {
+        this.name = name;
+        this.color = color;
+        if (isBot) this.isBot = true;
+    }
+
+    static fromJSON (json) {
+        let pl = new LudoPlayer(json.name, json.color);
+
+        pl.cors = json.cors;
+        pl.kills = json.kills;
+        if (json.rank) pl.rank = json.rank;
+        if (json.bot) pl.isBot = json.bot;
+
+        return pl;
+    }
+
+    get coinsReached () {
+        return this.cors.filter(x => isNaN(x)).length;
+    }
+
+    get coinsAtStart () {
+        // Because null is object and others are number including NaN.
+        return this.cors.filter(x => typeof x == "object").length;
+    }
+
+    get coinsOutside () {
+        return this.cors.filter(x => !isNaN(x) && typeof x == "number").length;
+    }
+
+    get completed () {
+        return this.coinsReached == 4;
+    }
+
+    get startPoint () {
+        return START_POINTS[this.color];
+    }
+
+    get activeCoinsIndex () {
+        let coins = [];
+
+        for (let i = 0; i < this.cors.length; i++) {
+            let x = this.cors[i];
+            if (!isNaN(x) && typeof x == "number") coins.push(x);
+        }
+
+        return coins;
+    }
+
+    get type () {
+        if (this.isBot) return 'bot';
+        if (this.isNull) return 'null';
+        return 'player';
+    }
+
+    null () {
+        this.isNull = true;
+        return this;
+    }
+
+} 

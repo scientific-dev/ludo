@@ -1,14 +1,10 @@
 <script>
-    import { engine } from "../../engine";
+    import { engine } from "../../js/engine";
 
     export let started;
 
     let toDisplay = engine.playerCount != 4;
     engine.on('playerCountUpdate', () => toDisplay = engine.playerCount != 4);
-
-    function createPlayer () {
-        if (!engine.createPlayer()) engine.alert('Player limit has been reached...');
-    }
 </script>
 
 {#if !started && toDisplay}
@@ -18,7 +14,21 @@
         </div>
 
         <div class="foot">
-            <a href="#wrap" on:click={createPlayer}>Add Player?</a>
+            <a 
+                href="#wrap"
+                on:click={() => {
+                    if (!engine.createPlayer()) 
+                        engine.alert('Player limit has been reached...');
+                }}
+            >Add Player?</a>
+
+            <a 
+                href="#wrap" 
+                on:click={() => {
+                    if (!engine.createPlayer(true)) 
+                        engine.alert('Player limit has been reached...');
+                }}
+            >Add Bot?</a>
         </div>
     </div>
 {/if}

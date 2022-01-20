@@ -1,18 +1,21 @@
 <script>
     import Coin from './Coin.svelte';
-    import { engine } from '../../engine';
+    import { engine } from '../../js/engine';
 
-    export let code, cellSize, prisonSize;
+    export let code, cellSize, prisonSize, prisonSelectable;
+    engine.on(`${code}PrisonSelectable`, () => prisonSelectable = !prisonSelectable);
 
     let innerPrisonSize;
     $: innerPrisonSize = (2 * cellSize) + 12;
 </script>
 
 <div 
-    class="prison" 
+    class="prison {prisonSelectable ? 'prison-selectable' : ''}" 
     style="width: {prisonSize}px; height: {prisonSize}px;" 
     id="prison-{code}"
-    on:click={() => engine.emit(`${code}Select`, 'prison')}
+    on:click={() => {
+        if (prisonSelectable) engine.emit(`${code}Select`, 'prison');
+    }}
 >
     <div 
         class="prison-inner" 

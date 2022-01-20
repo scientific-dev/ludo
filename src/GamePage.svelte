@@ -4,7 +4,7 @@
     import PlayerTab from './components/playerTab/Index.svelte';
     import AddPlayer from './components/playerTab/Add.svelte';
     import Result from './components/result/Index.svelte';
-    import { engine, hasSaved } from './engine';
+    import { engine, hasSaved } from './js/engine';
 
     let mobileView = false;
     let ended = false;

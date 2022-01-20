@@ -1,5 +1,5 @@
 <script>
-    import { engine, nthString } from "../../engine";
+    import { engine, nthString } from "../../js/engine";
 
     export let color, started;
     export let editable = true;
@@ -7,7 +7,7 @@
     let player = engine.players[color];
     let isTurn = false;
 
-    if (!editable) {
+    if (editable) {
         engine.on(`${color}Update`, () => player = engine.players[color]);
         engine.on(`turn`, turnColor => isTurn = turnColor == color);
     }
@@ -48,7 +48,7 @@
             <p class="inline-block">{player.kills}</p><br/>
 
             {#if !started && editable}
-                <a href="#wrap" on:click={removePlayer}>Remove player?</a>
+                <a href="#wrap" on:click={removePlayer}>Remove {player.type.toProperCase()}?</a>
             {/if}
 
             {#if isTurn}
