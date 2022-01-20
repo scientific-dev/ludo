@@ -1,3 +1,5 @@
+// JSON.stringify(NaN, Infinity) = null
+
 import { TinyEmitter } from 'tiny-emitter';
 import { DICE_HTML_SIDES, NULL_POINTS, PLAYER_PATHS, START_POINTS } from "./constants";
 import { LudoAlert, LudoPlayer } from './engineUtils';

@@ -50,7 +50,7 @@ import { HOUSE_SIDES } from '../../js/constants';
     }
 
     .prison-inner {
-	    background-color: var(--wood);
+	    background-color: var(--step-color);
 	    border-radius: 5px;
 	    padding: 5px;
     }
