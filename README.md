@@ -9,5 +9,4 @@ Ludo is a strategy board game for two to four players, in which the players race
 ## Note
 
 - The site might have messy codes at some parts and have bugs, you can contribute if you want.
-- The site does not currently supports multiplayer or bots.
-    - If multiplayer will be ever supported, it would be a peer to peer socket (might be risky).
+- The site does not currently supports multiplayer. If multiplayer will be ever supported, it would be a peer to peer socket (might be risky).
