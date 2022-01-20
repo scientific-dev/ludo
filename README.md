@@ -16,6 +16,7 @@ Ludo is a strategy board game for two to four players, in which the players race
 - You can take a coin out of the prison/jail only if a dice is rolled at 6.
 - All of your coins reaches the home, the player wins!
 - Knocking other player's coins or if one your coin reaches the house, you will get another chance to roll the dice.
+- You cannot knock a player on colored steps or dark colored steps!
 
 ## Note
 

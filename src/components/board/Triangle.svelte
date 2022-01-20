@@ -20,7 +20,6 @@
 <style>
     .triangle {
         clip-path: polygon(0% 100%, 50% 0%, 100% 100%);
-        z-index: 8;
         position: absolute;
         -webkit-transform: rotate(var(--rotate));
         -moz-transform: rotate(var(--rotate));
