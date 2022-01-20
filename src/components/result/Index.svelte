@@ -91,6 +91,10 @@
         text-decoration: none;
     }
 
+    .result-tab a:hover {
+        background-color: var(--darker-wood);
+    }
+
     @media (max-width: 750px) {
         .result-tab a {
             width: calc(100% - 20px);

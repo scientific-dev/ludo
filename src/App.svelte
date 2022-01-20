@@ -50,14 +50,15 @@
 		padding: 10px 100px;
 		text-decoration: none;
 		color: white;
-		border: 2px solid var(--dark-wood);
+		border: 2px solid white;
 		margin-top: 10px;
 		display: inline-block;
 		text-transform: uppercase;
 	}
 
 	.cover-btn:hover {
-		background-color: var(--dark-wood);
+		color: black;
+		background-color: white;
 	}
 
 	.credits {

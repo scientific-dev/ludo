@@ -126,6 +126,10 @@
         text-decoration: none;
     }
 
+    .player-tab-btn:hover {
+        background-color: var(--darker-wood);
+    }
+
     .mobile-view {
 	    display: block!important;
     }
