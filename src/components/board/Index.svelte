@@ -2,9 +2,10 @@
     import { onMount } from 'svelte';
     import Prison from './Prison.svelte';
     import Walkway from './Walkway.svelte';
+    import Triangle from './Triangle.svelte'
     import { engine } from '../../js/engine';
 
-    let minSide, cellSize, prisonSize, walkwayWidth;
+    let minSide, cellSize, prisonSize, gameHomeSize;
 
     function setCSSDimensions () {
         let wrapElement = document.getElementById('wrap');
@@ -14,7 +15,8 @@
     $: {
         cellSize = (minSide - 70) / 15;
         prisonSize = (6 * cellSize) + 24;
-        walkwayWidth = cellSize + 4;
+        // walkwayWidth = cellSize + 4;
+        gameHomeSize = (cellSize * 3) + 8;
     }
 
     onMount(() => {
@@ -56,8 +58,15 @@
                     <!-- 31 to 36 -->
                     <Walkway {cellSize} offsetIndex={31}/>
                 </div>
-                
-                <div style="width: {walkwayWidth * 3}px;"/>
+
+                <div style="width: {gameHomeSize}px;" class="game-home">
+                    <div style="z-index: 6;">
+                        <Triangle color="green" i={0} top={gameHomeSize / 2} {gameHomeSize}/>
+                        <Triangle color="red" i ={1} top={gameHomeSize / 4} left={-gameHomeSize / 4} {gameHomeSize}/>
+                        <Triangle color="blue" i={2} {gameHomeSize}/>
+                        <Triangle color="yellow" i={3} top={gameHomeSize / 4} left={gameHomeSize / 4} {gameHomeSize}/>
+                    </div>
+                </div>
 
                 <div>
                     <!-- 37 to 42 -->
@@ -119,5 +128,13 @@
     :global(.alert), .board-wrapper {
         width: var(--board-width);
         height: var(--board-height);
+    }
+
+    .game-home {
+        color: white;
+        font-family: "Titillium Web";
+        font-size: 30px;
+        text-align: center;
+        margin: 2px;
     }
 </style>

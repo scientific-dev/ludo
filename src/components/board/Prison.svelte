@@ -22,6 +22,7 @@
         style="
             margin: {(prisonSize - innerPrisonSize - 10) / 2}px; 
             width: {innerPrisonSize}px;
+            height: {innerPrisonSize}px;
         "    
     >
         <div class="flex flex-wrap">
