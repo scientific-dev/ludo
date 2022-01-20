@@ -36,6 +36,7 @@ export default class LudoEngine extends TinyEmitter {
     started = false;
     ended = false;
     activePlayers = []; // Will be defined when the game starts...
+    activeBots = [];
     currentTurn = 0;
     ranks = [];
     players = {
@@ -44,6 +45,13 @@ export default class LudoEngine extends TinyEmitter {
         yellow: LudoPlayer.NULL_PLAYER,
         blue: LudoPlayer.NULL_PLAYER
     };
+
+    constructor () {
+        super();
+
+        this.on('start', () => this.activeBots = this.activePlayers.filter(x => x.isBot));
+        this.on('end', () => this.ended = true);
+    }
 
     get playersArray () {
         return Object.values(this.players);
@@ -55,14 +63,6 @@ export default class LudoEngine extends TinyEmitter {
 
     get currentTurnPlayer () {
         return this.activePlayers[this.currentTurn];
-    }
-
-    get completed () {
-        for (let i = 0; i < this.activePlayers.length; i++) {
-            if (!this.activePlayers[i].completed) return false;
-        }
-
-        return true;
     }
 
     nextTurn () {
@@ -143,7 +143,7 @@ export default class LudoEngine extends TinyEmitter {
     async startTurns () {
         let isBonusRoll = false;
 
-        while (!this.completed) {
+        while (!this.ended) {
             let current = this.currentTurnPlayer;
             let isPlayer = !current.isBot;
             this.save(); // Autosaves the progress so you don't mess up later!
@@ -180,9 +180,11 @@ export default class LudoEngine extends TinyEmitter {
                     await this.moveCoin(current.color, x + 1, current.startPoint);
                     this.emit(`${current.color}Update`);
                 } else if (typeof type[0] == "number") {
-                    let [cond, x] = await this.moveCoinInPath(current.color, type[0], current, diceNumber);
-                    isBonusRoll = isBonusRoll || cond;
-                    if (!isNaN(x)) isBonusRoll = (await this.killCoins(current, x)) || isBonusRoll;
+                    let { condition, newStep, gameOver } = await this.moveCoinInPath(current.color, type[0], current, diceNumber);
+                    
+                    if (gameOver) break;
+                    isBonusRoll = isBonusRoll || condition;
+                    if (!isNaN(newStep)) isBonusRoll = (await this.killCoins(current, x)) || isBonusRoll;
                 }
 
                 if (is6) this.emit(`${current.color}PrisonSelectable`);
@@ -293,19 +295,23 @@ export default class LudoEngine extends TinyEmitter {
             await this.alert(`${player.name}'s coin has reached the house!`, 1100);
 
             if (player.completed) {
-                await this.alert(`${player.name} has won the ${nthString(this.ranks.length)} place!`, 1100);
                 this.ranks.push(player);
+                await this.alert(`${player.name} has won the ${nthString(this.ranks.length)} place!`, 1100);
                 player.rank = this.ranks.length;
                 this.emit('canDisplayResults');
             }
 
             this.emit(`${color}Update`);
-            return [true, NaN];
+            return { 
+                condition: true, 
+                newStep: NaN, 
+                gameOver: await this.checkForCompletion() 
+            };
         }
 
         player.cors[id - 1] = cor;
         await this.moveCoin(color, id, newStep);
-        return [false, newStep]
+        return { condition: false, newStep };
     }
 
     async moveCoinToPrison (color, n) {
@@ -335,10 +341,32 @@ export default class LudoEngine extends TinyEmitter {
     }
 
     getRandomBotChoice (current, is6) {
-        window.kek = current;
+        // The brain of a very poor ai...
         return is6 && getRandom(2)
             ? 'prison'
             : [current.activeCoinsIndices.random() + 1];
+    }
+
+    async checkForCompletion () {
+        if (this.ranks.length == 3) {
+            // This might look not the most efficient but the maximum array size would
+            // be 4 so it should not be a problem...
+            let lastPlayer = this.activePlayers.find(x => !this.ranks.includes(x));
+            this.ranks.push(lastPlayer);
+
+            await this.alert(`${lastPlayer.name} has won the ${nthString(this.ranks.length)} place!`, 1100);
+            return true;
+        }
+
+        for (let i = 0; i < this.activePlayers.length; i++) {
+            let player = this.activePlayers[i];
+            if (!player.isBot && !player.completed) return false;
+        }
+
+        // There might be chances that there are some bots still alive
+        // even if all players are eliminated...
+        this.ranks.push(this.activeBots.filter(x => !x.completed));
+        return true;
     }
 
     getRandomDiceSideHTML () {
