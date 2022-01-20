@@ -75,7 +75,7 @@ export default class LudoEngine extends TinyEmitter {
 
         styleElement.innerHTML = 
             NULL_POINTS
-                .map(id => `#step-${id} {background-color:var(--dark-wood)!important}`)
+                .map(id => `#step-${id} {background-color:var(--dark-step-color)!important}`)
                 .join('');
 
         styleElement.innerHTML += 

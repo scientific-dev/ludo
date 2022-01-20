@@ -11,7 +11,7 @@
 
 <style>
     .step {
-	    background-color: var(--wood);
+	    background-color: var(--step-color);
 	    margin: 2px;
 	    width: var(--cell-size);
 	    height: var(--cell-size);
