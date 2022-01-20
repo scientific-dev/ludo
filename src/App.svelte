@@ -25,7 +25,7 @@
 		height: 100%;
 		position: fixed;
 		z-index: -1;
-		background: #252931 url(/scenary.jpg) no-repeat;
+		background: #252931 url(../scenary.jpg) no-repeat;
 		background-size: cover;
 		background-blend-mode: multiply;
 	}
