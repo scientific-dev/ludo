@@ -114,6 +114,7 @@
 	    position: absolute;
 	    background-color: rgba(0,0,0,0.6);
 	    z-index: 5;
+        border-radius: 10px;
     }
 
     :global(.alert p) {

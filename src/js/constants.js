@@ -65,3 +65,10 @@ export const DICE_HTML_SIDES = [
     `,
     `<div class="flex"><div class="dot"></div> <div class="dot"></div></div>`.repeat(3),
 ];
+
+export const HOUSE_SIDES = {
+    red: 'top-left',
+    blue: 'top-right',
+    green: 'bottom-left',
+    yellow: 'bottom-right'
+};
