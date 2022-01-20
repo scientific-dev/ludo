@@ -1,1 +1,4938 @@
-var app=function(){"use strict";function e(){}function t(e){return e()}function n(){return Object.create(null)}function r(e){e.forEach(t)}function l(e){return"function"==typeof e}function s(e,t){return e!=e?t==t:e!==t||e&&"object"==typeof e||"function"==typeof e}function o(e,t){e.appendChild(t)}function i(e,t,n){e.insertBefore(t,n||null)}function a(e){e.parentNode.removeChild(e)}function c(e,t){for(let n=0;n<e.length;n+=1)e[n]&&e[n].d(t)}function d(e){return document.createElement(e)}function u(e){return document.createTextNode(e)}function p(){return u(" ")}function f(){return u("")}function m(e,t,n,r){return e.addEventListener(t,n,r),()=>e.removeEventListener(t,n,r)}function h(e,t,n){null==n?e.removeAttribute(t):e.getAttribute(t)!==n&&e.setAttribute(t,n)}function $(e,t){t=""+t,e.wholeText!==t&&(e.data=t)}function g(e,t,n,r){e.style.setProperty(t,n,r?"important":"")}function y(e,t,n){e.classList[n?"add":"remove"](t)}let v;function w(e){v=e}function x(e){(function(){if(!v)throw new Error("Function called outside component initialization");return v})().$$.on_mount.push(e)}const b=[],S=[],z=[],k=[],C=Promise.resolve();let P=!1;function N(e){z.push(e)}const L=new Set;let T=0;function E(){const e=v;do{for(;T<b.length;){const e=b[T];T++,w(e),I(e.$$)}for(w(null),b.length=0,T=0;S.length;)S.pop()();for(let e=0;e<z.length;e+=1){const t=z[e];L.has(t)||(L.add(t),t())}z.length=0}while(b.length);for(;k.length;)k.pop()();P=!1,L.clear(),w(e)}function I(e){if(null!==e.fragment){e.update(),r(e.before_update);const t=e.dirty;e.dirty=[-1],e.fragment&&e.fragment.p(e.ctx,t),e.after_update.forEach(N)}}const R=new Set;let _;function H(){_={r:0,c:[],p:_}}function A(){_.r||r(_.c),_=_.p}function D(e,t){e&&e.i&&(R.delete(e),e.i(t))}function M(e,t,n,r){if(e&&e.o){if(R.has(e))return;R.add(e),_.c.push((()=>{R.delete(e),r&&(n&&e.d(1),r())})),e.o(t)}}function U(e){e&&e.c()}function O(e,n,s,o){const{fragment:i,on_mount:a,on_destroy:c,after_update:d}=e.$$;i&&i.m(n,s),o||N((()=>{const n=a.map(t).filter(l);c?c.push(...n):r(n),e.$$.on_mount=[]})),d.forEach(N)}function B(e,t){const n=e.$$;null!==n.fragment&&(r(n.on_destroy),n.fragment&&n.fragment.d(t),n.on_destroy=n.fragment=null,n.ctx=[])}function q(e,t){-1===e.$$.dirty[0]&&(b.push(e),P||(P=!0,C.then(E)),e.$$.dirty.fill(0)),e.$$.dirty[t/31|0]|=1<<t%31}function j(t,l,s,o,i,c,d,u=[-1]){const p=v;w(t);const f=t.$$={fragment:null,ctx:null,props:c,update:e,not_equal:i,bound:n(),on_mount:[],on_destroy:[],on_disconnect:[],before_update:[],after_update:[],context:new Map(l.context||(p?p.$$.context:[])),callbacks:n(),dirty:u,skip_bound:!1,root:l.target||p.$$.root};d&&d(f.root);let m=!1;if(f.ctx=s?s(t,l.props||{},((e,n,...r)=>{const l=r.length?r[0]:n;return f.ctx&&i(f.ctx[e],f.ctx[e]=l)&&(!f.skip_bound&&f.bound[e]&&f.bound[e](l),m&&q(t,e)),n})):[],f.update(),m=!0,r(f.before_update),f.fragment=!!o&&o(f.ctx),l.target){if(l.hydrate){const e=function(e){return Array.from(e.childNodes)}(l.target);f.fragment&&f.fragment.l(e),e.forEach(a)}else f.fragment&&f.fragment.c();l.intro&&D(t.$$.fragment),O(t,l.target,l.anchor,l.customElement),E()}w(p)}class Y{$destroy(){B(this,1),this.$destroy=e}$on(e,t){const n=this.$$.callbacks[e]||(this.$$.callbacks[e]=[]);return n.push(t),()=>{const e=n.indexOf(t);-1!==e&&n.splice(e,1)}}$set(e){var t;this.$$set&&(t=e,0!==Object.keys(t).length)&&(this.$$.skip_bound=!0,this.$$set(e),this.$$.skip_bound=!1)}}function F(t){let n,r;return{c(){n=d("div"),h(n,"class","coin svelte-1oo0wzo"),h(n,"id",r="coin-"+t[0]+"-"+t[1]),g(n,"background-color","var(--"+t[0]+"-player)")},m(e,t){i(e,n,t)},p(e,[t]){3&t&&r!==(r="coin-"+e[0]+"-"+e[1])&&h(n,"id",r),1&t&&g(n,"background-color","var(--"+e[0]+"-player)")},i:e,o:e,d(e){e&&a(n)}}}function J(e,t,n){let{code:r,i:l}=t;return e.$$set=e=>{"code"in e&&n(0,r=e.code),"i"in e&&n(1,l=e.i)},[r,l]}class G extends Y{constructor(e){super(),j(this,e,J,F,s,{code:0,i:1})}}function W(){}W.prototype={on:function(e,t,n){var r=this.e||(this.e={});return(r[e]||(r[e]=[])).push({fn:t,ctx:n}),this},once:function(e,t,n){var r=this;function l(){r.off(e,l),t.apply(n,arguments)}return l._=t,this.on(e,l,n)},emit:function(e){for(var t=[].slice.call(arguments,1),n=((this.e||(this.e={}))[e]||[]).slice(),r=0,l=n.length;r<l;r++)n[r].fn.apply(n[r].ctx,t);return this},off:function(e,t){var n=this.e||(this.e={}),r=n[e],l=[];if(r&&t)for(var s=0,o=r.length;s<o;s++)r[s].fn!==t&&r[s].fn._!==t&&l.push(r[s]);return l.length?n[e]=l:delete n[e],this}};var K=W;W.TinyEmitter=K;const Q=[19,20,21,22,23,24,6,5,4,3,2,1,7,13,14,15,16,17,18,42,41,40,39,38,37,43,49,50,51,52,53,54,72,71,70,69,68,67,61,55,56,57,58,59,60,36,35,34,33,32,31,25],V={red:20,blue:14,yellow:50,green:56},X={red:[26,27,28,29,30],blue:[8,9,10,11,12],yellow:[44,45,46,47,48],green:[62,63,64,65,66]},Z=[33,69,39,3,...Object.values(V)],ee=Object.fromEntries(["red","yellow","green","blue"].map((e=>{let t=Q.indexOf(V[e]),n=Q.slice(t,t+51);return 51!=n.length&&(n=n.concat(Q.slice(0,51-n.length))),[e,n.concat(X[e])]}))),te=['<div class="dot"></div>','<div class="dot"></div>'.repeat(2),'<div class="dot"></div>'.repeat(3),'<div class="flex"><div class="dot"></div> <div class="dot"></div></div>'.repeat(2),'\n        <div class="flex"><div class="dot"></div> <div class="e-dot"></div> <div class="dot"></div></div> \n        <div class="flex"><div class="e-dot"></div> <div class="dot"></div></div> \n        <div class="flex"><div class="dot"></div> <div class="e-dot"></div> <div class="dot"></div></div>\n    ','<div class="flex"><div class="dot"></div> <div class="dot"></div></div>'.repeat(3)],ne={red:"top-left",blue:"top-right",green:"bottom-left",yellow:"bottom-right"};class re{constructor(){let e=document.createElement("div");e.className="alert",e.style.opacity=0,this.element=e}setInnerHTML(e){return this.element.innerHTML=e,this}appendChildren(...e){return this.element.append(...e),this}setParent(e){return this.parent=e,this.parent.prepend(this.element),this}removeParent(){return this.parent.removeChild(this.element),this}async display(e=200){return await se(e),this.element.style.opacity=1,this}async undisplay(){return this.element.style.opacity=0,await se(200),this.removeParent()}}class le{static NULL_PLAYER=new le("No Player","null").null();kills=0;cors=[null,null,null,null];constructor(e,t,n){this.name=e,this.color=t,n&&(this.isBot=!0)}static fromJSON(e){let t=new le(e.name,e.color);return t.cors=e.cors,t.kills=e.kills,e.rank&&(t.rank=e.rank),e.bot&&(t.isBot=e.bot),t}get coinsReached(){return this.cors.filter((e=>isNaN(e))).length}get coinsAtStart(){return this.cors.filter((e=>"object"==typeof e)).length}get coinsOutside(){return this.cors.filter((e=>!isNaN(e)&&"number"==typeof e)).length}get completed(){return 4==this.coinsReached}get startPoint(){return V[this.color]}get activeCoinsIndices(){let e=[];for(let t=0;t<this.cors.length;t++){let n=this.cors[t];isNaN(n)||"number"!=typeof n||e.push(t)}return e}get coinsInsideIndices(){let e=[];for(let t=0;t<this.cors.length;t++)"object"==typeof this.cors[t]&&e.push(t);return e}get type(){return this.isBot?"bot":this.isNull?"null":"player"}null(){return this.isNull=!0,this}}async function se(e){return new Promise((t=>setTimeout(t,e)))}function oe(e){return Math.floor(Math.random()*e)}function ie(e){return 1==e?"1st":2==e?"2nd":3==e?"3rd":`${e}th`}Array.prototype.random=function(){return this[Math.floor(Math.random()*this.length)]},String.prototype.toProperCase=function(){return this.charAt(0).toUpperCase()+this.substring(1).toLowerCase()},Element.prototype.setNodeIDCss=function(){for(let e=0;e<this.children.length;e++)this.children[e].style.setProperty("--node-id",e+1)};const ae=new class extends K{started=!1;ended=!1;activePlayers=[];currentTurn=0;ranks=[];players={red:new le("You","red"),green:le.NULL_PLAYER,yellow:le.NULL_PLAYER,blue:le.NULL_PLAYER};get playersArray(){return Object.values(this.players)}get playerCount(){return this.playersArray.filter((e=>!e.isNull)).length}get currentTurnPlayer(){return this.activePlayers[this.currentTurn]}get completed(){for(let e=0;e<this.activePlayers.length;e++)if(!this.activePlayers[e].completed)return!1;return!0}nextTurn(){let e=this.activePlayers.length-1;this.currentTurn+=this.currentTurn==e?-e:1}onWindowLoad(){let e=document.createElement("style");e.innerHTML=Z.map((e=>`#step-${e} {background-color:var(--dark-step-color)!important}`)).join(""),e.innerHTML+=Object.entries(V).map((([e,t])=>`#step-${t} {background-color:var(--${e}-player)!important}`)).join(""),document.getElementById("wrap").append(e),this.started&&(this.emit("start"),this.alert("Resuming your game...",1200))}createPlayer(e){let t=Object.entries(this.players).find((([e,t])=>t.isNull));return t?(this.players[t[0]]=new le(e?"Bot":"Player",t[0],e),this.emit(`${t[0]}Update`).emit("playerCountUpdate"),this.players[t[0]]):null}deletePlayer(e){if(1==this.playerCount)return null;let t=this.players[e];return this.players[e]=le.NULL_PLAYER,this.emit(`${e}Update`).emit("playerCountUpdate"),t}updatePlayerName(e,t){this.players[e].name=t,this.emit(`${e}Update`)}async start(e=!1){return!this.started&&(this.activePlayers=[],Object.entries(this.players).forEach((e=>{e[1].isNull||this.activePlayers.push(e[1])})),!(this.activePlayers.length<2)&&(this.started=!0,this.emit("start"),this.clearSaved(),e&&await this.alert("The game has started...",1e3),this.startTurns()))}async startTurns(){let e=!1;for(;!this.completed;){let t=this.currentTurnPlayer,n=!t.isBot;if(this.save(),!e){if(t.completed)continue;this.emit("turn",t.color),n&&await this.waitForEvent("diceRoll")}let r=await this.diceRoll(t.name+"'s")+1,l=t.coinsInsideIndices,s=6==r;if(e=s,4==l.length)s?(t.cors[0]=0,await this.moveCoin(t.color,1,t.startPoint),this.emit(`${t.color}Update`)):await this.alert("Unfortunate!",1200);else{let o;if(s&&this.emit(`${t.color}PrisonSelectable`),n?(await this.alert("Select your move...",1100),o=await this.waitForEvent(`${t.color}Select`)):o=this.getRandomBotChoice(t,s),"prison"==o){let e=l.random();t.cors[e]=0,await this.moveCoin(t.color,e+1,t.startPoint),this.emit(`${t.color}Update`)}else if("number"==typeof o[0]){let[n,l]=await this.moveCoinInPath(t.color,o[0],t,r);e=e||n,isNaN(l)||(e=await this.killCoins(t,l)||e)}s&&this.emit(`${t.color}PrisonSelectable`)}6==r||e?await this.alert("Rolling again...",750):this.nextTurn()}return this.emit("end"),!0}async alert(e,t=2e3){let n=await(new re).setParent(document.querySelector(".board-wrapper")).setInnerHTML(`<p>${e}</p>`).display(0);await se(t),await n.undisplay()}async diceRoll(e="Your",t=oe(6)){let n=document.createElement("p");n.innerHTML=`${e} Turn`;let r=document.createElement("div");r.className="dice",r.innerHTML=this.getRandomDiceSideHTML();let l=await(new re).appendChildren(n,r).setParent(document.querySelector(".board-wrapper")).display();for(let e=0;e<4;e++)await se(50*e),r.innerHTML=this.getRandomDiceSideHTML();return await se(200),r.innerHTML=this.getDiceSideHTML(t),await se(400),r.style.transform="scale(1.2)",await se(250),r.style.transform="scale(1)",await se(750),await l.undisplay(),t}async killCoins(e,t){if(!Z.includes(t))for(let n=0;n<this.activePlayers.length;n++){let r=this.activePlayers[n];if(r==e)continue;let l=ee[r.color],s=0;for(let e=0;e<r.cors.length;e++)l[r.cors[e]]==t&&(r.cors[e]=null,s+=1,await this.moveCoinToPrison(r.color,e+1));if(s)return e.kills+=s,this.emit(`${r.color}Update`).emit(`${e.color}Update`),!0}}async moveCoin(e,t,n){let r=document.getElementById(`coin-${e}-${t}`),l=document.getElementById(`step-${n}`),s=r.cloneNode();r.classList.add("coin-exit"),await se(500),r.parentElement.removeChild(r),s.addEventListener("click",(()=>this.emit(`${e}Select`,t))),s.classList.add("coin-active"),l.appendChild(s),l.setNodeIDCss(),await se(400)}async moveCoinInPath(e,t,n,r){let l=`coin-${e}-${t}`,s=n.cors[t-1]+r,o=ee[e][s];if(!o){let r=document.getElementById(l);return r.parentElement.removeChild(r),n.cors[t-1]=NaN,await this.alert(`${n.name}'s coin has reached the house!`,1100),n.completed&&(await this.alert(`${n.name} has won the ${ie(this.ranks.length)} place!`,1100),this.ranks.push(n),n.rank=this.ranks.length,this.emit("canDisplayResults")),this.emit(`${e}Update`),[!0,NaN]}return n.cors[t-1]=s,await this.moveCoin(e,t,o),[!1,o]}async moveCoinToPrison(e,t){let n=document.getElementById(`coin-${e}-${t}`),r=n.parentElement,l=n.cloneNode();n.classList.add("coin-exit"),await se(500),n.parentElement.removeChild(n),l.classList.add("coin-active"),document.querySelector(`#prison-${e} .prison-inner div`).appendChild(l),r.setNodeIDCss(),await se(400)}waitForEvent(e){return new Promise((t=>{const n=(...r)=>{this.off(e,n),t(r)};this.on(e,n)}))}getRandomBotChoice(e,t){return window.kek=e,t&&oe(2)?"prison":[e.activeCoinsIndices.random()+1]}getRandomDiceSideHTML(){return this.getDiceSideHTML(oe(6))}getDiceSideHTML(e){return`<div class="dside-${e+1}">${te[e]}</div>`}toJSON(){return{started:this.started,ended:this.ended,currentTurn:this.currentTurn,ranks:this.ranks.map((e=>e.color)),players:this.activePlayers.map((e=>({kills:e.kills,cors:e.cors,name:e.name,color:e.color,bot:e.isBot})))}}save(){localStorage.setItem("ludo_data",JSON.stringify(this.toJSON()))}clearSaved(){localStorage.removeItem("ludo_data")}async startFromSaved(){let e=JSON.parse(localStorage.getItem("ludo_data")||"{}"),t=[];if(e.started){this.started=!0,this.currentTurn=e.currentTurn,this.activePlayers=e.players.map(le.fromJSON),this.players.red=le.NULL_PLAYER;for(let e=0;e<this.activePlayers.length;e++){let n=this.activePlayers[e],r=ee[n.color];this.players[n.color]=n,this.emit(`${n.color}Update`);for(let e=0;e<n.cors.length;e++){let l=n.cors[e];isNaN(l)||"number"!=typeof l||t.push(this.moveCoin(n.color,e+1,r[l]))}}for(let t=0;t<e.ranks.length;t++)this.ranks.push(this.players[e.ranks[t]])}this.emit("start"),await Promise.all(t),e.started?(await this.alert("The game has resumed...",1e3),await this.startTurns()):e.ended&&this.emit("displayResult")}},ce=Boolean(localStorage.getItem("ludo_data"));function de(e){let t,n,r,l,s,c,u,f,$,y,v,w,x,b,S,z,k;return s=new G({props:{code:e[1],i:1}}),u=new G({props:{code:e[1],i:2}}),$=new G({props:{code:e[1],i:3}}),v=new G({props:{code:e[1],i:4}}),{c(){t=d("div"),n=d("div"),r=d("div"),l=d("div"),U(s.$$.fragment),c=p(),U(u.$$.fragment),f=p(),U($.$$.fragment),y=p(),U(v.$$.fragment),h(l,"class","flex flex-wrap"),h(r,"class","prison-inner svelte-1hm0bk8"),g(r,"margin",e[4]+"px"),g(r,"width",e[3]+"px"),g(r,"height",e[3]+"px"),h(n,"class","prison-cover svelte-1hm0bk8"),h(n,"style",w="border-"+ne[e[1]]+"-radius: 8px;"),h(t,"class",x="prison "+(e[0]?"prison-selectable":"")+" svelte-1hm0bk8"),g(t,"width",e[2]+"px"),g(t,"height",e[2]+"px"),g(t,"--color","var(--"+e[1]+"-player)"),h(t,"id",b="prison-"+e[1])},m(a,d){i(a,t,d),o(t,n),o(n,r),o(r,l),O(s,l,null),o(l,c),O(u,l,null),o(l,f),O($,l,null),o(l,y),O(v,l,null),S=!0,z||(k=m(t,"click",e[6]),z=!0)},p(e,[l]){const o={};2&l&&(o.code=e[1]),s.$set(o);const i={};2&l&&(i.code=e[1]),u.$set(i);const a={};2&l&&(a.code=e[1]),$.$set(a);const c={};2&l&&(c.code=e[1]),v.$set(c),(!S||16&l)&&g(r,"margin",e[4]+"px"),(!S||8&l)&&g(r,"width",e[3]+"px"),(!S||8&l)&&g(r,"height",e[3]+"px"),(!S||2&l&&w!==(w="border-"+ne[e[1]]+"-radius: 8px;"))&&h(n,"style",w),(!S||1&l&&x!==(x="prison "+(e[0]?"prison-selectable":"")+" svelte-1hm0bk8"))&&h(t,"class",x),(!S||4&l)&&g(t,"width",e[2]+"px"),(!S||4&l)&&g(t,"height",e[2]+"px"),(!S||2&l)&&g(t,"--color","var(--"+e[1]+"-player)"),(!S||2&l&&b!==(b="prison-"+e[1]))&&h(t,"id",b)},i(e){S||(D(s.$$.fragment,e),D(u.$$.fragment,e),D($.$$.fragment,e),D(v.$$.fragment,e),S=!0)},o(e){M(s.$$.fragment,e),M(u.$$.fragment,e),M($.$$.fragment,e),M(v.$$.fragment,e),S=!1},d(e){e&&a(t),B(s),B(u),B($),B(v),z=!1,k()}}}function ue(e,t,n){let r,l,{code:s,cellSize:o,prisonSize:i,prisonSelectable:a}=t;ae.on(`${s}PrisonSelectable`,(()=>n(0,a=!a)));return e.$$set=e=>{"code"in e&&n(1,s=e.code),"cellSize"in e&&n(5,o=e.cellSize),"prisonSize"in e&&n(2,i=e.prisonSize),"prisonSelectable"in e&&n(0,a=e.prisonSelectable)},e.$$.update=()=>{44&e.$$.dirty&&(n(3,r=2*o+12),n(4,l=(i-r-10)/2))},[a,s,i,r,l,o,()=>{a&&ae.emit(`${s}Select`,"prison")}]}class pe extends Y{constructor(e){super(),j(this,e,ue,de,s,{code:1,cellSize:5,prisonSize:2,prisonSelectable:0})}}function fe(t){let n,r,l;return{c(){n=d("div"),h(n,"class","step svelte-14ca1mg"),h(n,"id",r="step-"+t[0]),h(n,"style",l=t[1]?`background-color: var(--${t[1]}-player);`:"")},m(e,t){i(e,n,t)},p(e,[t]){1&t&&r!==(r="step-"+e[0])&&h(n,"id",r),2&t&&l!==(l=e[1]?`background-color: var(--${e[1]}-player);`:"")&&h(n,"style",l)},i:e,o:e,d(e){e&&a(n)}}}function me(e,t,n){let{i:r}=t,{color:l=null}=t;return e.$$set=e=>{"i"in e&&n(0,r=e.i),"color"in e&&n(1,l=e.color)},[r,l]}class he extends Y{constructor(e){super(),j(this,e,me,fe,s,{i:0,color:1})}}function $e(e,t,n){const r=e.slice();return r[4]=t[n],r[6]=n,r}function ge(e,t,n){const r=e.slice();return r[4]=t[n],r[6]=n,r}function ye(e){let t,n,r,l;t=new he({props:{i:e[1],cellSize:e[0]}});let s=Array(5),o=[];for(let t=0;t<s.length;t+=1)o[t]=we($e(e,s,t));const d=e=>M(o[e],1,1,(()=>{o[e]=null}));return{c(){U(t.$$.fragment),n=p();for(let e=0;e<o.length;e+=1)o[e].c();r=f()},m(e,s){O(t,e,s),i(e,n,s);for(let t=0;t<o.length;t+=1)o[t].m(e,s);i(e,r,s),l=!0},p(e,n){const l={};if(2&n&&(l.i=e[1]),1&n&&(l.cellSize=e[0]),t.$set(l),10&n){let t;for(s=Array(5),t=0;t<s.length;t+=1){const l=$e(e,s,t);o[t]?(o[t].p(l,n),D(o[t],1)):(o[t]=we(l),o[t].c(),D(o[t],1),o[t].m(r.parentNode,r))}for(H(),t=s.length;t<o.length;t+=1)d(t);A()}},i(e){if(!l){D(t.$$.fragment,e);for(let e=0;e<s.length;e+=1)D(o[e]);l=!0}},o(e){M(t.$$.fragment,e),o=o.filter(Boolean);for(let e=0;e<o.length;e+=1)M(o[e]);l=!1},d(e){B(t,e),e&&a(n),c(o,e),e&&a(r)}}}function ve(e){let t,n,r=Array(6),l=[];for(let t=0;t<r.length;t+=1)l[t]=xe(ge(e,r,t));const s=e=>M(l[e],1,1,(()=>{l[e]=null}));return{c(){for(let e=0;e<l.length;e+=1)l[e].c();t=f()},m(e,r){for(let t=0;t<l.length;t+=1)l[t].m(e,r);i(e,t,r),n=!0},p(e,n){if(3&n){let o;for(r=Array(6),o=0;o<r.length;o+=1){const s=ge(e,r,o);l[o]?(l[o].p(s,n),D(l[o],1)):(l[o]=xe(s),l[o].c(),D(l[o],1),l[o].m(t.parentNode,t))}for(H(),o=r.length;o<l.length;o+=1)s(o);A()}},i(e){if(!n){for(let e=0;e<r.length;e+=1)D(l[e]);n=!0}},o(e){l=l.filter(Boolean);for(let e=0;e<l.length;e+=1)M(l[e]);n=!1},d(e){c(l,e),e&&a(t)}}}function we(e){let t,n;return t=new he({props:{i:e[1]+e[6]+1,color:e[3]}}),{c(){U(t.$$.fragment)},m(e,r){O(t,e,r),n=!0},p(e,n){const r={};2&n&&(r.i=e[1]+e[6]+1),8&n&&(r.color=e[3]),t.$set(r)},i(e){n||(D(t.$$.fragment,e),n=!0)},o(e){M(t.$$.fragment,e),n=!1},d(e){B(t,e)}}}function xe(e){let t,n;return t=new he({props:{i:e[1]+e[6],cellSize:e[0]}}),{c(){U(t.$$.fragment)},m(e,r){O(t,e,r),n=!0},p(e,n){const r={};2&n&&(r.i=e[1]+e[6]),1&n&&(r.cellSize=e[0]),t.$set(r)},i(e){n||(D(t.$$.fragment,e),n=!0)},o(e){M(t.$$.fragment,e),n=!1},d(e){B(t,e)}}}function be(e){let t,n,r,l,s;const o=[ve,ye],c=[];function u(e,t){return e[3]?1:0}return n=u(e),r=c[n]=o[n](e),{c(){t=d("div"),r.c(),h(t,"class",l="flex flex-nowrap flex-"+e[2])},m(e,r){i(e,t,r),c[n].m(t,null),s=!0},p(e,[i]){let a=n;n=u(e),n===a?c[n].p(e,i):(H(),M(c[a],1,1,(()=>{c[a]=null})),A(),r=c[n],r?r.p(e,i):(r=c[n]=o[n](e),r.c()),D(r,1),r.m(t,null)),(!s||4&i&&l!==(l="flex flex-nowrap flex-"+e[2]))&&h(t,"class",l)},i(e){s||(D(r),s=!0)},o(e){M(r),s=!1},d(e){e&&a(t),c[n].d()}}}function Se(e,t,n){let{cellSize:r,offsetIndex:l}=t,{flexDirection:s="row"}=t,{color:o=null}=t;return e.$$set=e=>{"cellSize"in e&&n(0,r=e.cellSize),"offsetIndex"in e&&n(1,l=e.offsetIndex),"flexDirection"in e&&n(2,s=e.flexDirection),"color"in e&&n(3,o=e.color)},[r,l,s,o]}class ze extends Y{constructor(e){super(),j(this,e,Se,be,s,{cellSize:0,offsetIndex:1,flexDirection:2,color:3})}}function ke(t){let n;return{c(){n=d("div"),h(n,"class","triangle svelte-1n4h48y"),g(n,"background-color","var(--"+t[0]+"-player)"),g(n,"height",t[1]/2+"px"),g(n,"width",t[1]+"px"),g(n,"margin-top",t[3]+"px"),g(n,"margin-right",t[4]+"px"),g(n,"margin-left",t[5]+"px"),g(n,"margin-bottom",t[6]+"px"),g(n,"--rotate",90*t[2]+"deg")},m(e,t){i(e,n,t)},p(e,[t]){1&t&&g(n,"background-color","var(--"+e[0]+"-player)"),2&t&&g(n,"height",e[1]/2+"px"),2&t&&g(n,"width",e[1]+"px"),8&t&&g(n,"margin-top",e[3]+"px"),16&t&&g(n,"margin-right",e[4]+"px"),32&t&&g(n,"margin-left",e[5]+"px"),64&t&&g(n,"margin-bottom",e[6]+"px"),4&t&&g(n,"--rotate",90*e[2]+"deg")},i:e,o:e,d(e){e&&a(n)}}}function Ce(e,t,n){let{color:r,gameHomeSize:l,i:s}=t,{top:o=0,right:i=0,left:a=0,bottom:c=0}=t;return e.$$set=e=>{"color"in e&&n(0,r=e.color),"gameHomeSize"in e&&n(1,l=e.gameHomeSize),"i"in e&&n(2,s=e.i),"top"in e&&n(3,o=e.top),"right"in e&&n(4,i=e.right),"left"in e&&n(5,a=e.left),"bottom"in e&&n(6,c=e.bottom)},[r,l,s,o,i,a,c]}class Pe extends Y{constructor(e){super(),j(this,e,Ce,ke,s,{color:0,gameHomeSize:1,i:2,top:3,right:4,left:5,bottom:6})}}function Ne(e){let t,n,r,l,s,c,u,f,m,$,y,v,w,x,b,S,z,k,C,P,N,L,T,E,I,R,_,H,A,q,j,Y,F,J,G,W,K,Q,V,X,Z,ee,te,ne,re,le,se,oe,ie,ae;return s=new pe({props:{code:"red",cellSize:e[1],prisonSize:e[2]}}),u=new ze({props:{cellSize:e[1],offsetIndex:1,flexDirection:"column"}}),m=new ze({props:{cellSize:e[1],offsetIndex:7,flexDirection:"column",color:"blue"}}),y=new ze({props:{cellSize:e[1],offsetIndex:13,flexDirection:"column"}}),w=new pe({props:{code:"blue",cellSize:e[1],prisonSize:e[2]}}),z=new ze({props:{cellSize:e[1],offsetIndex:19}}),C=new ze({props:{cellSize:e[1],offsetIndex:25,color:"red"}}),N=new ze({props:{cellSize:e[1],offsetIndex:31}}),I=new Pe({props:{color:"green",i:0,top:e[3]/2,gameHomeSize:e[3]}}),_=new Pe({props:{color:"red",i:1,top:e[3]/4,left:-e[3]/4,gameHomeSize:e[3]}}),A=new Pe({props:{color:"blue",i:2,gameHomeSize:e[3]}}),j=new Pe({props:{color:"yellow",i:3,top:e[3]/4,left:e[3]/4,gameHomeSize:e[3]}}),J=new ze({props:{cellSize:e[1],offsetIndex:37,flexDirection:"row-r"}}),W=new ze({props:{cellSize:e[1],offsetIndex:43,flexDirection:"row-r",color:"yellow"}}),Q=new ze({props:{cellSize:e[1],offsetIndex:49,flexDirection:"row-r"}}),Z=new pe({props:{code:"green",cellSize:e[1],prisonSize:e[2]}}),te=new ze({props:{cellSize:e[1],offsetIndex:55,flexDirection:"column-r"}}),re=new ze({props:{cellSize:e[1],offsetIndex:61,flexDirection:"column-r",color:"green"}}),se=new ze({props:{cellSize:e[1],offsetIndex:67,flexDirection:"column-r"}}),ie=new pe({props:{code:"yellow",cellSize:e[1],prisonSize:e[2]}}),{c(){t=d("div"),n=d("div"),r=d("div"),l=d("div"),U(s.$$.fragment),c=p(),U(u.$$.fragment),f=p(),U(m.$$.fragment),$=p(),U(y.$$.fragment),v=p(),U(w.$$.fragment),x=p(),b=d("div"),S=d("div"),U(z.$$.fragment),k=p(),U(C.$$.fragment),P=p(),U(N.$$.fragment),L=p(),T=d("div"),E=d("div"),U(I.$$.fragment),R=p(),U(_.$$.fragment),H=p(),U(A.$$.fragment),q=p(),U(j.$$.fragment),Y=p(),F=d("div"),U(J.$$.fragment),G=p(),U(W.$$.fragment),K=p(),U(Q.$$.fragment),V=p(),X=d("div"),U(Z.$$.fragment),ee=p(),U(te.$$.fragment),ne=p(),U(re.$$.fragment),le=p(),U(se.$$.fragment),oe=p(),U(ie.$$.fragment),h(l,"class","flex flex-nowrap"),g(E,"z-index","6"),g(T,"width",e[3]+"px"),h(T,"class","game-home svelte-18xkrso"),h(b,"class","flex flex-nowrap"),h(X,"class","flex flex-nowrap"),h(r,"class","board-inner w-full"),h(n,"class","board w-full h-full svelte-18xkrso"),h(t,"class","board-wrapper svelte-18xkrso"),g(t,"--board-width",e[0]+"px"),g(t,"--board-height",e[0]+"px"),g(t,"--cell-size",e[1]+"px")},m(e,a){i(e,t,a),o(t,n),o(n,r),o(r,l),O(s,l,null),o(l,c),O(u,l,null),o(l,f),O(m,l,null),o(l,$),O(y,l,null),o(l,v),O(w,l,null),o(r,x),o(r,b),o(b,S),O(z,S,null),o(S,k),O(C,S,null),o(S,P),O(N,S,null),o(b,L),o(b,T),o(T,E),O(I,E,null),o(E,R),O(_,E,null),o(E,H),O(A,E,null),o(E,q),O(j,E,null),o(b,Y),o(b,F),O(J,F,null),o(F,G),O(W,F,null),o(F,K),O(Q,F,null),o(r,V),o(r,X),O(Z,X,null),o(X,ee),O(te,X,null),o(X,ne),O(re,X,null),o(X,le),O(se,X,null),o(X,oe),O(ie,X,null),ae=!0},p(e,[n]){const r={};2&n&&(r.cellSize=e[1]),4&n&&(r.prisonSize=e[2]),s.$set(r);const l={};2&n&&(l.cellSize=e[1]),u.$set(l);const o={};2&n&&(o.cellSize=e[1]),m.$set(o);const i={};2&n&&(i.cellSize=e[1]),y.$set(i);const a={};2&n&&(a.cellSize=e[1]),4&n&&(a.prisonSize=e[2]),w.$set(a);const c={};2&n&&(c.cellSize=e[1]),z.$set(c);const d={};2&n&&(d.cellSize=e[1]),C.$set(d);const p={};2&n&&(p.cellSize=e[1]),N.$set(p);const f={};8&n&&(f.top=e[3]/2),8&n&&(f.gameHomeSize=e[3]),I.$set(f);const h={};8&n&&(h.top=e[3]/4),8&n&&(h.left=-e[3]/4),8&n&&(h.gameHomeSize=e[3]),_.$set(h);const $={};8&n&&($.gameHomeSize=e[3]),A.$set($);const v={};8&n&&(v.top=e[3]/4),8&n&&(v.left=e[3]/4),8&n&&(v.gameHomeSize=e[3]),j.$set(v),(!ae||8&n)&&g(T,"width",e[3]+"px");const x={};2&n&&(x.cellSize=e[1]),J.$set(x);const b={};2&n&&(b.cellSize=e[1]),W.$set(b);const S={};2&n&&(S.cellSize=e[1]),Q.$set(S);const k={};2&n&&(k.cellSize=e[1]),4&n&&(k.prisonSize=e[2]),Z.$set(k);const P={};2&n&&(P.cellSize=e[1]),te.$set(P);const L={};2&n&&(L.cellSize=e[1]),re.$set(L);const E={};2&n&&(E.cellSize=e[1]),se.$set(E);const R={};2&n&&(R.cellSize=e[1]),4&n&&(R.prisonSize=e[2]),ie.$set(R),(!ae||1&n)&&g(t,"--board-width",e[0]+"px"),(!ae||1&n)&&g(t,"--board-height",e[0]+"px"),(!ae||2&n)&&g(t,"--cell-size",e[1]+"px")},i(e){ae||(D(s.$$.fragment,e),D(u.$$.fragment,e),D(m.$$.fragment,e),D(y.$$.fragment,e),D(w.$$.fragment,e),D(z.$$.fragment,e),D(C.$$.fragment,e),D(N.$$.fragment,e),D(I.$$.fragment,e),D(_.$$.fragment,e),D(A.$$.fragment,e),D(j.$$.fragment,e),D(J.$$.fragment,e),D(W.$$.fragment,e),D(Q.$$.fragment,e),D(Z.$$.fragment,e),D(te.$$.fragment,e),D(re.$$.fragment,e),D(se.$$.fragment,e),D(ie.$$.fragment,e),ae=!0)},o(e){M(s.$$.fragment,e),M(u.$$.fragment,e),M(m.$$.fragment,e),M(y.$$.fragment,e),M(w.$$.fragment,e),M(z.$$.fragment,e),M(C.$$.fragment,e),M(N.$$.fragment,e),M(I.$$.fragment,e),M(_.$$.fragment,e),M(A.$$.fragment,e),M(j.$$.fragment,e),M(J.$$.fragment,e),M(W.$$.fragment,e),M(Q.$$.fragment,e),M(Z.$$.fragment,e),M(te.$$.fragment,e),M(re.$$.fragment,e),M(se.$$.fragment,e),M(ie.$$.fragment,e),ae=!1},d(e){e&&a(t),B(s),B(u),B(m),B(y),B(w),B(z),B(C),B(N),B(I),B(_),B(A),B(j),B(J),B(W),B(Q),B(Z),B(te),B(re),B(se),B(ie)}}}function Le(e,t,n){let r,l,s,o;function i(){let e=document.getElementById("wrap");n(0,r=Math.min(e.clientHeight,e.clientWidth))}return x((()=>{i(),ae.onWindowLoad(),window.addEventListener("resize",i)})),e.$$.update=()=>{3&e.$$.dirty&&(n(1,l=(r-70)/15),n(2,s=6*l+24),n(3,o=3*l+8))},[r,l,s,o]}class Te extends Y{constructor(e){super(),j(this,e,Le,Ne,s,{})}}function Ee(e){let t,n,r,l,s,c,f,y,v,w,x,b,S,z,k,C,P,N,L,T,E,I,R,_,H,A,D,M,U,O,B,q,j,Y,F=e[3].coinsOutside+"",J=e[3].coinsAtStart+"",G=e[3].coinsReached+"",W=e[3].kills+"",K=!e[1]&&e[2]&&Ie(e);function Q(e,t){return e[4]?_e:e[3].rank?Re:void 0}let V=Q(e),X=V&&V(e);return{c(){t=d("div"),n=d("div"),r=d("input"),c=p(),f=d("div"),y=d("p"),y.textContent="Coins Outside:",v=p(),w=d("p"),x=u(F),b=d("br"),S=p(),z=d("p"),z.textContent="Coins At Start:",k=p(),C=d("p"),P=u(J),N=d("br"),L=p(),T=d("p"),T.textContent="Coins Reached:",E=p(),I=d("p"),R=u(G),_=d("br"),H=p(),A=d("p"),A.textContent="Kills:",D=p(),M=d("p"),U=u(W),O=d("br"),B=p(),K&&K.c(),q=p(),X&&X.c(),h(r,"class","player-input svelte-14sxb61"),h(r,"type","text"),r.value=l=e[3].name.slice(0,10),r.readOnly=s=!e[2],h(n,"class","head"),g(n,"background-color","var(--"+e[0]+"-player)"),h(y,"class","inline-block strong svelte-14sxb61"),h(w,"class","inline-block svelte-14sxb61"),h(z,"class","inline-block strong svelte-14sxb61"),h(C,"class","inline-block svelte-14sxb61"),h(T,"class","inline-block strong svelte-14sxb61"),h(I,"class","inline-block svelte-14sxb61"),h(A,"class","inline-block strong svelte-14sxb61"),h(M,"class","inline-block svelte-14sxb61"),h(f,"class","foot"),h(t,"class","player-tab svelte-14sxb61")},m(l,s){i(l,t,s),o(t,n),o(n,r),o(t,c),o(t,f),o(f,y),o(f,v),o(f,w),o(w,x),o(f,b),o(f,S),o(f,z),o(f,k),o(f,C),o(C,P),o(f,N),o(f,L),o(f,T),o(f,E),o(f,I),o(I,R),o(f,_),o(f,H),o(f,A),o(f,D),o(f,M),o(M,U),o(f,O),o(f,B),K&&K.m(f,null),o(f,q),X&&X.m(f,null),j||(Y=m(r,"blur",e[6]),j=!0)},p(e,t){8&t&&l!==(l=e[3].name.slice(0,10))&&r.value!==l&&(r.value=l),4&t&&s!==(s=!e[2])&&(r.readOnly=s),1&t&&g(n,"background-color","var(--"+e[0]+"-player)"),8&t&&F!==(F=e[3].coinsOutside+"")&&$(x,F),8&t&&J!==(J=e[3].coinsAtStart+"")&&$(P,J),8&t&&G!==(G=e[3].coinsReached+"")&&$(R,G),8&t&&W!==(W=e[3].kills+"")&&$(U,W),!e[1]&&e[2]?K?K.p(e,t):(K=Ie(e),K.c(),K.m(f,q)):K&&(K.d(1),K=null),V===(V=Q(e))&&X?X.p(e,t):(X&&X.d(1),X=V&&V(e),X&&(X.c(),X.m(f,null)))},d(e){e&&a(t),K&&K.d(),X&&X.d(),j=!1,Y()}}}function Ie(e){let t,n,r,l,s,c,p=e[3].type.toProperCase()+"";return{c(){t=d("a"),n=u("Remove "),r=u(p),l=u("?"),h(t,"href","#wrap")},m(a,d){i(a,t,d),o(t,n),o(t,r),o(t,l),s||(c=m(t,"click",e[5]),s=!0)},p(e,t){8&t&&p!==(p=e[3].type.toProperCase()+"")&&$(r,p)},d(e){e&&a(t),s=!1,c()}}}function Re(e){let t,n,r,l=ie(e[3].rank)+"";return{c(){t=d("p"),n=u(l),r=u(" Place"),h(t,"class","turn-label svelte-14sxb61")},m(e,l){i(e,t,l),o(t,n),o(t,r)},p(e,t){8&t&&l!==(l=ie(e[3].rank)+"")&&$(n,l)},d(e){e&&a(t)}}}function _e(t){let n;return{c(){n=d("p"),n.textContent="CURRENT TURN",h(n,"class","turn-label svelte-14sxb61")},m(e,t){i(e,n,t)},p:e,d(e){e&&a(n)}}}function He(t){let n,r=!t[3].isNull&&Ee(t);return{c(){r&&r.c(),n=f()},m(e,t){r&&r.m(e,t),i(e,n,t)},p(e,[t]){e[3].isNull?r&&(r.d(1),r=null):r?r.p(e,t):(r=Ee(e),r.c(),r.m(n.parentNode,n))},i:e,o:e,d(e){r&&r.d(e),e&&a(n)}}}function Ae(e,t,n){let{color:r,started:l}=t,{editable:s=!0}=t,o=ae.players[r],i=!1;s&&(ae.on(`${r}Update`,(()=>n(3,o=ae.players[r]))),ae.on("turn",(e=>n(4,i=e==r))));return e.$$set=e=>{"color"in e&&n(0,r=e.color),"started"in e&&n(1,l=e.started),"editable"in e&&n(2,s=e.editable)},[r,l,s,o,i,function(){ae.deletePlayer(r)||ae.alert("You cannot remove yourself from the game!")},e=>{s&&(ae.updatePlayerName(r,e.target.value),ae.alert("Name updated",1e3))}]}class De extends Y{constructor(e){super(),j(this,e,Ae,He,s,{color:0,started:1,editable:2})}}function Me(t){let n,l,s,c,u,f,$,y,v;return{c(){n=d("div"),l=d("div"),l.innerHTML='<h3 class="svelte-4moyru">Add</h3>',s=p(),c=d("div"),u=d("a"),u.textContent="Add Player?",f=p(),$=d("a"),$.textContent="Add Bot?",h(l,"class","head"),g(l,"background-color","var(--dull-player)"),h(u,"href","#wrap"),h($,"href","#wrap"),h(c,"class","foot"),h(n,"class","player-tab svelte-4moyru")},m(e,r){i(e,n,r),o(n,l),o(n,s),o(n,c),o(c,u),o(c,f),o(c,$),y||(v=[m(u,"click",t[2]),m($,"click",t[3])],y=!0)},p:e,d(e){e&&a(n),y=!1,r(v)}}}function Ue(t){let n,r=!t[0]&&t[1]&&Me(t);return{c(){r&&r.c(),n=f()},m(e,t){r&&r.m(e,t),i(e,n,t)},p(e,[t]){!e[0]&&e[1]?r?r.p(e,t):(r=Me(e),r.c(),r.m(n.parentNode,n)):r&&(r.d(1),r=null)},i:e,o:e,d(e){r&&r.d(e),e&&a(n)}}}function Oe(e,t,n){let{started:r}=t,l=4!=ae.playerCount;ae.on("playerCountUpdate",(()=>n(1,l=4!=ae.playerCount)));return e.$$set=e=>{"started"in e&&n(0,r=e.started)},[r,l,()=>{ae.createPlayer()||ae.alert("Player limit has been reached...")},()=>{ae.createPlayer(!0)||ae.alert("Player limit has been reached...")}]}class Be extends Y{constructor(e){super(),j(this,e,Oe,Ue,s,{started:0})}}function qe(e,t,n){const r=e.slice();return r[3]=t[n],r[5]=n,r}function je(t){let n,r,l,s,u,f,$,g,y,v,w,x,b,S,z=ae.ranks.length&&function(t){let n;return{c(){n=d("p"),n.textContent=`${ae.ranks[0].name} has won the game!`,h(n,"class","svelte-czy7cr")},m(e,t){i(e,n,t)},p:e,d(e){e&&a(n)}}}(),k=ae.ranks,C=[];for(let e=0;e<k.length;e+=1)C[e]=Ye(qe(t,k,e));const P=e=>M(C[e],1,1,(()=>{C[e]=null}));return{c(){n=d("div"),r=p(),l=d("div"),s=d("h3"),s.textContent="Result",u=p(),z&&z.c(),f=p(),$=d("h5"),$.textContent="Rankings",g=p(),y=d("div");for(let e=0;e<C.length;e+=1)C[e].c();v=p(),w=d("a"),w.textContent="Close Tab",h(n,"class","result-wrap svelte-czy7cr"),h(s,"class","svelte-czy7cr"),h($,"class","svelte-czy7cr"),h(y,"class","result-players-tab svelte-czy7cr"),h(w,"href","#wrap"),h(w,"class","svelte-czy7cr"),h(l,"class","result-tab svelte-czy7cr")},m(e,a){i(e,n,a),i(e,r,a),i(e,l,a),o(l,s),o(l,u),z&&z.m(l,null),o(l,f),o(l,$),o(l,g),o(l,y);for(let e=0;e<C.length;e+=1)C[e].m(y,null);o(l,v),o(l,w),x=!0,b||(S=m(w,"click",t[2]),b=!0)},p(e,t){if(ae.ranks.length&&z.p(e,t),1&t){let n;for(k=ae.ranks,n=0;n<k.length;n+=1){const r=qe(e,k,n);C[n]?(C[n].p(r,t),D(C[n],1)):(C[n]=Ye(r),C[n].c(),D(C[n],1),C[n].m(y,null))}for(H(),n=k.length;n<C.length;n+=1)P(n);A()}},i(e){if(!x){for(let e=0;e<k.length;e+=1)D(C[e]);x=!0}},o(e){C=C.filter(Boolean);for(let e=0;e<C.length;e+=1)M(C[e]);x=!1},d(e){e&&a(n),e&&a(r),e&&a(l),z&&z.d(),c(C,e),b=!1,S()}}}function Ye(e){let t,n;return t=new De({props:{color:e[3].color,editable:!1,started:e[0]}}),{c(){U(t.$$.fragment)},m(e,r){O(t,e,r),n=!0},p(e,n){const r={};1&n&&(r.started=e[0]),t.$set(r)},i(e){n||(D(t.$$.fragment,e),n=!0)},o(e){M(t.$$.fragment,e),n=!1},d(e){B(t,e)}}}function Fe(e){let t,n,r=e[1]&&je(e);return{c(){r&&r.c(),t=f()},m(e,l){r&&r.m(e,l),i(e,t,l),n=!0},p(e,[n]){e[1]?r?(r.p(e,n),2&n&&D(r,1)):(r=je(e),r.c(),D(r,1),r.m(t.parentNode,t)):r&&(H(),M(r,1,1,(()=>{r=null})),A())},i(e){n||(D(r),n=!0)},o(e){M(r),n=!1},d(e){r&&r.d(e),e&&a(t)}}}function Je(e,t,n){let{started:r}=t,l=!1;ae.on("displayResult",(()=>n(1,l=!0)));return e.$$set=e=>{"started"in e&&n(0,r=e.started)},[r,l,()=>n(1,l=!1)]}class Ge extends Y{constructor(e){super(),j(this,e,Je,Fe,s,{started:0})}}function We(t){let n,l,s,o,c,u,f;return{c(){n=d("a"),n.textContent="Roll Dice",l=p(),s=d("a"),s.textContent="Save Game",o=p(),c=d("a"),c.textContent="New Game",h(n,"class","player-tab-btn svelte-18qy2fy"),h(n,"href","#wrap"),h(s,"class","player-tab-btn svelte-18qy2fy"),h(s,"href","#wrap"),h(c,"class","player-tab-btn svelte-18qy2fy"),h(c,"href","#wrap")},m(e,r){i(e,n,r),i(e,l,r),i(e,s,r),i(e,o,r),i(e,c,r),u||(f=[m(n,"click",t[6]),m(s,"click",t[7]),m(c,"click",t[8])],u=!0)},p:e,d(e){e&&a(n),e&&a(l),e&&a(s),e&&a(o),e&&a(c),u=!1,r(f)}}}function Ke(t){let n,r,l,s,o,c,u=ce&&function(t){let n,r,l;return{c(){n=d("a"),n.textContent="Resume Game",h(n,"class","player-tab-btn svelte-18qy2fy"),h(n,"href","#wrap")},m(e,s){i(e,n,s),r||(l=m(n,"click",t[4]),r=!0)},p:e,d(e){e&&a(n),r=!1,l()}}}(t),$=t[1]&&Qe(t);return{c(){n=d("a"),n.textContent="New Game",r=p(),u&&u.c(),l=p(),$&&$.c(),s=f(),h(n,"class","player-tab-btn svelte-18qy2fy"),h(n,"href","#wrap")},m(e,a){i(e,n,a),i(e,r,a),u&&u.m(e,a),i(e,l,a),$&&$.m(e,a),i(e,s,a),o||(c=m(n,"click",t[3]),o=!0)},p(e,t){ce&&u.p(e,t),e[1]?$?$.p(e,t):($=Qe(e),$.c(),$.m(s.parentNode,s)):$&&($.d(1),$=null)},d(e){e&&a(n),e&&a(r),u&&u.d(e),e&&a(l),$&&$.d(e),e&&a(s),o=!1,c()}}}function Qe(t){let n,r,l;return{c(){n=d("a"),n.textContent="Results",h(n,"class","player-tab-btn svelte-18qy2fy"),h(n,"href","#wrap")},m(e,s){i(e,n,s),r||(l=m(n,"click",t[5]),r=!0)},p:e,d(e){e&&a(n),r=!1,l()}}}function Ve(e){let t,n,r,l,s,c,u,f,m,$,g,v,w,x,b,S,z,k,C,P,N;function L(e,t){return e[2]?We:Ke}r=new Ge({props:{started:e[2]}}),c=new Te({}),$=new De({props:{color:"red",started:e[2]}}),v=new De({props:{color:"yellow",started:e[2]}}),x=new De({props:{color:"blue",started:e[2]}}),S=new De({props:{color:"green",started:e[2]}}),k=new Be({props:{started:e[2]}});let T=L(e),E=T(e);return{c(){t=d("div"),n=p(),U(r.$$.fragment),l=p(),s=d("div"),U(c.$$.fragment),u=p(),f=d("div"),m=d("div"),U($.$$.fragment),g=p(),U(v.$$.fragment),w=p(),U(x.$$.fragment),b=p(),U(S.$$.fragment),z=p(),U(k.$$.fragment),C=p(),P=d("div"),E.c(),h(t,"class","wrap svelte-18qy2fy"),h(t,"id","wrap"),h(m,"class","flex flex-wrap"),h(P,"class","flex flex-wrap"),h(f,"class","players-tab svelte-18qy2fy"),h(s,"class","flex svelte-18qy2fy"),y(s,"mobile-view",e[0])},m(e,a){i(e,t,a),i(e,n,a),O(r,e,a),i(e,l,a),i(e,s,a),O(c,s,null),o(s,u),o(s,f),o(f,m),O($,m,null),o(m,g),O(v,m,null),o(m,w),O(x,m,null),o(m,b),O(S,m,null),o(m,z),O(k,m,null),o(f,C),o(f,P),E.m(P,null),N=!0},p(e,[t]){const n={};4&t&&(n.started=e[2]),r.$set(n);const l={};4&t&&(l.started=e[2]),$.$set(l);const o={};4&t&&(o.started=e[2]),v.$set(o);const i={};4&t&&(i.started=e[2]),x.$set(i);const a={};4&t&&(a.started=e[2]),S.$set(a);const c={};4&t&&(c.started=e[2]),k.$set(c),T===(T=L(e))&&E?E.p(e,t):(E.d(1),E=T(e),E&&(E.c(),E.m(P,null))),1&t&&y(s,"mobile-view",e[0])},i(e){N||(D(r.$$.fragment,e),D(c.$$.fragment,e),D($.$$.fragment,e),D(v.$$.fragment,e),D(x.$$.fragment,e),D(S.$$.fragment,e),D(k.$$.fragment,e),N=!0)},o(e){M(r.$$.fragment,e),M(c.$$.fragment,e),M($.$$.fragment,e),M(v.$$.fragment,e),M(x.$$.fragment,e),M(S.$$.fragment,e),M(k.$$.fragment,e),N=!1},d(e){e&&a(t),e&&a(n),B(r,e),e&&a(l),e&&a(s),B(c),B($),B(v),B(x),B(S),B(k),E.d()}}}function Xe(e,t,n){let r=!1,l=!1,s=ae.started;function o(){let e=document.getElementById("wrap");n(0,r=e.clientWidth<2*e.clientHeight)}ae.on("start",(()=>n(2,s=!0))),ae.on("canDisplayResults",(()=>n(1,l=!0))),ae.on("end",(()=>{n(1,l=!0),ae.emit("displayResult")})),x((()=>{o(),window.addEventListener("resize",o)}));return[r,l,s,async()=>{if(ce&&!confirm("Are you sure? Your old game data might be deleted!"))return;await ae.start(!0)||ae.alert("Minimum two players are required.",1e3)},()=>ae.startFromSaved(),()=>ae.emit("displayResult"),()=>ae.emit("diceRoll"),()=>ae.save(),()=>{confirm("Are you sure? Your old game data might be deleted!")&&(ae.clearSaved(),window.location.href="?game")}]}class Ze extends Y{constructor(e){super(),j(this,e,Xe,Ve,s,{})}}function et(t){let n;return{c(){n=d("div"),n.innerHTML='<h1 class="m-0 svelte-rpam97">Ludo</h1> \n\t\t<p class="m-0 svelte-rpam97">A site built in svelte to play singleplayer ludo for fun even with bots!</p> \n\n\t\t<a href="?game" class="cover-btn svelte-rpam97">Lets play!</a> \n\t\t<p class="credits m-0 svelte-rpam97">Made by <a href="https://github.com/scientific-dev" class="svelte-rpam97">scientific-dev</a></p>',h(n,"class","cover svelte-rpam97")},m(e,t){i(e,n,t)},i:e,o:e,d(e){e&&a(n)}}}function tt(e){let t,n;return t=new Ze({}),{c(){U(t.$$.fragment)},m(e,r){O(t,e,r),n=!0},i(e){n||(D(t.$$.fragment,e),n=!0)},o(e){M(t.$$.fragment,e),n=!1},d(e){B(t,e)}}}function nt(t){let n,r,l,s,o,c;const u=[tt,et],m=[];return l=function(e,t){return e[0]?0:1}(t),s=m[l]=u[l](t),{c(){n=d("div"),r=p(),s.c(),o=f(),h(n,"class","bg-cover svelte-rpam97")},m(e,t){i(e,n,t),i(e,r,t),m[l].m(e,t),i(e,o,t),c=!0},p:e,i(e){c||(D(s),c=!0)},o(e){M(s),c=!1},d(e){e&&a(n),e&&a(r),m[l].d(e),e&&a(o)}}}function rt(e){return[new URLSearchParams(window.location.search).has("game")]}return new class extends Y{constructor(e){super(),j(this,e,rt,nt,s,{})}}({target:document.body})}();
+
+(function(l, r) { if (!l || l.getElementById('livereloadscript')) return; r = l.createElement('script'); r.async = 1; r.src = '//' + (self.location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1'; r.id = 'livereloadscript'; l.getElementsByTagName('head')[0].appendChild(r) })(self.document);
+var app = (function () {
+    'use strict';
+
+    function noop() { }
+    function add_location(element, file, line, column, char) {
+        element.__svelte_meta = {
+            loc: { file, line, column, char }
+        };
+    }
+    function run(fn) {
+        return fn();
+    }
+    function blank_object() {
+        return Object.create(null);
+    }
+    function run_all(fns) {
+        fns.forEach(run);
+    }
+    function is_function(thing) {
+        return typeof thing === 'function';
+    }
+    function safe_not_equal(a, b) {
+        return a != a ? b == b : a !== b || ((a && typeof a === 'object') || typeof a === 'function');
+    }
+    function is_empty(obj) {
+        return Object.keys(obj).length === 0;
+    }
+    function append(target, node) {
+        target.appendChild(node);
+    }
+    function insert(target, node, anchor) {
+        target.insertBefore(node, anchor || null);
+    }
+    function detach(node) {
+        node.parentNode.removeChild(node);
+    }
+    function destroy_each(iterations, detaching) {
+        for (let i = 0; i < iterations.length; i += 1) {
+            if (iterations[i])
+                iterations[i].d(detaching);
+        }
+    }
+    function element(name) {
+        return document.createElement(name);
+    }
+    function text(data) {
+        return document.createTextNode(data);
+    }
+    function space() {
+        return text(' ');
+    }
+    function empty() {
+        return text('');
+    }
+    function listen(node, event, handler, options) {
+        node.addEventListener(event, handler, options);
+        return () => node.removeEventListener(event, handler, options);
+    }
+    function attr(node, attribute, value) {
+        if (value == null)
+            node.removeAttribute(attribute);
+        else if (node.getAttribute(attribute) !== value)
+            node.setAttribute(attribute, value);
+    }
+    function children(element) {
+        return Array.from(element.childNodes);
+    }
+    function set_style(node, key, value, important) {
+        node.style.setProperty(key, value, important ? 'important' : '');
+    }
+    function toggle_class(element, name, toggle) {
+        element.classList[toggle ? 'add' : 'remove'](name);
+    }
+    function custom_event(type, detail, bubbles = false) {
+        const e = document.createEvent('CustomEvent');
+        e.initCustomEvent(type, bubbles, false, detail);
+        return e;
+    }
+
+    let current_component;
+    function set_current_component(component) {
+        current_component = component;
+    }
+    function get_current_component() {
+        if (!current_component)
+            throw new Error('Function called outside component initialization');
+        return current_component;
+    }
+    function onMount(fn) {
+        get_current_component().$$.on_mount.push(fn);
+    }
+
+    const dirty_components = [];
+    const binding_callbacks = [];
+    const render_callbacks = [];
+    const flush_callbacks = [];
+    const resolved_promise = Promise.resolve();
+    let update_scheduled = false;
+    function schedule_update() {
+        if (!update_scheduled) {
+            update_scheduled = true;
+            resolved_promise.then(flush);
+        }
+    }
+    function add_render_callback(fn) {
+        render_callbacks.push(fn);
+    }
+    // flush() calls callbacks in this order:
+    // 1. All beforeUpdate callbacks, in order: parents before children
+    // 2. All bind:this callbacks, in reverse order: children before parents.
+    // 3. All afterUpdate callbacks, in order: parents before children. EXCEPT
+    //    for afterUpdates called during the initial onMount, which are called in
+    //    reverse order: children before parents.
+    // Since callbacks might update component values, which could trigger another
+    // call to flush(), the following steps guard against this:
+    // 1. During beforeUpdate, any updated components will be added to the
+    //    dirty_components array and will cause a reentrant call to flush(). Because
+    //    the flush index is kept outside the function, the reentrant call will pick
+    //    up where the earlier call left off and go through all dirty components. The
+    //    current_component value is saved and restored so that the reentrant call will
+    //    not interfere with the "parent" flush() call.
+    // 2. bind:this callbacks cannot trigger new flush() calls.
+    // 3. During afterUpdate, any updated components will NOT have their afterUpdate
+    //    callback called a second time; the seen_callbacks set, outside the flush()
+    //    function, guarantees this behavior.
+    const seen_callbacks = new Set();
+    let flushidx = 0; // Do *not* move this inside the flush() function
+    function flush() {
+        const saved_component = current_component;
+        do {
+            // first, call beforeUpdate functions
+            // and update components
+            while (flushidx < dirty_components.length) {
+                const component = dirty_components[flushidx];
+                flushidx++;
+                set_current_component(component);
+                update(component.$$);
+            }
+            set_current_component(null);
+            dirty_components.length = 0;
+            flushidx = 0;
+            while (binding_callbacks.length)
+                binding_callbacks.pop()();
+            // then, once components are updated, call
+            // afterUpdate functions. This may cause
+            // subsequent updates...
+            for (let i = 0; i < render_callbacks.length; i += 1) {
+                const callback = render_callbacks[i];
+                if (!seen_callbacks.has(callback)) {
+                    // ...so guard against infinite loops
+                    seen_callbacks.add(callback);
+                    callback();
+                }
+            }
+            render_callbacks.length = 0;
+        } while (dirty_components.length);
+        while (flush_callbacks.length) {
+            flush_callbacks.pop()();
+        }
+        update_scheduled = false;
+        seen_callbacks.clear();
+        set_current_component(saved_component);
+    }
+    function update($$) {
+        if ($$.fragment !== null) {
+            $$.update();
+            run_all($$.before_update);
+            const dirty = $$.dirty;
+            $$.dirty = [-1];
+            $$.fragment && $$.fragment.p($$.ctx, dirty);
+            $$.after_update.forEach(add_render_callback);
+        }
+    }
+    const outroing = new Set();
+    let outros;
+    function group_outros() {
+        outros = {
+            r: 0,
+            c: [],
+            p: outros // parent group
+        };
+    }
+    function check_outros() {
+        if (!outros.r) {
+            run_all(outros.c);
+        }
+        outros = outros.p;
+    }
+    function transition_in(block, local) {
+        if (block && block.i) {
+            outroing.delete(block);
+            block.i(local);
+        }
+    }
+    function transition_out(block, local, detach, callback) {
+        if (block && block.o) {
+            if (outroing.has(block))
+                return;
+            outroing.add(block);
+            outros.c.push(() => {
+                outroing.delete(block);
+                if (callback) {
+                    if (detach)
+                        block.d(1);
+                    callback();
+                }
+            });
+            block.o(local);
+        }
+    }
+    function create_component(block) {
+        block && block.c();
+    }
+    function mount_component(component, target, anchor, customElement) {
+        const { fragment, on_mount, on_destroy, after_update } = component.$$;
+        fragment && fragment.m(target, anchor);
+        if (!customElement) {
+            // onMount happens before the initial afterUpdate
+            add_render_callback(() => {
+                const new_on_destroy = on_mount.map(run).filter(is_function);
+                if (on_destroy) {
+                    on_destroy.push(...new_on_destroy);
+                }
+                else {
+                    // Edge case - component was destroyed immediately,
+                    // most likely as a result of a binding initialising
+                    run_all(new_on_destroy);
+                }
+                component.$$.on_mount = [];
+            });
+        }
+        after_update.forEach(add_render_callback);
+    }
+    function destroy_component(component, detaching) {
+        const $$ = component.$$;
+        if ($$.fragment !== null) {
+            run_all($$.on_destroy);
+            $$.fragment && $$.fragment.d(detaching);
+            // TODO null out other refs, including component.$$ (but need to
+            // preserve final state?)
+            $$.on_destroy = $$.fragment = null;
+            $$.ctx = [];
+        }
+    }
+    function make_dirty(component, i) {
+        if (component.$$.dirty[0] === -1) {
+            dirty_components.push(component);
+            schedule_update();
+            component.$$.dirty.fill(0);
+        }
+        component.$$.dirty[(i / 31) | 0] |= (1 << (i % 31));
+    }
+    function init(component, options, instance, create_fragment, not_equal, props, append_styles, dirty = [-1]) {
+        const parent_component = current_component;
+        set_current_component(component);
+        const $$ = component.$$ = {
+            fragment: null,
+            ctx: null,
+            // state
+            props,
+            update: noop,
+            not_equal,
+            bound: blank_object(),
+            // lifecycle
+            on_mount: [],
+            on_destroy: [],
+            on_disconnect: [],
+            before_update: [],
+            after_update: [],
+            context: new Map(options.context || (parent_component ? parent_component.$$.context : [])),
+            // everything else
+            callbacks: blank_object(),
+            dirty,
+            skip_bound: false,
+            root: options.target || parent_component.$$.root
+        };
+        append_styles && append_styles($$.root);
+        let ready = false;
+        $$.ctx = instance
+            ? instance(component, options.props || {}, (i, ret, ...rest) => {
+                const value = rest.length ? rest[0] : ret;
+                if ($$.ctx && not_equal($$.ctx[i], $$.ctx[i] = value)) {
+                    if (!$$.skip_bound && $$.bound[i])
+                        $$.bound[i](value);
+                    if (ready)
+                        make_dirty(component, i);
+                }
+                return ret;
+            })
+            : [];
+        $$.update();
+        ready = true;
+        run_all($$.before_update);
+        // `false` as a special case of no DOM component
+        $$.fragment = create_fragment ? create_fragment($$.ctx) : false;
+        if (options.target) {
+            if (options.hydrate) {
+                const nodes = children(options.target);
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                $$.fragment && $$.fragment.l(nodes);
+                nodes.forEach(detach);
+            }
+            else {
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                $$.fragment && $$.fragment.c();
+            }
+            if (options.intro)
+                transition_in(component.$$.fragment);
+            mount_component(component, options.target, options.anchor, options.customElement);
+            flush();
+        }
+        set_current_component(parent_component);
+    }
+    /**
+     * Base class for Svelte components. Used when dev=false.
+     */
+    class SvelteComponent {
+        $destroy() {
+            destroy_component(this, 1);
+            this.$destroy = noop;
+        }
+        $on(type, callback) {
+            const callbacks = (this.$$.callbacks[type] || (this.$$.callbacks[type] = []));
+            callbacks.push(callback);
+            return () => {
+                const index = callbacks.indexOf(callback);
+                if (index !== -1)
+                    callbacks.splice(index, 1);
+            };
+        }
+        $set($$props) {
+            if (this.$$set && !is_empty($$props)) {
+                this.$$.skip_bound = true;
+                this.$$set($$props);
+                this.$$.skip_bound = false;
+            }
+        }
+    }
+
+    function dispatch_dev(type, detail) {
+        document.dispatchEvent(custom_event(type, Object.assign({ version: '3.44.3' }, detail), true));
+    }
+    function append_dev(target, node) {
+        dispatch_dev('SvelteDOMInsert', { target, node });
+        append(target, node);
+    }
+    function insert_dev(target, node, anchor) {
+        dispatch_dev('SvelteDOMInsert', { target, node, anchor });
+        insert(target, node, anchor);
+    }
+    function detach_dev(node) {
+        dispatch_dev('SvelteDOMRemove', { node });
+        detach(node);
+    }
+    function listen_dev(node, event, handler, options, has_prevent_default, has_stop_propagation) {
+        const modifiers = options === true ? ['capture'] : options ? Array.from(Object.keys(options)) : [];
+        if (has_prevent_default)
+            modifiers.push('preventDefault');
+        if (has_stop_propagation)
+            modifiers.push('stopPropagation');
+        dispatch_dev('SvelteDOMAddEventListener', { node, event, handler, modifiers });
+        const dispose = listen(node, event, handler, options);
+        return () => {
+            dispatch_dev('SvelteDOMRemoveEventListener', { node, event, handler, modifiers });
+            dispose();
+        };
+    }
+    function attr_dev(node, attribute, value) {
+        attr(node, attribute, value);
+        if (value == null)
+            dispatch_dev('SvelteDOMRemoveAttribute', { node, attribute });
+        else
+            dispatch_dev('SvelteDOMSetAttribute', { node, attribute, value });
+    }
+    function prop_dev(node, property, value) {
+        node[property] = value;
+        dispatch_dev('SvelteDOMSetProperty', { node, property, value });
+    }
+    function set_data_dev(text, data) {
+        data = '' + data;
+        if (text.wholeText === data)
+            return;
+        dispatch_dev('SvelteDOMSetData', { node: text, data });
+        text.data = data;
+    }
+    function validate_each_argument(arg) {
+        if (typeof arg !== 'string' && !(arg && typeof arg === 'object' && 'length' in arg)) {
+            let msg = '{#each} only iterates over array-like objects.';
+            if (typeof Symbol === 'function' && arg && Symbol.iterator in arg) {
+                msg += ' You can use a spread to convert this iterable into an array.';
+            }
+            throw new Error(msg);
+        }
+    }
+    function validate_slots(name, slot, keys) {
+        for (const slot_key of Object.keys(slot)) {
+            if (!~keys.indexOf(slot_key)) {
+                console.warn(`<${name}> received an unexpected slot "${slot_key}".`);
+            }
+        }
+    }
+    /**
+     * Base class for Svelte components with some minor dev-enhancements. Used when dev=true.
+     */
+    class SvelteComponentDev extends SvelteComponent {
+        constructor(options) {
+            if (!options || (!options.target && !options.$$inline)) {
+                throw new Error("'target' is a required option");
+            }
+            super();
+        }
+        $destroy() {
+            super.$destroy();
+            this.$destroy = () => {
+                console.warn('Component was already destroyed'); // eslint-disable-line no-console
+            };
+        }
+        $capture_state() { }
+        $inject_state() { }
+    }
+
+    /* src\components\board\Coin.svelte generated by Svelte v3.44.3 */
+
+    const file$a = "src\\components\\board\\Coin.svelte";
+
+    function create_fragment$a(ctx) {
+    	let div;
+    	let div_id_value;
+
+    	const block = {
+    		c: function create() {
+    			div = element("div");
+    			attr_dev(div, "class", "coin svelte-1oo0wzo");
+    			attr_dev(div, "id", div_id_value = "coin-" + /*code*/ ctx[0] + "-" + /*i*/ ctx[1]);
+    			set_style(div, "background-color", "var(--" + /*code*/ ctx[0] + "-player)");
+    			add_location(div, file$a, 4, 0, 48);
+    		},
+    		l: function claim(nodes) {
+    			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, div, anchor);
+    		},
+    		p: function update(ctx, [dirty]) {
+    			if (dirty & /*code, i*/ 3 && div_id_value !== (div_id_value = "coin-" + /*code*/ ctx[0] + "-" + /*i*/ ctx[1])) {
+    				attr_dev(div, "id", div_id_value);
+    			}
+
+    			if (dirty & /*code*/ 1) {
+    				set_style(div, "background-color", "var(--" + /*code*/ ctx[0] + "-player)");
+    			}
+    		},
+    		i: noop,
+    		o: noop,
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(div);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_fragment$a.name,
+    		type: "component",
+    		source: "",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    function instance$a($$self, $$props, $$invalidate) {
+    	let { $$slots: slots = {}, $$scope } = $$props;
+    	validate_slots('Coin', slots, []);
+    	let { code, i } = $$props;
+    	const writable_props = ['code', 'i'];
+
+    	Object.keys($$props).forEach(key => {
+    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<Coin> was created with unknown prop '${key}'`);
+    	});
+
+    	$$self.$$set = $$props => {
+    		if ('code' in $$props) $$invalidate(0, code = $$props.code);
+    		if ('i' in $$props) $$invalidate(1, i = $$props.i);
+    	};
+
+    	$$self.$capture_state = () => ({ code, i });
+
+    	$$self.$inject_state = $$props => {
+    		if ('code' in $$props) $$invalidate(0, code = $$props.code);
+    		if ('i' in $$props) $$invalidate(1, i = $$props.i);
+    	};
+
+    	if ($$props && "$$inject" in $$props) {
+    		$$self.$inject_state($$props.$$inject);
+    	}
+
+    	return [code, i];
+    }
+
+    class Coin extends SvelteComponentDev {
+    	constructor(options) {
+    		super(options);
+    		init(this, options, instance$a, create_fragment$a, safe_not_equal, { code: 0, i: 1 });
+
+    		dispatch_dev("SvelteRegisterComponent", {
+    			component: this,
+    			tagName: "Coin",
+    			options,
+    			id: create_fragment$a.name
+    		});
+
+    		const { ctx } = this.$$;
+    		const props = options.props || {};
+
+    		if (/*code*/ ctx[0] === undefined && !('code' in props)) {
+    			console.warn("<Coin> was created without expected prop 'code'");
+    		}
+
+    		if (/*i*/ ctx[1] === undefined && !('i' in props)) {
+    			console.warn("<Coin> was created without expected prop 'i'");
+    		}
+    	}
+
+    	get code() {
+    		throw new Error("<Coin>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set code(value) {
+    		throw new Error("<Coin>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	get i() {
+    		throw new Error("<Coin>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set i(value) {
+    		throw new Error("<Coin>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+    }
+
+    function E () {
+      // Keep this empty so it's easier to inherit from
+      // (via https://github.com/lipsmack from https://github.com/scottcorgan/tiny-emitter/issues/3)
+    }
+
+    E.prototype = {
+      on: function (name, callback, ctx) {
+        var e = this.e || (this.e = {});
+
+        (e[name] || (e[name] = [])).push({
+          fn: callback,
+          ctx: ctx
+        });
+
+        return this;
+      },
+
+      once: function (name, callback, ctx) {
+        var self = this;
+        function listener () {
+          self.off(name, listener);
+          callback.apply(ctx, arguments);
+        }
+        listener._ = callback;
+        return this.on(name, listener, ctx);
+      },
+
+      emit: function (name) {
+        var data = [].slice.call(arguments, 1);
+        var evtArr = ((this.e || (this.e = {}))[name] || []).slice();
+        var i = 0;
+        var len = evtArr.length;
+
+        for (i; i < len; i++) {
+          evtArr[i].fn.apply(evtArr[i].ctx, data);
+        }
+
+        return this;
+      },
+
+      off: function (name, callback) {
+        var e = this.e || (this.e = {});
+        var evts = e[name];
+        var liveEvents = [];
+
+        if (evts && callback) {
+          for (var i = 0, len = evts.length; i < len; i++) {
+            if (evts[i].fn !== callback && evts[i].fn._ !== callback)
+              liveEvents.push(evts[i]);
+          }
+        }
+
+        // Remove event from queue to prevent memory leak
+        // Suggested by https://github.com/lazd
+        // Ref: https://github.com/scottcorgan/tiny-emitter/commit/c6ebfaa9bc973b33d110a84a307742b7cf94c953#commitcomment-5024910
+
+        (liveEvents.length)
+          ? e[name] = liveEvents
+          : delete e[name];
+
+        return this;
+      }
+    };
+
+    var tinyEmitter = E;
+    var TinyEmitter = E;
+    tinyEmitter.TinyEmitter = TinyEmitter;
+
+    /**
+     * Ludo Steps ID Map Reference
+     * 
+     *                    01 07 13
+     *                    02 08 14
+     *                    03 09 15
+     *                    04 10 16
+     *                    05 11 17
+     *                    06 12 18
+     *  19 20 21 22 23 24          42 41 40 39 38 37
+     *  25 26 27 28 29 30          48 47 46 45 44 43
+     *  31 32 33 34 35 36          54 53 52 51 50 49 
+     *                    60 66 72
+     *                    59 65 71
+     *                    58 64 70
+     *                    57 63 69
+     *                    56 62 68
+     *                    55 61 67
+     */
+
+    const COLORS = ["red", "yellow", "green", "blue"];
+
+    const LUDO_PATH = [
+        19, 20, 21, 22, 23, 24, 6, 5, 4, 3, 2, 1, 7, 13, 14, 15, 16, 17, 18,
+        42, 41, 40, 39, 38, 37, 43, 49, 50, 51, 52, 53, 54, 72, 71, 70, 69, 
+        68, 67, 61, 55, 56, 57, 58, 59, 60, 36, 35, 34, 33, 32, 31, 25
+    ];
+
+    const START_POINTS = {
+        red: 20, 
+        blue: 14,
+        yellow: 50,
+        green: 56
+    };
+
+    const HOME_PATHS = {
+        red: [26, 27, 28, 29, 30],
+        blue: [8, 9, 10, 11, 12],
+        yellow: [44, 45, 46, 47, 48],
+        green: [62, 63, 64, 65, 66]
+    };
+
+    const NULL_POINTS = [33, 69, 39, 3, ...Object.values(START_POINTS)];
+
+    const PLAYER_PATHS = 
+        Object.fromEntries(
+            COLORS.map(color => {
+                let x = LUDO_PATH.indexOf(START_POINTS[color]);
+                let sliced = LUDO_PATH.slice(x, x + 51);
+                if (sliced.length != 51) sliced = sliced.concat(LUDO_PATH.slice(0, 51 - sliced.length));
+                return [color, sliced.concat(HOME_PATHS[color])]
+            })
+        );
+
+    // TODO(scientific-dev): Find a better way for dice html sides...
+    const DICE_HTML_SIDES = [
+        `<div class="dot"></div>`,
+        `<div class="dot"></div>`.repeat(2),
+        `<div class="dot"></div>`.repeat(3),
+        `<div class="flex"><div class="dot"></div> <div class="dot"></div></div>`.repeat(2),
+        `
+        <div class="flex"><div class="dot"></div> <div class="e-dot"></div> <div class="dot"></div></div> 
+        <div class="flex"><div class="e-dot"></div> <div class="dot"></div></div> 
+        <div class="flex"><div class="dot"></div> <div class="e-dot"></div> <div class="dot"></div></div>
+    `,
+        `<div class="flex"><div class="dot"></div> <div class="dot"></div></div>`.repeat(3),
+    ];
+
+    const HOUSE_SIDES = {
+        red: 'top-left',
+        blue: 'top-right',
+        green: 'bottom-left',
+        yellow: 'bottom-right'
+    };
+
+    class LudoAlert {
+
+        constructor () {
+            let alertElement = document.createElement('div');
+            alertElement.className = 'alert';
+            alertElement.style.opacity = 0;
+            this.element = alertElement;
+        }
+
+        setInnerHTML (html) {
+            this.element.innerHTML = html;
+            return this;
+        }
+
+        appendChildren (...children) {
+            this.element.append(...children);
+            return this;
+        }
+
+        setParent (elem) {
+            this.parent = elem;
+            this.parent.prepend(this.element);
+            return this;
+        }
+
+        removeParent () {
+            this.parent.removeChild(this.element);
+            return this;
+        }
+
+        async display (ms = 200) {
+            await sleep(ms);
+            this.element.style.opacity = 1;
+            return this;
+        }
+
+        async undisplay () {
+            this.element.style.opacity = 0;
+            await sleep(200);
+            return this.removeParent();
+        }
+
+    }
+
+    class LudoPlayer {
+
+        static NULL_PLAYER = new LudoPlayer('No Player', "null").null();
+
+        kills = 0;
+        cors = [null, null, null, null];
+        // Coordinates of coins. 
+        // - number, if the coin is on track
+        // - null, if coin at start.
+        // - NaN, if coin has reached the house.
+
+        constructor (name, color, isBot) {
+            this.name = name;
+            this.color = color;
+            if (isBot) this.isBot = true;
+        }
+
+        static fromJSON (json) {
+            let pl = new LudoPlayer(json.name, json.color);
+
+            pl.cors = json.cors;
+            pl.kills = json.kills;
+            if (json.rank) pl.rank = json.rank;
+            if (json.bot) pl.isBot = json.bot;
+
+            return pl;
+        }
+
+        get coinsReached () {
+            return this.cors.filter(x => isNaN(x)).length;
+        }
+
+        get coinsAtStart () {
+            // Because null is object and others are number including NaN.
+            return this.cors.filter(x => typeof x == "object").length;
+        }
+
+        get coinsOutside () {
+            return this.cors.filter(x => !isNaN(x) && typeof x == "number").length;
+        }
+
+        get completed () {
+            return this.coinsReached == 4;
+        }
+
+        get startPoint () {
+            return START_POINTS[this.color];
+        }
+
+        get activeCoinsIndices () {
+            let coins = [];
+
+            for (let i = 0; i < this.cors.length; i++) {
+                let x = this.cors[i];
+                if (!isNaN(x) && typeof x == "number") coins.push(i);
+            }
+
+            return coins;
+        }
+
+        get coinsInsideIndices () {
+            let coins = [];
+            for (let i = 0; i < this.cors.length; i++)
+                if (typeof this.cors[i] == "object") coins.push(i);
+
+            return coins;
+        }
+
+        get type () {
+            if (this.isBot) return 'bot';
+            if (this.isNull) return 'null';
+            return 'player';
+        }
+
+        null () {
+            this.isNull = true;
+            return this;
+        }
+
+    }
+
+    // JSON.stringify(NaN, Infinity) = null
+
+    Array.prototype.random = function () {
+        return this[Math.floor(Math.random() * this.length)];
+    };
+
+    String.prototype.toProperCase = function () {
+        return this.charAt(0).toUpperCase() + this.substring(1).toLowerCase();
+    };
+
+    Element.prototype.setNodeIDCss = function () {
+        for (let i = 0; i < this.children.length; i++) {
+            this.children[i].style.setProperty('--node-id', i + 1);
+        }
+    };
+
+    async function sleep (ms) {
+        return new Promise(r => setTimeout(r, ms));
+    }
+
+    function getRandom (n) {
+        return Math.floor(Math.random() * n);
+    }
+
+    function nthString (n) {
+        if (n == 1) return '1st';
+        else if (n == 2) return '2nd';
+        else if (n == 3) return '3rd';
+        else return `${n}th`;
+    }
+
+    class LudoEngine extends TinyEmitter {
+
+        started = false;
+        ended = false;
+        activePlayers = []; // Will be defined when the game starts...
+        activeBots = [];
+        currentTurn = 0;
+        ranks = [];
+        players = {
+            red: new LudoPlayer('You', 'red'),
+            green: LudoPlayer.NULL_PLAYER,
+            yellow: LudoPlayer.NULL_PLAYER,
+            blue: LudoPlayer.NULL_PLAYER
+        };
+
+        constructor () {
+            super();
+
+            this.on('start', () => this.activeBots = this.activePlayers.filter(x => x.isBot));
+            this.on('end', () => this.ended = true);
+        }
+
+        get playersArray () {
+            return Object.values(this.players);
+        }
+
+        get playerCount () {
+            return this.playersArray.filter(x => !x.isNull).length;
+        }
+
+        get currentTurnPlayer () {
+            return this.activePlayers[this.currentTurn];
+        }
+
+        nextTurn () {
+            let x = this.activePlayers.length - 1;
+            this.currentTurn += (this.currentTurn == x) ? -x : 1;
+        }
+
+        onWindowLoad () {
+            let styleElement = document.createElement('style');
+
+            styleElement.innerHTML = 
+                NULL_POINTS
+                    .map(id => `#step-${id} {background-color:var(--dark-step-color)!important}`)
+                    .join('');
+
+            styleElement.innerHTML += 
+                Object.entries(START_POINTS)
+                    .map(([color, id]) => `#step-${id} {background-color:var(--${color}-player)!important}`)
+                    .join('');
+
+            document.getElementById('wrap').append(styleElement);
+
+            if (this.started) {
+                this.emit('start');
+                this.alert('Resuming your game...', 1200);
+            }
+        }
+
+        createPlayer (isBot) {
+            let entry = Object.entries(this.players).find(([_, player]) => player.isNull);
+            if (!entry) return null;
+
+            this.players[entry[0]] = new LudoPlayer(isBot ? 'Bot' : 'Player', entry[0], isBot);
+            this.emit(`${entry[0]}Update`)
+                .emit('playerCountUpdate');
+
+            return this.players[entry[0]];
+        }
+
+        deletePlayer (color) {
+            if (this.playerCount == 1) return null;
+            let player = this.players[color];
+
+            this.players[color] = LudoPlayer.NULL_PLAYER;
+            this.emit(`${color}Update`)
+                .emit('playerCountUpdate');
+
+            return player;
+        }
+
+        updatePlayerName(color, name) {
+            // The engine may crash if wrong values supplied but
+            // only if someone makes a fault in the engine.
+            this.players[color].name = name;
+            this.emit(`${color}Update`);
+        }
+
+        async start (toAlert = false) {
+            if (this.started) return false;
+            this.activePlayers = [];
+
+            Object.entries(this.players)
+                .forEach(x => {
+                    if (!x[1].isNull) 
+                        this.activePlayers.push(x[1]);
+                });
+
+            if (this.activePlayers.length < 2) return false;
+
+            this.started = true;
+            this.emit('start');
+            this.clearSaved();
+
+            if (toAlert) await this.alert('The game has started...', 1000);
+            return this.startTurns();
+        }
+
+        async startTurns () {
+            let isBonusRoll = false;
+
+            while (!await this.checkForCompletion()) {
+                let current = this.currentTurnPlayer;
+                let isPlayer = !current.isBot;
+                this.save(); // Autosaves the progress so you don't mess up later!
+
+                if (!isBonusRoll) {
+                    if (current.completed) continue;
+                    this.emit(`turn`, current.color);
+                    if (isPlayer) await this.waitForEvent('diceRoll');
+                }
+
+                let diceNumber = (await this.diceRoll(current.name + '\'s')) + 1;
+                let coinsInside = current.coinsInsideIndices;
+                let is6 = diceNumber == 6;
+                isBonusRoll = is6;
+
+                if (coinsInside.length == 4) {
+                    if (is6) {
+                        current.cors[0] = 0;
+                        await this.moveCoin(current.color, 1, current.startPoint);
+                        this.emit(`${current.color}Update`);
+                    } else await this.alert('Unfortunate!', 1200);
+                } else {
+                    let type;
+
+                    if (is6) this.emit(`${current.color}PrisonSelectable`);
+                    if (isPlayer) {
+                        await this.alert('Select your move...', 1100);
+                        type = await this.waitForEvent(`${current.color}Select`);
+                    } else type = this.getRandomBotChoice(current, is6);
+
+                    if (type == 'prison') {
+                        let x = coinsInside.random();
+                        current.cors[x] = 0;
+                        await this.moveCoin(current.color, x + 1, current.startPoint);
+                        this.emit(`${current.color}Update`);
+                    } else if (typeof type[0] == "number") {
+                        let { condition, newStep, gameOver } = await this.moveCoinInPath(current.color, type[0], current, diceNumber);
+                        
+                        if (gameOver) break;
+                        isBonusRoll = isBonusRoll || condition;
+                        if (!isNaN(newStep)) isBonusRoll = (await this.killCoins(current, newStep)) || isBonusRoll;
+                    }
+
+                    if (is6) this.emit(`${current.color}PrisonSelectable`);
+                }
+
+                if ((diceNumber == 6) || isBonusRoll) await this.alert('Rolling again...', 750);
+                else this.nextTurn();
+            }
+
+            this.emit('end');
+            return true;
+        }
+
+        async alert (message, waitTill = 2000) {
+            let alrt = await new LudoAlert()
+                .setParent(document.querySelector('.board-wrapper'))
+                .setInnerHTML(`<p>${message}</p>`)
+                .display(0);
+            
+            await sleep(waitTill);
+            await alrt.undisplay();
+        }
+
+        async diceRoll (userName = 'Your', result = getRandom(6)) {
+            let pElement = document.createElement('p');
+            pElement.innerHTML = `${userName} Turn`;
+
+            let diceElement = document.createElement('div');
+            diceElement.className = 'dice';
+            diceElement.innerHTML = this.getRandomDiceSideHTML();
+
+            let alrt = await new LudoAlert()
+                .appendChildren(pElement, diceElement)
+                .setParent(document.querySelector('.board-wrapper'))
+                .display();
+
+            for (let i = 0; i < 4; i++) {
+                await sleep(i * 50);
+                diceElement.innerHTML = this.getRandomDiceSideHTML();
+            }
+
+            await sleep(200);
+            diceElement.innerHTML = this.getDiceSideHTML(result);
+            await sleep(400);
+            diceElement.style.transform = 'scale(1.2)';
+            await sleep(250);
+            diceElement.style.transform = 'scale(1)';
+            await sleep(750);
+            await alrt.undisplay();
+
+            return result;
+        }
+
+        async killCoins (currentPlayer, step) {
+            if (NULL_POINTS.includes(step)) return;
+
+            // Find a better way to do this thing...
+            for (let i = 0; i < this.activePlayers.length; i++) {
+                let player = this.activePlayers[i];
+                if (player == currentPlayer) continue;
+
+                let path = PLAYER_PATHS[player.color];
+                let kills = 0;
+
+                for (let i = 0; i < player.cors.length; i++) {
+                    if (path[player.cors[i]] == step) {
+                        player.cors[i] = null;
+                        kills += 1;
+                        await this.moveCoinToPrison(player.color, i + 1);
+                    }
+                }
+
+                if (kills) {
+                    currentPlayer.kills += kills;
+                    this.emit(`${player.color}Update`)
+                        .emit(`${currentPlayer.color}Update`);
+
+                    return true;
+                }
+            }
+        }
+
+        async moveCoin (color, number, stepID) {
+            let coinElement = document.getElementById(`coin-${color}-${number}`);
+            let stepElement = document.getElementById(`step-${stepID}`);
+            let clonedCoin = coinElement.cloneNode();
+            
+            coinElement.classList.add('coin-exit');
+            await sleep(500);
+            coinElement.parentElement.removeChild(coinElement);
+
+            clonedCoin.addEventListener('click', () => this.emit(`${color}Select`, number));
+            clonedCoin.classList.add('coin-active');
+            stepElement.appendChild(clonedCoin);
+            stepElement.setNodeIDCss();
+            await sleep(400);
+        }
+
+        async moveCoinInPath(color, id, player, toAdd) {
+            let coinID = `coin-${color}-${id}`;
+            let cor = player.cors[id - 1] + toAdd;
+            let newStep = PLAYER_PATHS[color][cor];
+
+            if (!newStep) {
+                let coinElement = document.getElementById(coinID);
+                coinElement.parentElement.removeChild(coinElement);
+                player.cors[id - 1] = NaN;
+                await this.alert(`${player.name}'s coin has reached the house!`, 1100);
+
+                if (player.completed) {
+                    this.ranks.push(player);
+                    await this.alert(`${player.name} has won the ${nthString(this.ranks.length)} place!`, 1100);
+                    player.rank = this.ranks.length;
+                    this.emit('canDisplayResults');
+                }
+
+                this.emit(`${color}Update`);
+                return { 
+                    condition: true, 
+                    newStep: NaN, 
+                    gameOver: await this.checkForCompletion() 
+                };
+            }
+
+            player.cors[id - 1] = cor;
+            await this.moveCoin(color, id, newStep);
+            return { condition: false, newStep };
+        }
+
+        async moveCoinToPrison (color, n) {
+            let coinElement = document.getElementById(`coin-${color}-${n}`);
+            let stepElement = coinElement.parentElement; // Since the coin is active one
+            let clonedCoin = coinElement.cloneNode();
+            
+            coinElement.classList.add('coin-exit');
+            await sleep(500);
+            coinElement.parentElement.removeChild(coinElement);
+
+            clonedCoin.classList.add('coin-active');
+            document.querySelector(`#prison-${color} .prison-inner div`).appendChild(clonedCoin);
+            stepElement.setNodeIDCss();
+            await sleep(400);
+        }
+
+        waitForEvent (evt) {
+            return new Promise (resolve => {
+                const event = (...args) => {
+                    this.off(evt, event);
+                    resolve(args);
+                };
+
+                this.on(evt, event);
+            });
+        }
+
+        getRandomBotChoice (current, is6) {
+            // The brain of a very poor ai...
+            return is6 && getRandom(2)
+                ? 'prison'
+                : [current.activeCoinsIndices.random() + 1];
+        }
+
+        async checkForCompletion () {
+            if (this.ranks.length == 3) {
+                // This might look not the most efficient but the maximum array size would
+                // be 4 so it should not be a problem...
+                let lastPlayer = this.activePlayers.find(x => !this.ranks.includes(x));
+                this.ranks.push(lastPlayer);
+
+                await this.alert(`${lastPlayer.name} has won the ${nthString(this.ranks.length)} place!`, 1100);
+                return true;
+            }
+
+            for (let i = 0; i < this.activePlayers.length; i++) {
+                let player = this.activePlayers[i];
+                if (!player.isBot && !player.completed) return false;
+            }
+
+            // There might be chances that there are some bots still alive
+            // even if all players are eliminated...
+            this.ranks.push(this.activeBots.filter(x => !x.completed));
+            return true;
+        }
+
+        getRandomDiceSideHTML () {
+            return this.getDiceSideHTML(getRandom(6));
+        }
+
+        getDiceSideHTML (n) {
+            return `<div class="dside-${n + 1}">${DICE_HTML_SIDES[n]}</div>`;
+        }
+
+        toJSON () {
+            return {
+                started: this.started,
+                ended: this.ended,
+                currentTurn: this.currentTurn,
+                ranks: this.ranks.map(x => x.color),
+                players: this.activePlayers.map(player => ({
+                    kills: player.kills,
+                    cors: player.cors,
+                    name: player.name,
+                    color: player.color,
+                    bot: player.isBot
+                }))
+            };
+        }
+
+        save () {
+            localStorage.setItem('ludo_data', JSON.stringify(this.toJSON()));
+        }
+
+        clearSaved () {
+            localStorage.removeItem('ludo_data');
+        }
+
+        async startFromSaved () {
+            let data = JSON.parse(localStorage.getItem('ludo_data') || '{}');
+            let promises = [];
+
+            if (data.started) {
+                this.started = true;
+                this.currentTurn = data.currentTurn;
+                this.activePlayers = data.players.map(LudoPlayer.fromJSON);
+                this.players.red = LudoPlayer.NULL_PLAYER;
+
+                for (let i = 0; i < this.activePlayers.length; i++) {
+                    let player = this.activePlayers[i];
+                    let path = PLAYER_PATHS[player.color];
+
+                    this.players[player.color] = player;
+                    this.emit(`${player.color}Update`);
+
+                    for (let i = 0; i < player.cors.length; i++) {
+                        let n = player.cors[i];
+                        if (!isNaN(n) && typeof n == "number")
+                            promises.push(this.moveCoin(player.color, i + 1, path[n]));
+                    }
+                }
+
+                for (let i = 0; i < data.ranks.length; i++) 
+                    this.ranks.push(this.players[data.ranks[i]]);
+            }
+
+            this.emit('start');
+            await Promise.all(promises);
+            
+            if (data.started) {
+                await this.alert('The game has resumed...', 1000);
+                await this.startTurns();
+            } else if (data.ended) this.emit('displayResult');
+        }
+
+    }
+
+    // The default and primary ludo engine where the game process exists...
+    const engine = new LudoEngine();
+    const hasSaved = Boolean(localStorage.getItem('ludo_data'));
+
+    /* src\components\board\Prison.svelte generated by Svelte v3.44.3 */
+    const file$9 = "src\\components\\board\\Prison.svelte";
+
+    function create_fragment$9(ctx) {
+    	let div3;
+    	let div2;
+    	let div1;
+    	let div0;
+    	let coin0;
+    	let t0;
+    	let coin1;
+    	let t1;
+    	let coin2;
+    	let t2;
+    	let coin3;
+    	let div2_style_value;
+    	let div3_class_value;
+    	let div3_id_value;
+    	let current;
+    	let mounted;
+    	let dispose;
+
+    	coin0 = new Coin({
+    			props: { code: /*code*/ ctx[1], i: 1 },
+    			$$inline: true
+    		});
+
+    	coin1 = new Coin({
+    			props: { code: /*code*/ ctx[1], i: 2 },
+    			$$inline: true
+    		});
+
+    	coin2 = new Coin({
+    			props: { code: /*code*/ ctx[1], i: 3 },
+    			$$inline: true
+    		});
+
+    	coin3 = new Coin({
+    			props: { code: /*code*/ ctx[1], i: 4 },
+    			$$inline: true
+    		});
+
+    	const block = {
+    		c: function create() {
+    			div3 = element("div");
+    			div2 = element("div");
+    			div1 = element("div");
+    			div0 = element("div");
+    			create_component(coin0.$$.fragment);
+    			t0 = space();
+    			create_component(coin1.$$.fragment);
+    			t1 = space();
+    			create_component(coin2.$$.fragment);
+    			t2 = space();
+    			create_component(coin3.$$.fragment);
+    			attr_dev(div0, "class", "flex flex-wrap");
+    			add_location(div0, file$9, 36, 12, 1147);
+    			attr_dev(div1, "class", "prison-inner svelte-1hm0bk8");
+    			set_style(div1, "margin", /*prisonInnerMargin*/ ctx[4] + "px");
+    			set_style(div1, "width", /*innerPrisonSize*/ ctx[3] + "px");
+    			set_style(div1, "height", /*innerPrisonSize*/ ctx[3] + "px");
+    			add_location(div1, file$9, 28, 8, 903);
+    			attr_dev(div2, "class", "prison-cover svelte-1hm0bk8");
+    			attr_dev(div2, "style", div2_style_value = "border-" + HOUSE_SIDES[/*code*/ ctx[1]] + "-radius: 8px;");
+    			add_location(div2, file$9, 24, 4, 794);
+    			attr_dev(div3, "class", div3_class_value = "prison " + (/*prisonSelectable*/ ctx[0] ? 'prison-selectable' : '') + " svelte-1hm0bk8");
+    			set_style(div3, "width", /*prisonSize*/ ctx[2] + "px");
+    			set_style(div3, "height", /*prisonSize*/ ctx[2] + "px");
+    			set_style(div3, "--color", "var(--" + /*code*/ ctx[1] + "-player)");
+    			attr_dev(div3, "id", div3_id_value = "prison-" + /*code*/ ctx[1]);
+    			add_location(div3, file$9, 16, 0, 495);
+    		},
+    		l: function claim(nodes) {
+    			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, div3, anchor);
+    			append_dev(div3, div2);
+    			append_dev(div2, div1);
+    			append_dev(div1, div0);
+    			mount_component(coin0, div0, null);
+    			append_dev(div0, t0);
+    			mount_component(coin1, div0, null);
+    			append_dev(div0, t1);
+    			mount_component(coin2, div0, null);
+    			append_dev(div0, t2);
+    			mount_component(coin3, div0, null);
+    			current = true;
+
+    			if (!mounted) {
+    				dispose = listen_dev(div3, "click", /*click_handler*/ ctx[6], false, false, false);
+    				mounted = true;
+    			}
+    		},
+    		p: function update(ctx, [dirty]) {
+    			const coin0_changes = {};
+    			if (dirty & /*code*/ 2) coin0_changes.code = /*code*/ ctx[1];
+    			coin0.$set(coin0_changes);
+    			const coin1_changes = {};
+    			if (dirty & /*code*/ 2) coin1_changes.code = /*code*/ ctx[1];
+    			coin1.$set(coin1_changes);
+    			const coin2_changes = {};
+    			if (dirty & /*code*/ 2) coin2_changes.code = /*code*/ ctx[1];
+    			coin2.$set(coin2_changes);
+    			const coin3_changes = {};
+    			if (dirty & /*code*/ 2) coin3_changes.code = /*code*/ ctx[1];
+    			coin3.$set(coin3_changes);
+
+    			if (!current || dirty & /*prisonInnerMargin*/ 16) {
+    				set_style(div1, "margin", /*prisonInnerMargin*/ ctx[4] + "px");
+    			}
+
+    			if (!current || dirty & /*innerPrisonSize*/ 8) {
+    				set_style(div1, "width", /*innerPrisonSize*/ ctx[3] + "px");
+    			}
+
+    			if (!current || dirty & /*innerPrisonSize*/ 8) {
+    				set_style(div1, "height", /*innerPrisonSize*/ ctx[3] + "px");
+    			}
+
+    			if (!current || dirty & /*code*/ 2 && div2_style_value !== (div2_style_value = "border-" + HOUSE_SIDES[/*code*/ ctx[1]] + "-radius: 8px;")) {
+    				attr_dev(div2, "style", div2_style_value);
+    			}
+
+    			if (!current || dirty & /*prisonSelectable*/ 1 && div3_class_value !== (div3_class_value = "prison " + (/*prisonSelectable*/ ctx[0] ? 'prison-selectable' : '') + " svelte-1hm0bk8")) {
+    				attr_dev(div3, "class", div3_class_value);
+    			}
+
+    			if (!current || dirty & /*prisonSize*/ 4) {
+    				set_style(div3, "width", /*prisonSize*/ ctx[2] + "px");
+    			}
+
+    			if (!current || dirty & /*prisonSize*/ 4) {
+    				set_style(div3, "height", /*prisonSize*/ ctx[2] + "px");
+    			}
+
+    			if (!current || dirty & /*code*/ 2) {
+    				set_style(div3, "--color", "var(--" + /*code*/ ctx[1] + "-player)");
+    			}
+
+    			if (!current || dirty & /*code*/ 2 && div3_id_value !== (div3_id_value = "prison-" + /*code*/ ctx[1])) {
+    				attr_dev(div3, "id", div3_id_value);
+    			}
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(coin0.$$.fragment, local);
+    			transition_in(coin1.$$.fragment, local);
+    			transition_in(coin2.$$.fragment, local);
+    			transition_in(coin3.$$.fragment, local);
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(coin0.$$.fragment, local);
+    			transition_out(coin1.$$.fragment, local);
+    			transition_out(coin2.$$.fragment, local);
+    			transition_out(coin3.$$.fragment, local);
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(div3);
+    			destroy_component(coin0);
+    			destroy_component(coin1);
+    			destroy_component(coin2);
+    			destroy_component(coin3);
+    			mounted = false;
+    			dispose();
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_fragment$9.name,
+    		type: "component",
+    		source: "",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    function instance$9($$self, $$props, $$invalidate) {
+    	let { $$slots: slots = {}, $$scope } = $$props;
+    	validate_slots('Prison', slots, []);
+    	let { code, cellSize, prisonSize, prisonSelectable } = $$props;
+    	engine.on(`${code}PrisonSelectable`, () => $$invalidate(0, prisonSelectable = !prisonSelectable));
+    	let innerPrisonSize, prisonInnerMargin;
+    	const writable_props = ['code', 'cellSize', 'prisonSize', 'prisonSelectable'];
+
+    	Object.keys($$props).forEach(key => {
+    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<Prison> was created with unknown prop '${key}'`);
+    	});
+
+    	const click_handler = () => {
+    		if (prisonSelectable) engine.emit(`${code}Select`, 'prison');
+    	};
+
+    	$$self.$$set = $$props => {
+    		if ('code' in $$props) $$invalidate(1, code = $$props.code);
+    		if ('cellSize' in $$props) $$invalidate(5, cellSize = $$props.cellSize);
+    		if ('prisonSize' in $$props) $$invalidate(2, prisonSize = $$props.prisonSize);
+    		if ('prisonSelectable' in $$props) $$invalidate(0, prisonSelectable = $$props.prisonSelectable);
+    	};
+
+    	$$self.$capture_state = () => ({
+    		Coin,
+    		engine,
+    		HOUSE_SIDES,
+    		code,
+    		cellSize,
+    		prisonSize,
+    		prisonSelectable,
+    		innerPrisonSize,
+    		prisonInnerMargin
+    	});
+
+    	$$self.$inject_state = $$props => {
+    		if ('code' in $$props) $$invalidate(1, code = $$props.code);
+    		if ('cellSize' in $$props) $$invalidate(5, cellSize = $$props.cellSize);
+    		if ('prisonSize' in $$props) $$invalidate(2, prisonSize = $$props.prisonSize);
+    		if ('prisonSelectable' in $$props) $$invalidate(0, prisonSelectable = $$props.prisonSelectable);
+    		if ('innerPrisonSize' in $$props) $$invalidate(3, innerPrisonSize = $$props.innerPrisonSize);
+    		if ('prisonInnerMargin' in $$props) $$invalidate(4, prisonInnerMargin = $$props.prisonInnerMargin);
+    	};
+
+    	if ($$props && "$$inject" in $$props) {
+    		$$self.$inject_state($$props.$$inject);
+    	}
+
+    	$$self.$$.update = () => {
+    		if ($$self.$$.dirty & /*cellSize, prisonSize, innerPrisonSize*/ 44) {
+    			{
+    				$$invalidate(3, innerPrisonSize = 2 * cellSize + 12);
+    				$$invalidate(4, prisonInnerMargin = (prisonSize - innerPrisonSize - 10) / 2);
+    			}
+    		}
+    	};
+
+    	return [
+    		prisonSelectable,
+    		code,
+    		prisonSize,
+    		innerPrisonSize,
+    		prisonInnerMargin,
+    		cellSize,
+    		click_handler
+    	];
+    }
+
+    class Prison extends SvelteComponentDev {
+    	constructor(options) {
+    		super(options);
+
+    		init(this, options, instance$9, create_fragment$9, safe_not_equal, {
+    			code: 1,
+    			cellSize: 5,
+    			prisonSize: 2,
+    			prisonSelectable: 0
+    		});
+
+    		dispatch_dev("SvelteRegisterComponent", {
+    			component: this,
+    			tagName: "Prison",
+    			options,
+    			id: create_fragment$9.name
+    		});
+
+    		const { ctx } = this.$$;
+    		const props = options.props || {};
+
+    		if (/*code*/ ctx[1] === undefined && !('code' in props)) {
+    			console.warn("<Prison> was created without expected prop 'code'");
+    		}
+
+    		if (/*cellSize*/ ctx[5] === undefined && !('cellSize' in props)) {
+    			console.warn("<Prison> was created without expected prop 'cellSize'");
+    		}
+
+    		if (/*prisonSize*/ ctx[2] === undefined && !('prisonSize' in props)) {
+    			console.warn("<Prison> was created without expected prop 'prisonSize'");
+    		}
+
+    		if (/*prisonSelectable*/ ctx[0] === undefined && !('prisonSelectable' in props)) {
+    			console.warn("<Prison> was created without expected prop 'prisonSelectable'");
+    		}
+    	}
+
+    	get code() {
+    		throw new Error("<Prison>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set code(value) {
+    		throw new Error("<Prison>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	get cellSize() {
+    		throw new Error("<Prison>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set cellSize(value) {
+    		throw new Error("<Prison>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	get prisonSize() {
+    		throw new Error("<Prison>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set prisonSize(value) {
+    		throw new Error("<Prison>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	get prisonSelectable() {
+    		throw new Error("<Prison>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set prisonSelectable(value) {
+    		throw new Error("<Prison>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+    }
+
+    /* src\components\board\Step.svelte generated by Svelte v3.44.3 */
+
+    const file$8 = "src\\components\\board\\Step.svelte";
+
+    function create_fragment$8(ctx) {
+    	let div;
+    	let div_id_value;
+    	let div_style_value;
+
+    	const block = {
+    		c: function create() {
+    			div = element("div");
+    			attr_dev(div, "class", "step svelte-14ca1mg");
+    			attr_dev(div, "id", div_id_value = "step-" + /*i*/ ctx[0]);
+
+    			attr_dev(div, "style", div_style_value = /*color*/ ctx[1]
+    			? `background-color: var(--${/*color*/ ctx[1]}-player);`
+    			: '');
+
+    			add_location(div, file$8, 5, 0, 72);
+    		},
+    		l: function claim(nodes) {
+    			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, div, anchor);
+    		},
+    		p: function update(ctx, [dirty]) {
+    			if (dirty & /*i*/ 1 && div_id_value !== (div_id_value = "step-" + /*i*/ ctx[0])) {
+    				attr_dev(div, "id", div_id_value);
+    			}
+
+    			if (dirty & /*color*/ 2 && div_style_value !== (div_style_value = /*color*/ ctx[1]
+    			? `background-color: var(--${/*color*/ ctx[1]}-player);`
+    			: '')) {
+    				attr_dev(div, "style", div_style_value);
+    			}
+    		},
+    		i: noop,
+    		o: noop,
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(div);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_fragment$8.name,
+    		type: "component",
+    		source: "",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    function instance$8($$self, $$props, $$invalidate) {
+    	let { $$slots: slots = {}, $$scope } = $$props;
+    	validate_slots('Step', slots, []);
+    	let { i } = $$props;
+    	let { color = null } = $$props;
+    	const writable_props = ['i', 'color'];
+
+    	Object.keys($$props).forEach(key => {
+    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<Step> was created with unknown prop '${key}'`);
+    	});
+
+    	$$self.$$set = $$props => {
+    		if ('i' in $$props) $$invalidate(0, i = $$props.i);
+    		if ('color' in $$props) $$invalidate(1, color = $$props.color);
+    	};
+
+    	$$self.$capture_state = () => ({ i, color });
+
+    	$$self.$inject_state = $$props => {
+    		if ('i' in $$props) $$invalidate(0, i = $$props.i);
+    		if ('color' in $$props) $$invalidate(1, color = $$props.color);
+    	};
+
+    	if ($$props && "$$inject" in $$props) {
+    		$$self.$inject_state($$props.$$inject);
+    	}
+
+    	return [i, color];
+    }
+
+    class Step extends SvelteComponentDev {
+    	constructor(options) {
+    		super(options);
+    		init(this, options, instance$8, create_fragment$8, safe_not_equal, { i: 0, color: 1 });
+
+    		dispatch_dev("SvelteRegisterComponent", {
+    			component: this,
+    			tagName: "Step",
+    			options,
+    			id: create_fragment$8.name
+    		});
+
+    		const { ctx } = this.$$;
+    		const props = options.props || {};
+
+    		if (/*i*/ ctx[0] === undefined && !('i' in props)) {
+    			console.warn("<Step> was created without expected prop 'i'");
+    		}
+    	}
+
+    	get i() {
+    		throw new Error("<Step>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set i(value) {
+    		throw new Error("<Step>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	get color() {
+    		throw new Error("<Step>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set color(value) {
+    		throw new Error("<Step>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+    }
+
+    /* src\components\board\Walkway.svelte generated by Svelte v3.44.3 */
+    const file$7 = "src\\components\\board\\Walkway.svelte";
+
+    function get_each_context_1(ctx, list, i) {
+    	const child_ctx = ctx.slice();
+    	child_ctx[4] = list[i];
+    	child_ctx[6] = i;
+    	return child_ctx;
+    }
+
+    function get_each_context$1(ctx, list, i) {
+    	const child_ctx = ctx.slice();
+    	child_ctx[4] = list[i];
+    	child_ctx[6] = i;
+    	return child_ctx;
+    }
+
+    // (14:4) {:else}
+    function create_else_block$2(ctx) {
+    	let step;
+    	let t;
+    	let each_1_anchor;
+    	let current;
+
+    	step = new Step({
+    			props: {
+    				i: /*offsetIndex*/ ctx[1],
+    				cellSize: /*cellSize*/ ctx[0]
+    			},
+    			$$inline: true
+    		});
+
+    	let each_value_1 = Array(5);
+    	validate_each_argument(each_value_1);
+    	let each_blocks = [];
+
+    	for (let i = 0; i < each_value_1.length; i += 1) {
+    		each_blocks[i] = create_each_block_1(get_each_context_1(ctx, each_value_1, i));
+    	}
+
+    	const out = i => transition_out(each_blocks[i], 1, 1, () => {
+    		each_blocks[i] = null;
+    	});
+
+    	const block = {
+    		c: function create() {
+    			create_component(step.$$.fragment);
+    			t = space();
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].c();
+    			}
+
+    			each_1_anchor = empty();
+    		},
+    		m: function mount(target, anchor) {
+    			mount_component(step, target, anchor);
+    			insert_dev(target, t, anchor);
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].m(target, anchor);
+    			}
+
+    			insert_dev(target, each_1_anchor, anchor);
+    			current = true;
+    		},
+    		p: function update(ctx, dirty) {
+    			const step_changes = {};
+    			if (dirty & /*offsetIndex*/ 2) step_changes.i = /*offsetIndex*/ ctx[1];
+    			if (dirty & /*cellSize*/ 1) step_changes.cellSize = /*cellSize*/ ctx[0];
+    			step.$set(step_changes);
+
+    			if (dirty & /*offsetIndex, color*/ 10) {
+    				each_value_1 = Array(5);
+    				validate_each_argument(each_value_1);
+    				let i;
+
+    				for (i = 0; i < each_value_1.length; i += 1) {
+    					const child_ctx = get_each_context_1(ctx, each_value_1, i);
+
+    					if (each_blocks[i]) {
+    						each_blocks[i].p(child_ctx, dirty);
+    						transition_in(each_blocks[i], 1);
+    					} else {
+    						each_blocks[i] = create_each_block_1(child_ctx);
+    						each_blocks[i].c();
+    						transition_in(each_blocks[i], 1);
+    						each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
+    					}
+    				}
+
+    				group_outros();
+
+    				for (i = each_value_1.length; i < each_blocks.length; i += 1) {
+    					out(i);
+    				}
+
+    				check_outros();
+    			}
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(step.$$.fragment, local);
+
+    			for (let i = 0; i < each_value_1.length; i += 1) {
+    				transition_in(each_blocks[i]);
+    			}
+
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(step.$$.fragment, local);
+    			each_blocks = each_blocks.filter(Boolean);
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				transition_out(each_blocks[i]);
+    			}
+
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			destroy_component(step, detaching);
+    			if (detaching) detach_dev(t);
+    			destroy_each(each_blocks, detaching);
+    			if (detaching) detach_dev(each_1_anchor);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_else_block$2.name,
+    		type: "else",
+    		source: "(14:4) {:else}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (10:4) {#if !color}
+    function create_if_block$5(ctx) {
+    	let each_1_anchor;
+    	let current;
+    	let each_value = Array(6);
+    	validate_each_argument(each_value);
+    	let each_blocks = [];
+
+    	for (let i = 0; i < each_value.length; i += 1) {
+    		each_blocks[i] = create_each_block$1(get_each_context$1(ctx, each_value, i));
+    	}
+
+    	const out = i => transition_out(each_blocks[i], 1, 1, () => {
+    		each_blocks[i] = null;
+    	});
+
+    	const block = {
+    		c: function create() {
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].c();
+    			}
+
+    			each_1_anchor = empty();
+    		},
+    		m: function mount(target, anchor) {
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].m(target, anchor);
+    			}
+
+    			insert_dev(target, each_1_anchor, anchor);
+    			current = true;
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty & /*offsetIndex, cellSize*/ 3) {
+    				each_value = Array(6);
+    				validate_each_argument(each_value);
+    				let i;
+
+    				for (i = 0; i < each_value.length; i += 1) {
+    					const child_ctx = get_each_context$1(ctx, each_value, i);
+
+    					if (each_blocks[i]) {
+    						each_blocks[i].p(child_ctx, dirty);
+    						transition_in(each_blocks[i], 1);
+    					} else {
+    						each_blocks[i] = create_each_block$1(child_ctx);
+    						each_blocks[i].c();
+    						transition_in(each_blocks[i], 1);
+    						each_blocks[i].m(each_1_anchor.parentNode, each_1_anchor);
+    					}
+    				}
+
+    				group_outros();
+
+    				for (i = each_value.length; i < each_blocks.length; i += 1) {
+    					out(i);
+    				}
+
+    				check_outros();
+    			}
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+
+    			for (let i = 0; i < each_value.length; i += 1) {
+    				transition_in(each_blocks[i]);
+    			}
+
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			each_blocks = each_blocks.filter(Boolean);
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				transition_out(each_blocks[i]);
+    			}
+
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			destroy_each(each_blocks, detaching);
+    			if (detaching) detach_dev(each_1_anchor);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block$5.name,
+    		type: "if",
+    		source: "(10:4) {#if !color}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (16:8) {#each Array(5) as _, i}
+    function create_each_block_1(ctx) {
+    	let step;
+    	let current;
+
+    	step = new Step({
+    			props: {
+    				i: /*offsetIndex*/ ctx[1] + /*i*/ ctx[6] + 1,
+    				color: /*color*/ ctx[3]
+    			},
+    			$$inline: true
+    		});
+
+    	const block = {
+    		c: function create() {
+    			create_component(step.$$.fragment);
+    		},
+    		m: function mount(target, anchor) {
+    			mount_component(step, target, anchor);
+    			current = true;
+    		},
+    		p: function update(ctx, dirty) {
+    			const step_changes = {};
+    			if (dirty & /*offsetIndex*/ 2) step_changes.i = /*offsetIndex*/ ctx[1] + /*i*/ ctx[6] + 1;
+    			if (dirty & /*color*/ 8) step_changes.color = /*color*/ ctx[3];
+    			step.$set(step_changes);
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(step.$$.fragment, local);
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(step.$$.fragment, local);
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			destroy_component(step, detaching);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_each_block_1.name,
+    		type: "each",
+    		source: "(16:8) {#each Array(5) as _, i}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (11:8) {#each Array(6) as _, i}
+    function create_each_block$1(ctx) {
+    	let step;
+    	let current;
+
+    	step = new Step({
+    			props: {
+    				i: /*offsetIndex*/ ctx[1] + /*i*/ ctx[6],
+    				cellSize: /*cellSize*/ ctx[0]
+    			},
+    			$$inline: true
+    		});
+
+    	const block = {
+    		c: function create() {
+    			create_component(step.$$.fragment);
+    		},
+    		m: function mount(target, anchor) {
+    			mount_component(step, target, anchor);
+    			current = true;
+    		},
+    		p: function update(ctx, dirty) {
+    			const step_changes = {};
+    			if (dirty & /*offsetIndex*/ 2) step_changes.i = /*offsetIndex*/ ctx[1] + /*i*/ ctx[6];
+    			if (dirty & /*cellSize*/ 1) step_changes.cellSize = /*cellSize*/ ctx[0];
+    			step.$set(step_changes);
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(step.$$.fragment, local);
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(step.$$.fragment, local);
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			destroy_component(step, detaching);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_each_block$1.name,
+    		type: "each",
+    		source: "(11:8) {#each Array(6) as _, i}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    function create_fragment$7(ctx) {
+    	let div;
+    	let current_block_type_index;
+    	let if_block;
+    	let div_class_value;
+    	let current;
+    	const if_block_creators = [create_if_block$5, create_else_block$2];
+    	const if_blocks = [];
+
+    	function select_block_type(ctx, dirty) {
+    		if (!/*color*/ ctx[3]) return 0;
+    		return 1;
+    	}
+
+    	current_block_type_index = select_block_type(ctx);
+    	if_block = if_blocks[current_block_type_index] = if_block_creators[current_block_type_index](ctx);
+
+    	const block = {
+    		c: function create() {
+    			div = element("div");
+    			if_block.c();
+    			attr_dev(div, "class", div_class_value = "flex flex-nowrap flex-" + /*flexDirection*/ ctx[2]);
+    			add_location(div, file$7, 8, 0, 172);
+    		},
+    		l: function claim(nodes) {
+    			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, div, anchor);
+    			if_blocks[current_block_type_index].m(div, null);
+    			current = true;
+    		},
+    		p: function update(ctx, [dirty]) {
+    			let previous_block_index = current_block_type_index;
+    			current_block_type_index = select_block_type(ctx);
+
+    			if (current_block_type_index === previous_block_index) {
+    				if_blocks[current_block_type_index].p(ctx, dirty);
+    			} else {
+    				group_outros();
+
+    				transition_out(if_blocks[previous_block_index], 1, 1, () => {
+    					if_blocks[previous_block_index] = null;
+    				});
+
+    				check_outros();
+    				if_block = if_blocks[current_block_type_index];
+
+    				if (!if_block) {
+    					if_block = if_blocks[current_block_type_index] = if_block_creators[current_block_type_index](ctx);
+    					if_block.c();
+    				} else {
+    					if_block.p(ctx, dirty);
+    				}
+
+    				transition_in(if_block, 1);
+    				if_block.m(div, null);
+    			}
+
+    			if (!current || dirty & /*flexDirection*/ 4 && div_class_value !== (div_class_value = "flex flex-nowrap flex-" + /*flexDirection*/ ctx[2])) {
+    				attr_dev(div, "class", div_class_value);
+    			}
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(if_block);
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(if_block);
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(div);
+    			if_blocks[current_block_type_index].d();
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_fragment$7.name,
+    		type: "component",
+    		source: "",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    function instance$7($$self, $$props, $$invalidate) {
+    	let { $$slots: slots = {}, $$scope } = $$props;
+    	validate_slots('Walkway', slots, []);
+    	let { cellSize, offsetIndex } = $$props;
+    	let { flexDirection = "row" } = $$props;
+    	let { color = null } = $$props;
+    	const writable_props = ['cellSize', 'offsetIndex', 'flexDirection', 'color'];
+
+    	Object.keys($$props).forEach(key => {
+    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<Walkway> was created with unknown prop '${key}'`);
+    	});
+
+    	$$self.$$set = $$props => {
+    		if ('cellSize' in $$props) $$invalidate(0, cellSize = $$props.cellSize);
+    		if ('offsetIndex' in $$props) $$invalidate(1, offsetIndex = $$props.offsetIndex);
+    		if ('flexDirection' in $$props) $$invalidate(2, flexDirection = $$props.flexDirection);
+    		if ('color' in $$props) $$invalidate(3, color = $$props.color);
+    	};
+
+    	$$self.$capture_state = () => ({
+    		Step,
+    		cellSize,
+    		offsetIndex,
+    		flexDirection,
+    		color
+    	});
+
+    	$$self.$inject_state = $$props => {
+    		if ('cellSize' in $$props) $$invalidate(0, cellSize = $$props.cellSize);
+    		if ('offsetIndex' in $$props) $$invalidate(1, offsetIndex = $$props.offsetIndex);
+    		if ('flexDirection' in $$props) $$invalidate(2, flexDirection = $$props.flexDirection);
+    		if ('color' in $$props) $$invalidate(3, color = $$props.color);
+    	};
+
+    	if ($$props && "$$inject" in $$props) {
+    		$$self.$inject_state($$props.$$inject);
+    	}
+
+    	return [cellSize, offsetIndex, flexDirection, color];
+    }
+
+    class Walkway extends SvelteComponentDev {
+    	constructor(options) {
+    		super(options);
+
+    		init(this, options, instance$7, create_fragment$7, safe_not_equal, {
+    			cellSize: 0,
+    			offsetIndex: 1,
+    			flexDirection: 2,
+    			color: 3
+    		});
+
+    		dispatch_dev("SvelteRegisterComponent", {
+    			component: this,
+    			tagName: "Walkway",
+    			options,
+    			id: create_fragment$7.name
+    		});
+
+    		const { ctx } = this.$$;
+    		const props = options.props || {};
+
+    		if (/*cellSize*/ ctx[0] === undefined && !('cellSize' in props)) {
+    			console.warn("<Walkway> was created without expected prop 'cellSize'");
+    		}
+
+    		if (/*offsetIndex*/ ctx[1] === undefined && !('offsetIndex' in props)) {
+    			console.warn("<Walkway> was created without expected prop 'offsetIndex'");
+    		}
+    	}
+
+    	get cellSize() {
+    		throw new Error("<Walkway>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set cellSize(value) {
+    		throw new Error("<Walkway>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	get offsetIndex() {
+    		throw new Error("<Walkway>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set offsetIndex(value) {
+    		throw new Error("<Walkway>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	get flexDirection() {
+    		throw new Error("<Walkway>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set flexDirection(value) {
+    		throw new Error("<Walkway>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	get color() {
+    		throw new Error("<Walkway>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set color(value) {
+    		throw new Error("<Walkway>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+    }
+
+    /* src\components\board\Triangle.svelte generated by Svelte v3.44.3 */
+
+    const file$6 = "src\\components\\board\\Triangle.svelte";
+
+    function create_fragment$6(ctx) {
+    	let div;
+
+    	const block = {
+    		c: function create() {
+    			div = element("div");
+    			attr_dev(div, "class", "triangle svelte-1n4h48y");
+    			set_style(div, "background-color", "var(--" + /*color*/ ctx[0] + "-player)");
+    			set_style(div, "height", /*gameHomeSize*/ ctx[1] / 2 + "px");
+    			set_style(div, "width", /*gameHomeSize*/ ctx[1] + "px");
+    			set_style(div, "margin-top", /*top*/ ctx[3] + "px");
+    			set_style(div, "margin-right", /*right*/ ctx[4] + "px");
+    			set_style(div, "margin-left", /*left*/ ctx[5] + "px");
+    			set_style(div, "margin-bottom", /*bottom*/ ctx[6] + "px");
+    			set_style(div, "--rotate", /*i*/ ctx[2] * 90 + "deg");
+    			add_location(div, file$6, 5, 0, 121);
+    		},
+    		l: function claim(nodes) {
+    			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, div, anchor);
+    		},
+    		p: function update(ctx, [dirty]) {
+    			if (dirty & /*color*/ 1) {
+    				set_style(div, "background-color", "var(--" + /*color*/ ctx[0] + "-player)");
+    			}
+
+    			if (dirty & /*gameHomeSize*/ 2) {
+    				set_style(div, "height", /*gameHomeSize*/ ctx[1] / 2 + "px");
+    			}
+
+    			if (dirty & /*gameHomeSize*/ 2) {
+    				set_style(div, "width", /*gameHomeSize*/ ctx[1] + "px");
+    			}
+
+    			if (dirty & /*top*/ 8) {
+    				set_style(div, "margin-top", /*top*/ ctx[3] + "px");
+    			}
+
+    			if (dirty & /*right*/ 16) {
+    				set_style(div, "margin-right", /*right*/ ctx[4] + "px");
+    			}
+
+    			if (dirty & /*left*/ 32) {
+    				set_style(div, "margin-left", /*left*/ ctx[5] + "px");
+    			}
+
+    			if (dirty & /*bottom*/ 64) {
+    				set_style(div, "margin-bottom", /*bottom*/ ctx[6] + "px");
+    			}
+
+    			if (dirty & /*i*/ 4) {
+    				set_style(div, "--rotate", /*i*/ ctx[2] * 90 + "deg");
+    			}
+    		},
+    		i: noop,
+    		o: noop,
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(div);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_fragment$6.name,
+    		type: "component",
+    		source: "",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    function instance$6($$self, $$props, $$invalidate) {
+    	let { $$slots: slots = {}, $$scope } = $$props;
+    	validate_slots('Triangle', slots, []);
+    	let { color, gameHomeSize, i } = $$props;
+    	let { top = 0, right = 0, left = 0, bottom = 0 } = $$props;
+    	const writable_props = ['color', 'gameHomeSize', 'i', 'top', 'right', 'left', 'bottom'];
+
+    	Object.keys($$props).forEach(key => {
+    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<Triangle> was created with unknown prop '${key}'`);
+    	});
+
+    	$$self.$$set = $$props => {
+    		if ('color' in $$props) $$invalidate(0, color = $$props.color);
+    		if ('gameHomeSize' in $$props) $$invalidate(1, gameHomeSize = $$props.gameHomeSize);
+    		if ('i' in $$props) $$invalidate(2, i = $$props.i);
+    		if ('top' in $$props) $$invalidate(3, top = $$props.top);
+    		if ('right' in $$props) $$invalidate(4, right = $$props.right);
+    		if ('left' in $$props) $$invalidate(5, left = $$props.left);
+    		if ('bottom' in $$props) $$invalidate(6, bottom = $$props.bottom);
+    	};
+
+    	$$self.$capture_state = () => ({
+    		color,
+    		gameHomeSize,
+    		i,
+    		top,
+    		right,
+    		left,
+    		bottom
+    	});
+
+    	$$self.$inject_state = $$props => {
+    		if ('color' in $$props) $$invalidate(0, color = $$props.color);
+    		if ('gameHomeSize' in $$props) $$invalidate(1, gameHomeSize = $$props.gameHomeSize);
+    		if ('i' in $$props) $$invalidate(2, i = $$props.i);
+    		if ('top' in $$props) $$invalidate(3, top = $$props.top);
+    		if ('right' in $$props) $$invalidate(4, right = $$props.right);
+    		if ('left' in $$props) $$invalidate(5, left = $$props.left);
+    		if ('bottom' in $$props) $$invalidate(6, bottom = $$props.bottom);
+    	};
+
+    	if ($$props && "$$inject" in $$props) {
+    		$$self.$inject_state($$props.$$inject);
+    	}
+
+    	return [color, gameHomeSize, i, top, right, left, bottom];
+    }
+
+    class Triangle extends SvelteComponentDev {
+    	constructor(options) {
+    		super(options);
+
+    		init(this, options, instance$6, create_fragment$6, safe_not_equal, {
+    			color: 0,
+    			gameHomeSize: 1,
+    			i: 2,
+    			top: 3,
+    			right: 4,
+    			left: 5,
+    			bottom: 6
+    		});
+
+    		dispatch_dev("SvelteRegisterComponent", {
+    			component: this,
+    			tagName: "Triangle",
+    			options,
+    			id: create_fragment$6.name
+    		});
+
+    		const { ctx } = this.$$;
+    		const props = options.props || {};
+
+    		if (/*color*/ ctx[0] === undefined && !('color' in props)) {
+    			console.warn("<Triangle> was created without expected prop 'color'");
+    		}
+
+    		if (/*gameHomeSize*/ ctx[1] === undefined && !('gameHomeSize' in props)) {
+    			console.warn("<Triangle> was created without expected prop 'gameHomeSize'");
+    		}
+
+    		if (/*i*/ ctx[2] === undefined && !('i' in props)) {
+    			console.warn("<Triangle> was created without expected prop 'i'");
+    		}
+    	}
+
+    	get color() {
+    		throw new Error("<Triangle>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set color(value) {
+    		throw new Error("<Triangle>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	get gameHomeSize() {
+    		throw new Error("<Triangle>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set gameHomeSize(value) {
+    		throw new Error("<Triangle>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	get i() {
+    		throw new Error("<Triangle>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set i(value) {
+    		throw new Error("<Triangle>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	get top() {
+    		throw new Error("<Triangle>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set top(value) {
+    		throw new Error("<Triangle>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	get right() {
+    		throw new Error("<Triangle>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set right(value) {
+    		throw new Error("<Triangle>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	get left() {
+    		throw new Error("<Triangle>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set left(value) {
+    		throw new Error("<Triangle>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	get bottom() {
+    		throw new Error("<Triangle>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set bottom(value) {
+    		throw new Error("<Triangle>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+    }
+
+    /* src\components\board\Index.svelte generated by Svelte v3.44.3 */
+    const file$5 = "src\\components\\board\\Index.svelte";
+
+    function create_fragment$5(ctx) {
+    	let div9;
+    	let div8;
+    	let div7;
+    	let div0;
+    	let prison0;
+    	let t0;
+    	let walkway0;
+    	let t1;
+    	let walkway1;
+    	let t2;
+    	let walkway2;
+    	let t3;
+    	let prison1;
+    	let t4;
+    	let div5;
+    	let div1;
+    	let walkway3;
+    	let t5;
+    	let walkway4;
+    	let t6;
+    	let walkway5;
+    	let t7;
+    	let div3;
+    	let div2;
+    	let triangle0;
+    	let t8;
+    	let triangle1;
+    	let t9;
+    	let triangle2;
+    	let t10;
+    	let triangle3;
+    	let t11;
+    	let div4;
+    	let walkway6;
+    	let t12;
+    	let walkway7;
+    	let t13;
+    	let walkway8;
+    	let t14;
+    	let div6;
+    	let prison2;
+    	let t15;
+    	let walkway9;
+    	let t16;
+    	let walkway10;
+    	let t17;
+    	let walkway11;
+    	let t18;
+    	let prison3;
+    	let current;
+
+    	prison0 = new Prison({
+    			props: {
+    				code: "red",
+    				cellSize: /*cellSize*/ ctx[1],
+    				prisonSize: /*prisonSize*/ ctx[2]
+    			},
+    			$$inline: true
+    		});
+
+    	walkway0 = new Walkway({
+    			props: {
+    				cellSize: /*cellSize*/ ctx[1],
+    				offsetIndex: 1,
+    				flexDirection: "column"
+    			},
+    			$$inline: true
+    		});
+
+    	walkway1 = new Walkway({
+    			props: {
+    				cellSize: /*cellSize*/ ctx[1],
+    				offsetIndex: 7,
+    				flexDirection: "column",
+    				color: "blue"
+    			},
+    			$$inline: true
+    		});
+
+    	walkway2 = new Walkway({
+    			props: {
+    				cellSize: /*cellSize*/ ctx[1],
+    				offsetIndex: 13,
+    				flexDirection: "column"
+    			},
+    			$$inline: true
+    		});
+
+    	prison1 = new Prison({
+    			props: {
+    				code: "blue",
+    				cellSize: /*cellSize*/ ctx[1],
+    				prisonSize: /*prisonSize*/ ctx[2]
+    			},
+    			$$inline: true
+    		});
+
+    	walkway3 = new Walkway({
+    			props: {
+    				cellSize: /*cellSize*/ ctx[1],
+    				offsetIndex: 19
+    			},
+    			$$inline: true
+    		});
+
+    	walkway4 = new Walkway({
+    			props: {
+    				cellSize: /*cellSize*/ ctx[1],
+    				offsetIndex: 25,
+    				color: "red"
+    			},
+    			$$inline: true
+    		});
+
+    	walkway5 = new Walkway({
+    			props: {
+    				cellSize: /*cellSize*/ ctx[1],
+    				offsetIndex: 31
+    			},
+    			$$inline: true
+    		});
+
+    	triangle0 = new Triangle({
+    			props: {
+    				color: "green",
+    				i: 0,
+    				top: /*gameHomeSize*/ ctx[3] / 2,
+    				gameHomeSize: /*gameHomeSize*/ ctx[3]
+    			},
+    			$$inline: true
+    		});
+
+    	triangle1 = new Triangle({
+    			props: {
+    				color: "red",
+    				i: 1,
+    				top: /*gameHomeSize*/ ctx[3] / 4,
+    				left: -/*gameHomeSize*/ ctx[3] / 4,
+    				gameHomeSize: /*gameHomeSize*/ ctx[3]
+    			},
+    			$$inline: true
+    		});
+
+    	triangle2 = new Triangle({
+    			props: {
+    				color: "blue",
+    				i: 2,
+    				gameHomeSize: /*gameHomeSize*/ ctx[3]
+    			},
+    			$$inline: true
+    		});
+
+    	triangle3 = new Triangle({
+    			props: {
+    				color: "yellow",
+    				i: 3,
+    				top: /*gameHomeSize*/ ctx[3] / 4,
+    				left: /*gameHomeSize*/ ctx[3] / 4,
+    				gameHomeSize: /*gameHomeSize*/ ctx[3]
+    			},
+    			$$inline: true
+    		});
+
+    	walkway6 = new Walkway({
+    			props: {
+    				cellSize: /*cellSize*/ ctx[1],
+    				offsetIndex: 37,
+    				flexDirection: "row-r"
+    			},
+    			$$inline: true
+    		});
+
+    	walkway7 = new Walkway({
+    			props: {
+    				cellSize: /*cellSize*/ ctx[1],
+    				offsetIndex: 43,
+    				flexDirection: "row-r",
+    				color: "yellow"
+    			},
+    			$$inline: true
+    		});
+
+    	walkway8 = new Walkway({
+    			props: {
+    				cellSize: /*cellSize*/ ctx[1],
+    				offsetIndex: 49,
+    				flexDirection: "row-r"
+    			},
+    			$$inline: true
+    		});
+
+    	prison2 = new Prison({
+    			props: {
+    				code: "green",
+    				cellSize: /*cellSize*/ ctx[1],
+    				prisonSize: /*prisonSize*/ ctx[2]
+    			},
+    			$$inline: true
+    		});
+
+    	walkway9 = new Walkway({
+    			props: {
+    				cellSize: /*cellSize*/ ctx[1],
+    				offsetIndex: 55,
+    				flexDirection: "column-r"
+    			},
+    			$$inline: true
+    		});
+
+    	walkway10 = new Walkway({
+    			props: {
+    				cellSize: /*cellSize*/ ctx[1],
+    				offsetIndex: 61,
+    				flexDirection: "column-r",
+    				color: "green"
+    			},
+    			$$inline: true
+    		});
+
+    	walkway11 = new Walkway({
+    			props: {
+    				cellSize: /*cellSize*/ ctx[1],
+    				offsetIndex: 67,
+    				flexDirection: "column-r"
+    			},
+    			$$inline: true
+    		});
+
+    	prison3 = new Prison({
+    			props: {
+    				code: "yellow",
+    				cellSize: /*cellSize*/ ctx[1],
+    				prisonSize: /*prisonSize*/ ctx[2]
+    			},
+    			$$inline: true
+    		});
+
+    	const block = {
+    		c: function create() {
+    			div9 = element("div");
+    			div8 = element("div");
+    			div7 = element("div");
+    			div0 = element("div");
+    			create_component(prison0.$$.fragment);
+    			t0 = space();
+    			create_component(walkway0.$$.fragment);
+    			t1 = space();
+    			create_component(walkway1.$$.fragment);
+    			t2 = space();
+    			create_component(walkway2.$$.fragment);
+    			t3 = space();
+    			create_component(prison1.$$.fragment);
+    			t4 = space();
+    			div5 = element("div");
+    			div1 = element("div");
+    			create_component(walkway3.$$.fragment);
+    			t5 = space();
+    			create_component(walkway4.$$.fragment);
+    			t6 = space();
+    			create_component(walkway5.$$.fragment);
+    			t7 = space();
+    			div3 = element("div");
+    			div2 = element("div");
+    			create_component(triangle0.$$.fragment);
+    			t8 = space();
+    			create_component(triangle1.$$.fragment);
+    			t9 = space();
+    			create_component(triangle2.$$.fragment);
+    			t10 = space();
+    			create_component(triangle3.$$.fragment);
+    			t11 = space();
+    			div4 = element("div");
+    			create_component(walkway6.$$.fragment);
+    			t12 = space();
+    			create_component(walkway7.$$.fragment);
+    			t13 = space();
+    			create_component(walkway8.$$.fragment);
+    			t14 = space();
+    			div6 = element("div");
+    			create_component(prison2.$$.fragment);
+    			t15 = space();
+    			create_component(walkway9.$$.fragment);
+    			t16 = space();
+    			create_component(walkway10.$$.fragment);
+    			t17 = space();
+    			create_component(walkway11.$$.fragment);
+    			t18 = space();
+    			create_component(prison3.$$.fragment);
+    			attr_dev(div0, "class", "flex flex-nowrap");
+    			add_location(div0, file$5, 38, 12, 1091);
+    			add_location(div1, file$5, 52, 16, 1684);
+    			set_style(div2, "z-index", "6");
+    			add_location(div2, file$5, 62, 20, 2120);
+    			set_style(div3, "width", /*gameHomeSize*/ ctx[3] + "px");
+    			attr_dev(div3, "class", "game-home svelte-18xkrso");
+    			add_location(div3, file$5, 61, 16, 2042);
+    			add_location(div4, file$5, 70, 16, 2622);
+    			attr_dev(div5, "class", "flex flex-nowrap");
+    			add_location(div5, file$5, 51, 12, 1636);
+    			attr_dev(div6, "class", "flex flex-nowrap");
+    			add_location(div6, file$5, 80, 12, 3065);
+    			attr_dev(div7, "class", "board-inner w-full");
+    			add_location(div7, file$5, 37, 8, 1045);
+    			attr_dev(div8, "class", "board w-full h-full svelte-18xkrso");
+    			add_location(div8, file$5, 36, 4, 1002);
+    			attr_dev(div9, "class", "board-wrapper svelte-18xkrso");
+    			set_style(div9, "--board-width", /*minSide*/ ctx[0] + "px");
+    			set_style(div9, "--board-height", /*minSide*/ ctx[0] + "px");
+    			set_style(div9, "--cell-size", /*cellSize*/ ctx[1] + "px");
+    			add_location(div9, file$5, 28, 0, 828);
+    		},
+    		l: function claim(nodes) {
+    			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, div9, anchor);
+    			append_dev(div9, div8);
+    			append_dev(div8, div7);
+    			append_dev(div7, div0);
+    			mount_component(prison0, div0, null);
+    			append_dev(div0, t0);
+    			mount_component(walkway0, div0, null);
+    			append_dev(div0, t1);
+    			mount_component(walkway1, div0, null);
+    			append_dev(div0, t2);
+    			mount_component(walkway2, div0, null);
+    			append_dev(div0, t3);
+    			mount_component(prison1, div0, null);
+    			append_dev(div7, t4);
+    			append_dev(div7, div5);
+    			append_dev(div5, div1);
+    			mount_component(walkway3, div1, null);
+    			append_dev(div1, t5);
+    			mount_component(walkway4, div1, null);
+    			append_dev(div1, t6);
+    			mount_component(walkway5, div1, null);
+    			append_dev(div5, t7);
+    			append_dev(div5, div3);
+    			append_dev(div3, div2);
+    			mount_component(triangle0, div2, null);
+    			append_dev(div2, t8);
+    			mount_component(triangle1, div2, null);
+    			append_dev(div2, t9);
+    			mount_component(triangle2, div2, null);
+    			append_dev(div2, t10);
+    			mount_component(triangle3, div2, null);
+    			append_dev(div5, t11);
+    			append_dev(div5, div4);
+    			mount_component(walkway6, div4, null);
+    			append_dev(div4, t12);
+    			mount_component(walkway7, div4, null);
+    			append_dev(div4, t13);
+    			mount_component(walkway8, div4, null);
+    			append_dev(div7, t14);
+    			append_dev(div7, div6);
+    			mount_component(prison2, div6, null);
+    			append_dev(div6, t15);
+    			mount_component(walkway9, div6, null);
+    			append_dev(div6, t16);
+    			mount_component(walkway10, div6, null);
+    			append_dev(div6, t17);
+    			mount_component(walkway11, div6, null);
+    			append_dev(div6, t18);
+    			mount_component(prison3, div6, null);
+    			current = true;
+    		},
+    		p: function update(ctx, [dirty]) {
+    			const prison0_changes = {};
+    			if (dirty & /*cellSize*/ 2) prison0_changes.cellSize = /*cellSize*/ ctx[1];
+    			if (dirty & /*prisonSize*/ 4) prison0_changes.prisonSize = /*prisonSize*/ ctx[2];
+    			prison0.$set(prison0_changes);
+    			const walkway0_changes = {};
+    			if (dirty & /*cellSize*/ 2) walkway0_changes.cellSize = /*cellSize*/ ctx[1];
+    			walkway0.$set(walkway0_changes);
+    			const walkway1_changes = {};
+    			if (dirty & /*cellSize*/ 2) walkway1_changes.cellSize = /*cellSize*/ ctx[1];
+    			walkway1.$set(walkway1_changes);
+    			const walkway2_changes = {};
+    			if (dirty & /*cellSize*/ 2) walkway2_changes.cellSize = /*cellSize*/ ctx[1];
+    			walkway2.$set(walkway2_changes);
+    			const prison1_changes = {};
+    			if (dirty & /*cellSize*/ 2) prison1_changes.cellSize = /*cellSize*/ ctx[1];
+    			if (dirty & /*prisonSize*/ 4) prison1_changes.prisonSize = /*prisonSize*/ ctx[2];
+    			prison1.$set(prison1_changes);
+    			const walkway3_changes = {};
+    			if (dirty & /*cellSize*/ 2) walkway3_changes.cellSize = /*cellSize*/ ctx[1];
+    			walkway3.$set(walkway3_changes);
+    			const walkway4_changes = {};
+    			if (dirty & /*cellSize*/ 2) walkway4_changes.cellSize = /*cellSize*/ ctx[1];
+    			walkway4.$set(walkway4_changes);
+    			const walkway5_changes = {};
+    			if (dirty & /*cellSize*/ 2) walkway5_changes.cellSize = /*cellSize*/ ctx[1];
+    			walkway5.$set(walkway5_changes);
+    			const triangle0_changes = {};
+    			if (dirty & /*gameHomeSize*/ 8) triangle0_changes.top = /*gameHomeSize*/ ctx[3] / 2;
+    			if (dirty & /*gameHomeSize*/ 8) triangle0_changes.gameHomeSize = /*gameHomeSize*/ ctx[3];
+    			triangle0.$set(triangle0_changes);
+    			const triangle1_changes = {};
+    			if (dirty & /*gameHomeSize*/ 8) triangle1_changes.top = /*gameHomeSize*/ ctx[3] / 4;
+    			if (dirty & /*gameHomeSize*/ 8) triangle1_changes.left = -/*gameHomeSize*/ ctx[3] / 4;
+    			if (dirty & /*gameHomeSize*/ 8) triangle1_changes.gameHomeSize = /*gameHomeSize*/ ctx[3];
+    			triangle1.$set(triangle1_changes);
+    			const triangle2_changes = {};
+    			if (dirty & /*gameHomeSize*/ 8) triangle2_changes.gameHomeSize = /*gameHomeSize*/ ctx[3];
+    			triangle2.$set(triangle2_changes);
+    			const triangle3_changes = {};
+    			if (dirty & /*gameHomeSize*/ 8) triangle3_changes.top = /*gameHomeSize*/ ctx[3] / 4;
+    			if (dirty & /*gameHomeSize*/ 8) triangle3_changes.left = /*gameHomeSize*/ ctx[3] / 4;
+    			if (dirty & /*gameHomeSize*/ 8) triangle3_changes.gameHomeSize = /*gameHomeSize*/ ctx[3];
+    			triangle3.$set(triangle3_changes);
+
+    			if (!current || dirty & /*gameHomeSize*/ 8) {
+    				set_style(div3, "width", /*gameHomeSize*/ ctx[3] + "px");
+    			}
+
+    			const walkway6_changes = {};
+    			if (dirty & /*cellSize*/ 2) walkway6_changes.cellSize = /*cellSize*/ ctx[1];
+    			walkway6.$set(walkway6_changes);
+    			const walkway7_changes = {};
+    			if (dirty & /*cellSize*/ 2) walkway7_changes.cellSize = /*cellSize*/ ctx[1];
+    			walkway7.$set(walkway7_changes);
+    			const walkway8_changes = {};
+    			if (dirty & /*cellSize*/ 2) walkway8_changes.cellSize = /*cellSize*/ ctx[1];
+    			walkway8.$set(walkway8_changes);
+    			const prison2_changes = {};
+    			if (dirty & /*cellSize*/ 2) prison2_changes.cellSize = /*cellSize*/ ctx[1];
+    			if (dirty & /*prisonSize*/ 4) prison2_changes.prisonSize = /*prisonSize*/ ctx[2];
+    			prison2.$set(prison2_changes);
+    			const walkway9_changes = {};
+    			if (dirty & /*cellSize*/ 2) walkway9_changes.cellSize = /*cellSize*/ ctx[1];
+    			walkway9.$set(walkway9_changes);
+    			const walkway10_changes = {};
+    			if (dirty & /*cellSize*/ 2) walkway10_changes.cellSize = /*cellSize*/ ctx[1];
+    			walkway10.$set(walkway10_changes);
+    			const walkway11_changes = {};
+    			if (dirty & /*cellSize*/ 2) walkway11_changes.cellSize = /*cellSize*/ ctx[1];
+    			walkway11.$set(walkway11_changes);
+    			const prison3_changes = {};
+    			if (dirty & /*cellSize*/ 2) prison3_changes.cellSize = /*cellSize*/ ctx[1];
+    			if (dirty & /*prisonSize*/ 4) prison3_changes.prisonSize = /*prisonSize*/ ctx[2];
+    			prison3.$set(prison3_changes);
+
+    			if (!current || dirty & /*minSide*/ 1) {
+    				set_style(div9, "--board-width", /*minSide*/ ctx[0] + "px");
+    			}
+
+    			if (!current || dirty & /*minSide*/ 1) {
+    				set_style(div9, "--board-height", /*minSide*/ ctx[0] + "px");
+    			}
+
+    			if (!current || dirty & /*cellSize*/ 2) {
+    				set_style(div9, "--cell-size", /*cellSize*/ ctx[1] + "px");
+    			}
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(prison0.$$.fragment, local);
+    			transition_in(walkway0.$$.fragment, local);
+    			transition_in(walkway1.$$.fragment, local);
+    			transition_in(walkway2.$$.fragment, local);
+    			transition_in(prison1.$$.fragment, local);
+    			transition_in(walkway3.$$.fragment, local);
+    			transition_in(walkway4.$$.fragment, local);
+    			transition_in(walkway5.$$.fragment, local);
+    			transition_in(triangle0.$$.fragment, local);
+    			transition_in(triangle1.$$.fragment, local);
+    			transition_in(triangle2.$$.fragment, local);
+    			transition_in(triangle3.$$.fragment, local);
+    			transition_in(walkway6.$$.fragment, local);
+    			transition_in(walkway7.$$.fragment, local);
+    			transition_in(walkway8.$$.fragment, local);
+    			transition_in(prison2.$$.fragment, local);
+    			transition_in(walkway9.$$.fragment, local);
+    			transition_in(walkway10.$$.fragment, local);
+    			transition_in(walkway11.$$.fragment, local);
+    			transition_in(prison3.$$.fragment, local);
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(prison0.$$.fragment, local);
+    			transition_out(walkway0.$$.fragment, local);
+    			transition_out(walkway1.$$.fragment, local);
+    			transition_out(walkway2.$$.fragment, local);
+    			transition_out(prison1.$$.fragment, local);
+    			transition_out(walkway3.$$.fragment, local);
+    			transition_out(walkway4.$$.fragment, local);
+    			transition_out(walkway5.$$.fragment, local);
+    			transition_out(triangle0.$$.fragment, local);
+    			transition_out(triangle1.$$.fragment, local);
+    			transition_out(triangle2.$$.fragment, local);
+    			transition_out(triangle3.$$.fragment, local);
+    			transition_out(walkway6.$$.fragment, local);
+    			transition_out(walkway7.$$.fragment, local);
+    			transition_out(walkway8.$$.fragment, local);
+    			transition_out(prison2.$$.fragment, local);
+    			transition_out(walkway9.$$.fragment, local);
+    			transition_out(walkway10.$$.fragment, local);
+    			transition_out(walkway11.$$.fragment, local);
+    			transition_out(prison3.$$.fragment, local);
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(div9);
+    			destroy_component(prison0);
+    			destroy_component(walkway0);
+    			destroy_component(walkway1);
+    			destroy_component(walkway2);
+    			destroy_component(prison1);
+    			destroy_component(walkway3);
+    			destroy_component(walkway4);
+    			destroy_component(walkway5);
+    			destroy_component(triangle0);
+    			destroy_component(triangle1);
+    			destroy_component(triangle2);
+    			destroy_component(triangle3);
+    			destroy_component(walkway6);
+    			destroy_component(walkway7);
+    			destroy_component(walkway8);
+    			destroy_component(prison2);
+    			destroy_component(walkway9);
+    			destroy_component(walkway10);
+    			destroy_component(walkway11);
+    			destroy_component(prison3);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_fragment$5.name,
+    		type: "component",
+    		source: "",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    function instance$5($$self, $$props, $$invalidate) {
+    	let { $$slots: slots = {}, $$scope } = $$props;
+    	validate_slots('Index', slots, []);
+    	let minSide, cellSize, prisonSize, gameHomeSize;
+
+    	function setCSSDimensions() {
+    		let wrapElement = document.getElementById('wrap');
+    		$$invalidate(0, minSide = Math.min(wrapElement.clientHeight, wrapElement.clientWidth));
+    	}
+
+    	onMount(() => {
+    		setCSSDimensions();
+    		engine.onWindowLoad();
+    		window.addEventListener('resize', setCSSDimensions);
+    	});
+
+    	const writable_props = [];
+
+    	Object.keys($$props).forEach(key => {
+    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<Index> was created with unknown prop '${key}'`);
+    	});
+
+    	$$self.$capture_state = () => ({
+    		onMount,
+    		Prison,
+    		Walkway,
+    		Triangle,
+    		engine,
+    		minSide,
+    		cellSize,
+    		prisonSize,
+    		gameHomeSize,
+    		setCSSDimensions
+    	});
+
+    	$$self.$inject_state = $$props => {
+    		if ('minSide' in $$props) $$invalidate(0, minSide = $$props.minSide);
+    		if ('cellSize' in $$props) $$invalidate(1, cellSize = $$props.cellSize);
+    		if ('prisonSize' in $$props) $$invalidate(2, prisonSize = $$props.prisonSize);
+    		if ('gameHomeSize' in $$props) $$invalidate(3, gameHomeSize = $$props.gameHomeSize);
+    	};
+
+    	if ($$props && "$$inject" in $$props) {
+    		$$self.$inject_state($$props.$$inject);
+    	}
+
+    	$$self.$$.update = () => {
+    		if ($$self.$$.dirty & /*minSide, cellSize*/ 3) {
+    			{
+    				$$invalidate(1, cellSize = (minSide - 70) / 15);
+    				$$invalidate(2, prisonSize = 6 * cellSize + 24);
+
+    				// walkwayWidth = cellSize + 4;
+    				$$invalidate(3, gameHomeSize = cellSize * 3 + 8);
+    			}
+    		}
+    	};
+
+    	return [minSide, cellSize, prisonSize, gameHomeSize];
+    }
+
+    class Index$2 extends SvelteComponentDev {
+    	constructor(options) {
+    		super(options);
+    		init(this, options, instance$5, create_fragment$5, safe_not_equal, {});
+
+    		dispatch_dev("SvelteRegisterComponent", {
+    			component: this,
+    			tagName: "Index",
+    			options,
+    			id: create_fragment$5.name
+    		});
+    	}
+    }
+
+    /* src\components\playerTab\Index.svelte generated by Svelte v3.44.3 */
+    const file$4 = "src\\components\\playerTab\\Index.svelte";
+
+    // (20:0) {#if !player.isNull}
+    function create_if_block$4(ctx) {
+    	let div2;
+    	let div0;
+    	let input;
+    	let input_value_value;
+    	let input_readonly_value;
+    	let t0;
+    	let div1;
+    	let p0;
+    	let t2;
+    	let p1;
+    	let t3_value = /*player*/ ctx[3].coinsOutside + "";
+    	let t3;
+    	let br0;
+    	let t4;
+    	let p2;
+    	let t6;
+    	let p3;
+    	let t7_value = /*player*/ ctx[3].coinsAtStart + "";
+    	let t7;
+    	let br1;
+    	let t8;
+    	let p4;
+    	let t10;
+    	let p5;
+    	let t11_value = /*player*/ ctx[3].coinsReached + "";
+    	let t11;
+    	let br2;
+    	let t12;
+    	let p6;
+    	let t14;
+    	let p7;
+    	let t15_value = /*player*/ ctx[3].kills + "";
+    	let t15;
+    	let br3;
+    	let t16;
+    	let t17;
+    	let mounted;
+    	let dispose;
+    	let if_block0 = !/*started*/ ctx[1] && /*editable*/ ctx[2] && create_if_block_3(ctx);
+
+    	function select_block_type(ctx, dirty) {
+    		if (/*isTurn*/ ctx[4]) return create_if_block_1$2;
+    		if (/*player*/ ctx[3].rank) return create_if_block_2$1;
+    	}
+
+    	let current_block_type = select_block_type(ctx);
+    	let if_block1 = current_block_type && current_block_type(ctx);
+
+    	const block = {
+    		c: function create() {
+    			div2 = element("div");
+    			div0 = element("div");
+    			input = element("input");
+    			t0 = space();
+    			div1 = element("div");
+    			p0 = element("p");
+    			p0.textContent = "Coins Outside:";
+    			t2 = space();
+    			p1 = element("p");
+    			t3 = text(t3_value);
+    			br0 = element("br");
+    			t4 = space();
+    			p2 = element("p");
+    			p2.textContent = "Coins At Start:";
+    			t6 = space();
+    			p3 = element("p");
+    			t7 = text(t7_value);
+    			br1 = element("br");
+    			t8 = space();
+    			p4 = element("p");
+    			p4.textContent = "Coins Reached:";
+    			t10 = space();
+    			p5 = element("p");
+    			t11 = text(t11_value);
+    			br2 = element("br");
+    			t12 = space();
+    			p6 = element("p");
+    			p6.textContent = "Kills:";
+    			t14 = space();
+    			p7 = element("p");
+    			t15 = text(t15_value);
+    			br3 = element("br");
+    			t16 = space();
+    			if (if_block0) if_block0.c();
+    			t17 = space();
+    			if (if_block1) if_block1.c();
+    			attr_dev(input, "class", "player-input svelte-14sxb61");
+    			attr_dev(input, "type", "text");
+    			input.value = input_value_value = /*player*/ ctx[3].name.slice(0, 10);
+    			input.readOnly = input_readonly_value = !/*editable*/ ctx[2];
+    			add_location(input, file$4, 22, 12, 675);
+    			attr_dev(div0, "class", "head");
+    			set_style(div0, "background-color", "var(--" + /*color*/ ctx[0] + "-player)");
+    			add_location(div0, file$4, 21, 8, 594);
+    			attr_dev(p0, "class", "inline-block strong svelte-14sxb61");
+    			add_location(p0, file$4, 37, 12, 1159);
+    			attr_dev(p1, "class", "inline-block svelte-14sxb61");
+    			add_location(p1, file$4, 38, 12, 1223);
+    			add_location(br0, file$4, 38, 61, 1272);
+    			attr_dev(p2, "class", "inline-block strong svelte-14sxb61");
+    			add_location(p2, file$4, 40, 12, 1293);
+    			attr_dev(p3, "class", "inline-block svelte-14sxb61");
+    			add_location(p3, file$4, 41, 12, 1358);
+    			add_location(br1, file$4, 41, 61, 1407);
+    			attr_dev(p4, "class", "inline-block strong svelte-14sxb61");
+    			add_location(p4, file$4, 43, 12, 1428);
+    			attr_dev(p5, "class", "inline-block svelte-14sxb61");
+    			add_location(p5, file$4, 44, 12, 1492);
+    			add_location(br2, file$4, 44, 61, 1541);
+    			attr_dev(p6, "class", "inline-block strong svelte-14sxb61");
+    			add_location(p6, file$4, 46, 12, 1562);
+    			attr_dev(p7, "class", "inline-block svelte-14sxb61");
+    			add_location(p7, file$4, 47, 12, 1618);
+    			add_location(br3, file$4, 47, 54, 1660);
+    			attr_dev(div1, "class", "foot");
+    			add_location(div1, file$4, 36, 8, 1127);
+    			attr_dev(div2, "class", "player-tab svelte-14sxb61");
+    			add_location(div2, file$4, 20, 4, 560);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, div2, anchor);
+    			append_dev(div2, div0);
+    			append_dev(div0, input);
+    			append_dev(div2, t0);
+    			append_dev(div2, div1);
+    			append_dev(div1, p0);
+    			append_dev(div1, t2);
+    			append_dev(div1, p1);
+    			append_dev(p1, t3);
+    			append_dev(div1, br0);
+    			append_dev(div1, t4);
+    			append_dev(div1, p2);
+    			append_dev(div1, t6);
+    			append_dev(div1, p3);
+    			append_dev(p3, t7);
+    			append_dev(div1, br1);
+    			append_dev(div1, t8);
+    			append_dev(div1, p4);
+    			append_dev(div1, t10);
+    			append_dev(div1, p5);
+    			append_dev(p5, t11);
+    			append_dev(div1, br2);
+    			append_dev(div1, t12);
+    			append_dev(div1, p6);
+    			append_dev(div1, t14);
+    			append_dev(div1, p7);
+    			append_dev(p7, t15);
+    			append_dev(div1, br3);
+    			append_dev(div1, t16);
+    			if (if_block0) if_block0.m(div1, null);
+    			append_dev(div1, t17);
+    			if (if_block1) if_block1.m(div1, null);
+
+    			if (!mounted) {
+    				dispose = listen_dev(input, "blur", /*blur_handler*/ ctx[6], false, false, false);
+    				mounted = true;
+    			}
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty & /*player*/ 8 && input_value_value !== (input_value_value = /*player*/ ctx[3].name.slice(0, 10)) && input.value !== input_value_value) {
+    				prop_dev(input, "value", input_value_value);
+    			}
+
+    			if (dirty & /*editable*/ 4 && input_readonly_value !== (input_readonly_value = !/*editable*/ ctx[2])) {
+    				prop_dev(input, "readOnly", input_readonly_value);
+    			}
+
+    			if (dirty & /*color*/ 1) {
+    				set_style(div0, "background-color", "var(--" + /*color*/ ctx[0] + "-player)");
+    			}
+
+    			if (dirty & /*player*/ 8 && t3_value !== (t3_value = /*player*/ ctx[3].coinsOutside + "")) set_data_dev(t3, t3_value);
+    			if (dirty & /*player*/ 8 && t7_value !== (t7_value = /*player*/ ctx[3].coinsAtStart + "")) set_data_dev(t7, t7_value);
+    			if (dirty & /*player*/ 8 && t11_value !== (t11_value = /*player*/ ctx[3].coinsReached + "")) set_data_dev(t11, t11_value);
+    			if (dirty & /*player*/ 8 && t15_value !== (t15_value = /*player*/ ctx[3].kills + "")) set_data_dev(t15, t15_value);
+
+    			if (!/*started*/ ctx[1] && /*editable*/ ctx[2]) {
+    				if (if_block0) {
+    					if_block0.p(ctx, dirty);
+    				} else {
+    					if_block0 = create_if_block_3(ctx);
+    					if_block0.c();
+    					if_block0.m(div1, t17);
+    				}
+    			} else if (if_block0) {
+    				if_block0.d(1);
+    				if_block0 = null;
+    			}
+
+    			if (current_block_type === (current_block_type = select_block_type(ctx)) && if_block1) {
+    				if_block1.p(ctx, dirty);
+    			} else {
+    				if (if_block1) if_block1.d(1);
+    				if_block1 = current_block_type && current_block_type(ctx);
+
+    				if (if_block1) {
+    					if_block1.c();
+    					if_block1.m(div1, null);
+    				}
+    			}
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(div2);
+    			if (if_block0) if_block0.d();
+
+    			if (if_block1) {
+    				if_block1.d();
+    			}
+
+    			mounted = false;
+    			dispose();
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block$4.name,
+    		type: "if",
+    		source: "(20:0) {#if !player.isNull}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (50:12) {#if !started && editable}
+    function create_if_block_3(ctx) {
+    	let a;
+    	let t0;
+    	let t1_value = /*player*/ ctx[3].type.toProperCase() + "";
+    	let t1;
+    	let t2;
+    	let mounted;
+    	let dispose;
+
+    	const block = {
+    		c: function create() {
+    			a = element("a");
+    			t0 = text("Remove ");
+    			t1 = text(t1_value);
+    			t2 = text("?");
+    			attr_dev(a, "href", "#wrap");
+    			add_location(a, file$4, 50, 16, 1725);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, a, anchor);
+    			append_dev(a, t0);
+    			append_dev(a, t1);
+    			append_dev(a, t2);
+
+    			if (!mounted) {
+    				dispose = listen_dev(a, "click", /*removePlayer*/ ctx[5], false, false, false);
+    				mounted = true;
+    			}
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty & /*player*/ 8 && t1_value !== (t1_value = /*player*/ ctx[3].type.toProperCase() + "")) set_data_dev(t1, t1_value);
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(a);
+    			mounted = false;
+    			dispose();
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_3.name,
+    		type: "if",
+    		source: "(50:12) {#if !started && editable}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (56:34) 
+    function create_if_block_2$1(ctx) {
+    	let p;
+    	let t0_value = nthString(/*player*/ ctx[3].rank) + "";
+    	let t0;
+    	let t1;
+
+    	const block = {
+    		c: function create() {
+    			p = element("p");
+    			t0 = text(t0_value);
+    			t1 = text(" Place");
+    			attr_dev(p, "class", "turn-label svelte-14sxb61");
+    			add_location(p, file$4, 56, 16, 1962);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, p, anchor);
+    			append_dev(p, t0);
+    			append_dev(p, t1);
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty & /*player*/ 8 && t0_value !== (t0_value = nthString(/*player*/ ctx[3].rank) + "")) set_data_dev(t0, t0_value);
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(p);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_2$1.name,
+    		type: "if",
+    		source: "(56:34) ",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (54:12) {#if isTurn}
+    function create_if_block_1$2(ctx) {
+    	let p;
+
+    	const block = {
+    		c: function create() {
+    			p = element("p");
+    			p.textContent = "CURRENT TURN";
+    			attr_dev(p, "class", "turn-label svelte-14sxb61");
+    			add_location(p, file$4, 54, 16, 1870);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, p, anchor);
+    		},
+    		p: noop,
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(p);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_1$2.name,
+    		type: "if",
+    		source: "(54:12) {#if isTurn}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    function create_fragment$4(ctx) {
+    	let if_block_anchor;
+    	let if_block = !/*player*/ ctx[3].isNull && create_if_block$4(ctx);
+
+    	const block = {
+    		c: function create() {
+    			if (if_block) if_block.c();
+    			if_block_anchor = empty();
+    		},
+    		l: function claim(nodes) {
+    			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
+    		},
+    		m: function mount(target, anchor) {
+    			if (if_block) if_block.m(target, anchor);
+    			insert_dev(target, if_block_anchor, anchor);
+    		},
+    		p: function update(ctx, [dirty]) {
+    			if (!/*player*/ ctx[3].isNull) {
+    				if (if_block) {
+    					if_block.p(ctx, dirty);
+    				} else {
+    					if_block = create_if_block$4(ctx);
+    					if_block.c();
+    					if_block.m(if_block_anchor.parentNode, if_block_anchor);
+    				}
+    			} else if (if_block) {
+    				if_block.d(1);
+    				if_block = null;
+    			}
+    		},
+    		i: noop,
+    		o: noop,
+    		d: function destroy(detaching) {
+    			if (if_block) if_block.d(detaching);
+    			if (detaching) detach_dev(if_block_anchor);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_fragment$4.name,
+    		type: "component",
+    		source: "",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    function instance$4($$self, $$props, $$invalidate) {
+    	let { $$slots: slots = {}, $$scope } = $$props;
+    	validate_slots('Index', slots, []);
+    	let { color, started } = $$props;
+    	let { editable = true } = $$props;
+    	let player = engine.players[color];
+    	let isTurn = false;
+
+    	if (editable) {
+    		engine.on(`${color}Update`, () => $$invalidate(3, player = engine.players[color]));
+    		engine.on(`turn`, turnColor => $$invalidate(4, isTurn = turnColor == color));
+    	}
+
+    	function removePlayer() {
+    		if (!engine.deletePlayer(color)) engine.alert('You cannot remove yourself from the game!');
+    	}
+
+    	const writable_props = ['color', 'started', 'editable'];
+
+    	Object.keys($$props).forEach(key => {
+    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<Index> was created with unknown prop '${key}'`);
+    	});
+
+    	const blur_handler = e => {
+    		if (editable) {
+    			engine.updatePlayerName(color, e.target.value);
+    			engine.alert('Name updated', 1000);
+    		}
+    	};
+
+    	$$self.$$set = $$props => {
+    		if ('color' in $$props) $$invalidate(0, color = $$props.color);
+    		if ('started' in $$props) $$invalidate(1, started = $$props.started);
+    		if ('editable' in $$props) $$invalidate(2, editable = $$props.editable);
+    	};
+
+    	$$self.$capture_state = () => ({
+    		engine,
+    		nthString,
+    		color,
+    		started,
+    		editable,
+    		player,
+    		isTurn,
+    		removePlayer
+    	});
+
+    	$$self.$inject_state = $$props => {
+    		if ('color' in $$props) $$invalidate(0, color = $$props.color);
+    		if ('started' in $$props) $$invalidate(1, started = $$props.started);
+    		if ('editable' in $$props) $$invalidate(2, editable = $$props.editable);
+    		if ('player' in $$props) $$invalidate(3, player = $$props.player);
+    		if ('isTurn' in $$props) $$invalidate(4, isTurn = $$props.isTurn);
+    	};
+
+    	if ($$props && "$$inject" in $$props) {
+    		$$self.$inject_state($$props.$$inject);
+    	}
+
+    	return [color, started, editable, player, isTurn, removePlayer, blur_handler];
+    }
+
+    class Index$1 extends SvelteComponentDev {
+    	constructor(options) {
+    		super(options);
+    		init(this, options, instance$4, create_fragment$4, safe_not_equal, { color: 0, started: 1, editable: 2 });
+
+    		dispatch_dev("SvelteRegisterComponent", {
+    			component: this,
+    			tagName: "Index",
+    			options,
+    			id: create_fragment$4.name
+    		});
+
+    		const { ctx } = this.$$;
+    		const props = options.props || {};
+
+    		if (/*color*/ ctx[0] === undefined && !('color' in props)) {
+    			console.warn("<Index> was created without expected prop 'color'");
+    		}
+
+    		if (/*started*/ ctx[1] === undefined && !('started' in props)) {
+    			console.warn("<Index> was created without expected prop 'started'");
+    		}
+    	}
+
+    	get color() {
+    		throw new Error("<Index>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set color(value) {
+    		throw new Error("<Index>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	get started() {
+    		throw new Error("<Index>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set started(value) {
+    		throw new Error("<Index>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	get editable() {
+    		throw new Error("<Index>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set editable(value) {
+    		throw new Error("<Index>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+    }
+
+    /* src\components\playerTab\Add.svelte generated by Svelte v3.44.3 */
+    const file$3 = "src\\components\\playerTab\\Add.svelte";
+
+    // (10:0) {#if !started && toDisplay}
+    function create_if_block$3(ctx) {
+    	let div2;
+    	let div0;
+    	let h3;
+    	let t1;
+    	let div1;
+    	let a0;
+    	let t3;
+    	let a1;
+    	let mounted;
+    	let dispose;
+
+    	const block = {
+    		c: function create() {
+    			div2 = element("div");
+    			div0 = element("div");
+    			h3 = element("h3");
+    			h3.textContent = "Add";
+    			t1 = space();
+    			div1 = element("div");
+    			a0 = element("a");
+    			a0.textContent = "Add Player?";
+    			t3 = space();
+    			a1 = element("a");
+    			a1.textContent = "Add Bot?";
+    			attr_dev(h3, "class", "svelte-4moyru");
+    			add_location(h3, file$3, 12, 12, 370);
+    			attr_dev(div0, "class", "head");
+    			set_style(div0, "background-color", "var(--dull-player)");
+    			add_location(div0, file$3, 11, 8, 292);
+    			attr_dev(a0, "href", "#wrap");
+    			add_location(a0, file$3, 16, 12, 442);
+    			attr_dev(a1, "href", "#wrap");
+    			add_location(a1, file$3, 24, 12, 701);
+    			attr_dev(div1, "class", "foot");
+    			add_location(div1, file$3, 15, 8, 410);
+    			attr_dev(div2, "class", "player-tab svelte-4moyru");
+    			add_location(div2, file$3, 10, 4, 258);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, div2, anchor);
+    			append_dev(div2, div0);
+    			append_dev(div0, h3);
+    			append_dev(div2, t1);
+    			append_dev(div2, div1);
+    			append_dev(div1, a0);
+    			append_dev(div1, t3);
+    			append_dev(div1, a1);
+
+    			if (!mounted) {
+    				dispose = [
+    					listen_dev(a0, "click", /*click_handler*/ ctx[2], false, false, false),
+    					listen_dev(a1, "click", /*click_handler_1*/ ctx[3], false, false, false)
+    				];
+
+    				mounted = true;
+    			}
+    		},
+    		p: noop,
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(div2);
+    			mounted = false;
+    			run_all(dispose);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block$3.name,
+    		type: "if",
+    		source: "(10:0) {#if !started && toDisplay}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    function create_fragment$3(ctx) {
+    	let if_block_anchor;
+    	let if_block = !/*started*/ ctx[0] && /*toDisplay*/ ctx[1] && create_if_block$3(ctx);
+
+    	const block = {
+    		c: function create() {
+    			if (if_block) if_block.c();
+    			if_block_anchor = empty();
+    		},
+    		l: function claim(nodes) {
+    			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
+    		},
+    		m: function mount(target, anchor) {
+    			if (if_block) if_block.m(target, anchor);
+    			insert_dev(target, if_block_anchor, anchor);
+    		},
+    		p: function update(ctx, [dirty]) {
+    			if (!/*started*/ ctx[0] && /*toDisplay*/ ctx[1]) {
+    				if (if_block) {
+    					if_block.p(ctx, dirty);
+    				} else {
+    					if_block = create_if_block$3(ctx);
+    					if_block.c();
+    					if_block.m(if_block_anchor.parentNode, if_block_anchor);
+    				}
+    			} else if (if_block) {
+    				if_block.d(1);
+    				if_block = null;
+    			}
+    		},
+    		i: noop,
+    		o: noop,
+    		d: function destroy(detaching) {
+    			if (if_block) if_block.d(detaching);
+    			if (detaching) detach_dev(if_block_anchor);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_fragment$3.name,
+    		type: "component",
+    		source: "",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    function instance$3($$self, $$props, $$invalidate) {
+    	let { $$slots: slots = {}, $$scope } = $$props;
+    	validate_slots('Add', slots, []);
+    	let { started } = $$props;
+    	let toDisplay = engine.playerCount != 4;
+    	engine.on('playerCountUpdate', () => $$invalidate(1, toDisplay = engine.playerCount != 4));
+    	const writable_props = ['started'];
+
+    	Object.keys($$props).forEach(key => {
+    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<Add> was created with unknown prop '${key}'`);
+    	});
+
+    	const click_handler = () => {
+    		if (!engine.createPlayer()) engine.alert('Player limit has been reached...');
+    	};
+
+    	const click_handler_1 = () => {
+    		if (!engine.createPlayer(true)) engine.alert('Player limit has been reached...');
+    	};
+
+    	$$self.$$set = $$props => {
+    		if ('started' in $$props) $$invalidate(0, started = $$props.started);
+    	};
+
+    	$$self.$capture_state = () => ({ engine, started, toDisplay });
+
+    	$$self.$inject_state = $$props => {
+    		if ('started' in $$props) $$invalidate(0, started = $$props.started);
+    		if ('toDisplay' in $$props) $$invalidate(1, toDisplay = $$props.toDisplay);
+    	};
+
+    	if ($$props && "$$inject" in $$props) {
+    		$$self.$inject_state($$props.$$inject);
+    	}
+
+    	return [started, toDisplay, click_handler, click_handler_1];
+    }
+
+    class Add extends SvelteComponentDev {
+    	constructor(options) {
+    		super(options);
+    		init(this, options, instance$3, create_fragment$3, safe_not_equal, { started: 0 });
+
+    		dispatch_dev("SvelteRegisterComponent", {
+    			component: this,
+    			tagName: "Add",
+    			options,
+    			id: create_fragment$3.name
+    		});
+
+    		const { ctx } = this.$$;
+    		const props = options.props || {};
+
+    		if (/*started*/ ctx[0] === undefined && !('started' in props)) {
+    			console.warn("<Add> was created without expected prop 'started'");
+    		}
+    	}
+
+    	get started() {
+    		throw new Error("<Add>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set started(value) {
+    		throw new Error("<Add>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+    }
+
+    /* src\components\result\Index.svelte generated by Svelte v3.44.3 */
+    const file$2 = "src\\components\\result\\Index.svelte";
+
+    function get_each_context(ctx, list, i) {
+    	const child_ctx = ctx.slice();
+    	child_ctx[3] = list[i];
+    	child_ctx[5] = i;
+    	return child_ctx;
+    }
+
+    // (11:0) {#if displayResult}
+    function create_if_block$2(ctx) {
+    	let div0;
+    	let t0;
+    	let div2;
+    	let h3;
+    	let t2;
+    	let t3;
+    	let h5;
+    	let t5;
+    	let div1;
+    	let t6;
+    	let a;
+    	let current;
+    	let mounted;
+    	let dispose;
+    	let if_block = engine.ranks.length && create_if_block_1$1(ctx);
+    	let each_value = engine.ranks;
+    	validate_each_argument(each_value);
+    	let each_blocks = [];
+
+    	for (let i = 0; i < each_value.length; i += 1) {
+    		each_blocks[i] = create_each_block(get_each_context(ctx, each_value, i));
+    	}
+
+    	const out = i => transition_out(each_blocks[i], 1, 1, () => {
+    		each_blocks[i] = null;
+    	});
+
+    	const block = {
+    		c: function create() {
+    			div0 = element("div");
+    			t0 = space();
+    			div2 = element("div");
+    			h3 = element("h3");
+    			h3.textContent = "Result";
+    			t2 = space();
+    			if (if_block) if_block.c();
+    			t3 = space();
+    			h5 = element("h5");
+    			h5.textContent = "Rankings";
+    			t5 = space();
+    			div1 = element("div");
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].c();
+    			}
+
+    			t6 = space();
+    			a = element("a");
+    			a.textContent = "Close Tab";
+    			attr_dev(div0, "class", "result-wrap svelte-wup10t");
+    			add_location(div0, file$2, 11, 4, 273);
+    			attr_dev(h3, "class", "svelte-wup10t");
+    			add_location(h3, file$2, 13, 8, 339);
+    			attr_dev(h5, "class", "svelte-wup10t");
+    			add_location(h5, file$2, 19, 8, 479);
+    			attr_dev(div1, "class", "result-players-tab svelte-wup10t");
+    			add_location(div1, file$2, 20, 8, 506);
+    			attr_dev(a, "href", "#wrap");
+    			attr_dev(a, "class", "svelte-wup10t");
+    			add_location(a, file$2, 30, 8, 796);
+    			attr_dev(div2, "class", "result-tab svelte-wup10t");
+    			add_location(div2, file$2, 12, 4, 305);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, div0, anchor);
+    			insert_dev(target, t0, anchor);
+    			insert_dev(target, div2, anchor);
+    			append_dev(div2, h3);
+    			append_dev(div2, t2);
+    			if (if_block) if_block.m(div2, null);
+    			append_dev(div2, t3);
+    			append_dev(div2, h5);
+    			append_dev(div2, t5);
+    			append_dev(div2, div1);
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].m(div1, null);
+    			}
+
+    			append_dev(div2, t6);
+    			append_dev(div2, a);
+    			current = true;
+
+    			if (!mounted) {
+    				dispose = listen_dev(a, "click", /*click_handler*/ ctx[2], false, false, false);
+    				mounted = true;
+    			}
+    		},
+    		p: function update(ctx, dirty) {
+    			if (engine.ranks.length) if_block.p(ctx, dirty);
+
+    			if (dirty & /*engine, started*/ 1) {
+    				each_value = engine.ranks;
+    				validate_each_argument(each_value);
+    				let i;
+
+    				for (i = 0; i < each_value.length; i += 1) {
+    					const child_ctx = get_each_context(ctx, each_value, i);
+
+    					if (each_blocks[i]) {
+    						each_blocks[i].p(child_ctx, dirty);
+    						transition_in(each_blocks[i], 1);
+    					} else {
+    						each_blocks[i] = create_each_block(child_ctx);
+    						each_blocks[i].c();
+    						transition_in(each_blocks[i], 1);
+    						each_blocks[i].m(div1, null);
+    					}
+    				}
+
+    				group_outros();
+
+    				for (i = each_value.length; i < each_blocks.length; i += 1) {
+    					out(i);
+    				}
+
+    				check_outros();
+    			}
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+
+    			for (let i = 0; i < each_value.length; i += 1) {
+    				transition_in(each_blocks[i]);
+    			}
+
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			each_blocks = each_blocks.filter(Boolean);
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				transition_out(each_blocks[i]);
+    			}
+
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(div0);
+    			if (detaching) detach_dev(t0);
+    			if (detaching) detach_dev(div2);
+    			if (if_block) if_block.d();
+    			destroy_each(each_blocks, detaching);
+    			mounted = false;
+    			dispose();
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block$2.name,
+    		type: "if",
+    		source: "(11:0) {#if displayResult}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (16:8) {#if engine.ranks.length}
+    function create_if_block_1$1(ctx) {
+    	let p;
+
+    	const block = {
+    		c: function create() {
+    			p = element("p");
+    			p.textContent = `${engine.ranks[0].name} has won the game!`;
+    			attr_dev(p, "class", "svelte-wup10t");
+    			add_location(p, file$2, 16, 12, 405);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, p, anchor);
+    		},
+    		p: noop,
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(p);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_1$1.name,
+    		type: "if",
+    		source: "(16:8) {#if engine.ranks.length}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (22:12) {#each engine.ranks as player, i}
+    function create_each_block(ctx) {
+    	let playertab;
+    	let current;
+
+    	playertab = new Index$1({
+    			props: {
+    				color: /*player*/ ctx[3].color,
+    				editable: false,
+    				started: /*started*/ ctx[0]
+    			},
+    			$$inline: true
+    		});
+
+    	const block = {
+    		c: function create() {
+    			create_component(playertab.$$.fragment);
+    		},
+    		m: function mount(target, anchor) {
+    			mount_component(playertab, target, anchor);
+    			current = true;
+    		},
+    		p: function update(ctx, dirty) {
+    			const playertab_changes = {};
+    			if (dirty & /*started*/ 1) playertab_changes.started = /*started*/ ctx[0];
+    			playertab.$set(playertab_changes);
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(playertab.$$.fragment, local);
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(playertab.$$.fragment, local);
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			destroy_component(playertab, detaching);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_each_block.name,
+    		type: "each",
+    		source: "(22:12) {#each engine.ranks as player, i}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    function create_fragment$2(ctx) {
+    	let if_block_anchor;
+    	let current;
+    	let if_block = /*displayResult*/ ctx[1] && create_if_block$2(ctx);
+
+    	const block = {
+    		c: function create() {
+    			if (if_block) if_block.c();
+    			if_block_anchor = empty();
+    		},
+    		l: function claim(nodes) {
+    			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
+    		},
+    		m: function mount(target, anchor) {
+    			if (if_block) if_block.m(target, anchor);
+    			insert_dev(target, if_block_anchor, anchor);
+    			current = true;
+    		},
+    		p: function update(ctx, [dirty]) {
+    			if (/*displayResult*/ ctx[1]) {
+    				if (if_block) {
+    					if_block.p(ctx, dirty);
+
+    					if (dirty & /*displayResult*/ 2) {
+    						transition_in(if_block, 1);
+    					}
+    				} else {
+    					if_block = create_if_block$2(ctx);
+    					if_block.c();
+    					transition_in(if_block, 1);
+    					if_block.m(if_block_anchor.parentNode, if_block_anchor);
+    				}
+    			} else if (if_block) {
+    				group_outros();
+
+    				transition_out(if_block, 1, 1, () => {
+    					if_block = null;
+    				});
+
+    				check_outros();
+    			}
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(if_block);
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(if_block);
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			if (if_block) if_block.d(detaching);
+    			if (detaching) detach_dev(if_block_anchor);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_fragment$2.name,
+    		type: "component",
+    		source: "",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    function instance$2($$self, $$props, $$invalidate) {
+    	let { $$slots: slots = {}, $$scope } = $$props;
+    	validate_slots('Index', slots, []);
+    	let { started } = $$props;
+    	let displayResult = false;
+    	engine.on('displayResult', () => $$invalidate(1, displayResult = true));
+    	const writable_props = ['started'];
+
+    	Object.keys($$props).forEach(key => {
+    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<Index> was created with unknown prop '${key}'`);
+    	});
+
+    	const click_handler = () => $$invalidate(1, displayResult = false);
+
+    	$$self.$$set = $$props => {
+    		if ('started' in $$props) $$invalidate(0, started = $$props.started);
+    	};
+
+    	$$self.$capture_state = () => ({
+    		PlayerTab: Index$1,
+    		engine,
+    		started,
+    		displayResult
+    	});
+
+    	$$self.$inject_state = $$props => {
+    		if ('started' in $$props) $$invalidate(0, started = $$props.started);
+    		if ('displayResult' in $$props) $$invalidate(1, displayResult = $$props.displayResult);
+    	};
+
+    	if ($$props && "$$inject" in $$props) {
+    		$$self.$inject_state($$props.$$inject);
+    	}
+
+    	return [started, displayResult, click_handler];
+    }
+
+    class Index extends SvelteComponentDev {
+    	constructor(options) {
+    		super(options);
+    		init(this, options, instance$2, create_fragment$2, safe_not_equal, { started: 0 });
+
+    		dispatch_dev("SvelteRegisterComponent", {
+    			component: this,
+    			tagName: "Index",
+    			options,
+    			id: create_fragment$2.name
+    		});
+
+    		const { ctx } = this.$$;
+    		const props = options.props || {};
+
+    		if (/*started*/ ctx[0] === undefined && !('started' in props)) {
+    			console.warn("<Index> was created without expected prop 'started'");
+    		}
+    	}
+
+    	get started() {
+    		throw new Error("<Index>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set started(value) {
+    		throw new Error("<Index>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+    }
+
+    /* src\GamePage.svelte generated by Svelte v3.44.3 */
+    const file$1 = "src\\GamePage.svelte";
+
+    // (75:12) {:else}
+    function create_else_block$1(ctx) {
+    	let a0;
+    	let t1;
+    	let a1;
+    	let t3;
+    	let a2;
+    	let mounted;
+    	let dispose;
+
+    	const block = {
+    		c: function create() {
+    			a0 = element("a");
+    			a0.textContent = "Roll Dice";
+    			t1 = space();
+    			a1 = element("a");
+    			a1.textContent = "Save Game";
+    			t3 = space();
+    			a2 = element("a");
+    			a2.textContent = "New Game";
+    			attr_dev(a0, "class", "player-tab-btn svelte-1y8ugt6");
+    			attr_dev(a0, "href", "#wrap");
+    			add_location(a0, file$1, 75, 16, 2652);
+    			attr_dev(a1, "class", "player-tab-btn svelte-1y8ugt6");
+    			attr_dev(a1, "href", "#wrap");
+    			add_location(a1, file$1, 81, 16, 2849);
+    			attr_dev(a2, "class", "player-tab-btn svelte-1y8ugt6");
+    			attr_dev(a2, "href", "#wrap");
+    			add_location(a2, file$1, 87, 16, 3036);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, a0, anchor);
+    			insert_dev(target, t1, anchor);
+    			insert_dev(target, a1, anchor);
+    			insert_dev(target, t3, anchor);
+    			insert_dev(target, a2, anchor);
+
+    			if (!mounted) {
+    				dispose = [
+    					listen_dev(a0, "click", /*click_handler_3*/ ctx[6], false, false, false),
+    					listen_dev(a1, "click", /*click_handler_4*/ ctx[7], false, false, false),
+    					listen_dev(a2, "click", /*click_handler_5*/ ctx[8], false, false, false)
+    				];
+
+    				mounted = true;
+    			}
+    		},
+    		p: noop,
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(a0);
+    			if (detaching) detach_dev(t1);
+    			if (detaching) detach_dev(a1);
+    			if (detaching) detach_dev(t3);
+    			if (detaching) detach_dev(a2);
+    			mounted = false;
+    			run_all(dispose);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_else_block$1.name,
+    		type: "else",
+    		source: "(75:12) {:else}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (49:12) {#if !started}
+    function create_if_block$1(ctx) {
+    	let a;
+    	let t1;
+    	let t2;
+    	let if_block1_anchor;
+    	let mounted;
+    	let dispose;
+    	let if_block0 = hasSaved && create_if_block_2(ctx);
+    	let if_block1 = /*canDisplayResultBtn*/ ctx[1] && create_if_block_1(ctx);
+
+    	const block = {
+    		c: function create() {
+    			a = element("a");
+    			a.textContent = "New Game";
+    			t1 = space();
+    			if (if_block0) if_block0.c();
+    			t2 = space();
+    			if (if_block1) if_block1.c();
+    			if_block1_anchor = empty();
+    			attr_dev(a, "class", "player-tab-btn svelte-1y8ugt6");
+    			attr_dev(a, "href", "#wrap");
+    			add_location(a, file$1, 49, 16, 1596);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, a, anchor);
+    			insert_dev(target, t1, anchor);
+    			if (if_block0) if_block0.m(target, anchor);
+    			insert_dev(target, t2, anchor);
+    			if (if_block1) if_block1.m(target, anchor);
+    			insert_dev(target, if_block1_anchor, anchor);
+
+    			if (!mounted) {
+    				dispose = listen_dev(a, "click", /*click_handler*/ ctx[3], false, false, false);
+    				mounted = true;
+    			}
+    		},
+    		p: function update(ctx, dirty) {
+    			if (hasSaved) if_block0.p(ctx, dirty);
+
+    			if (/*canDisplayResultBtn*/ ctx[1]) {
+    				if (if_block1) {
+    					if_block1.p(ctx, dirty);
+    				} else {
+    					if_block1 = create_if_block_1(ctx);
+    					if_block1.c();
+    					if_block1.m(if_block1_anchor.parentNode, if_block1_anchor);
+    				}
+    			} else if (if_block1) {
+    				if_block1.d(1);
+    				if_block1 = null;
+    			}
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(a);
+    			if (detaching) detach_dev(t1);
+    			if (if_block0) if_block0.d(detaching);
+    			if (detaching) detach_dev(t2);
+    			if (if_block1) if_block1.d(detaching);
+    			if (detaching) detach_dev(if_block1_anchor);
+    			mounted = false;
+    			dispose();
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block$1.name,
+    		type: "if",
+    		source: "(49:12) {#if !started}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (60:16) {#if hasSaved}
+    function create_if_block_2(ctx) {
+    	let a;
+    	let mounted;
+    	let dispose;
+
+    	const block = {
+    		c: function create() {
+    			a = element("a");
+    			a.textContent = "Resume Game";
+    			attr_dev(a, "class", "player-tab-btn svelte-1y8ugt6");
+    			attr_dev(a, "href", "#wrap");
+    			add_location(a, file$1, 60, 20, 2109);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, a, anchor);
+
+    			if (!mounted) {
+    				dispose = listen_dev(a, "click", /*click_handler_1*/ ctx[4], false, false, false);
+    				mounted = true;
+    			}
+    		},
+    		p: noop,
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(a);
+    			mounted = false;
+    			dispose();
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_2.name,
+    		type: "if",
+    		source: "(60:16) {#if hasSaved}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (68:16) {#if canDisplayResultBtn}
+    function create_if_block_1(ctx) {
+    	let a;
+    	let mounted;
+    	let dispose;
+
+    	const block = {
+    		c: function create() {
+    			a = element("a");
+    			a.textContent = "Results";
+    			attr_dev(a, "class", "player-tab-btn svelte-1y8ugt6");
+    			attr_dev(a, "href", "#wrap");
+    			add_location(a, file$1, 68, 20, 2394);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, a, anchor);
+
+    			if (!mounted) {
+    				dispose = listen_dev(a, "click", /*click_handler_2*/ ctx[5], false, false, false);
+    				mounted = true;
+    			}
+    		},
+    		p: noop,
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(a);
+    			mounted = false;
+    			dispose();
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_1.name,
+    		type: "if",
+    		source: "(68:16) {#if canDisplayResultBtn}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    function create_fragment$1(ctx) {
+    	let div0;
+    	let t0;
+    	let result;
+    	let t1;
+    	let div4;
+    	let board;
+    	let t2;
+    	let div3;
+    	let div1;
+    	let playertab0;
+    	let t3;
+    	let playertab1;
+    	let t4;
+    	let playertab2;
+    	let t5;
+    	let playertab3;
+    	let t6;
+    	let addplayer;
+    	let t7;
+    	let div2;
+    	let current;
+
+    	result = new Index({
+    			props: { started: /*started*/ ctx[2] },
+    			$$inline: true
+    		});
+
+    	board = new Index$2({ $$inline: true });
+
+    	playertab0 = new Index$1({
+    			props: {
+    				color: "red",
+    				started: /*started*/ ctx[2]
+    			},
+    			$$inline: true
+    		});
+
+    	playertab1 = new Index$1({
+    			props: {
+    				color: "yellow",
+    				started: /*started*/ ctx[2]
+    			},
+    			$$inline: true
+    		});
+
+    	playertab2 = new Index$1({
+    			props: {
+    				color: "blue",
+    				started: /*started*/ ctx[2]
+    			},
+    			$$inline: true
+    		});
+
+    	playertab3 = new Index$1({
+    			props: {
+    				color: "green",
+    				started: /*started*/ ctx[2]
+    			},
+    			$$inline: true
+    		});
+
+    	addplayer = new Add({
+    			props: { started: /*started*/ ctx[2] },
+    			$$inline: true
+    		});
+
+    	function select_block_type(ctx, dirty) {
+    		if (!/*started*/ ctx[2]) return create_if_block$1;
+    		return create_else_block$1;
+    	}
+
+    	let current_block_type = select_block_type(ctx);
+    	let if_block = current_block_type(ctx);
+
+    	const block = {
+    		c: function create() {
+    			div0 = element("div");
+    			t0 = space();
+    			create_component(result.$$.fragment);
+    			t1 = space();
+    			div4 = element("div");
+    			create_component(board.$$.fragment);
+    			t2 = space();
+    			div3 = element("div");
+    			div1 = element("div");
+    			create_component(playertab0.$$.fragment);
+    			t3 = space();
+    			create_component(playertab1.$$.fragment);
+    			t4 = space();
+    			create_component(playertab2.$$.fragment);
+    			t5 = space();
+    			create_component(playertab3.$$.fragment);
+    			t6 = space();
+    			create_component(addplayer.$$.fragment);
+    			t7 = space();
+    			div2 = element("div");
+    			if_block.c();
+    			attr_dev(div0, "class", "wrap svelte-1y8ugt6");
+    			attr_dev(div0, "id", "wrap");
+    			add_location(div0, file$1, 31, 0, 1068);
+    			attr_dev(div1, "class", "flex flex-wrap");
+    			add_location(div1, file$1, 39, 8, 1231);
+    			attr_dev(div2, "class", "flex flex-wrap");
+    			add_location(div2, file$1, 47, 8, 1522);
+    			attr_dev(div3, "class", "players-tab svelte-1y8ugt6");
+    			add_location(div3, file$1, 38, 4, 1196);
+    			attr_dev(div4, "class", "flex svelte-1y8ugt6");
+    			toggle_class(div4, "mobile-view", /*mobileView*/ ctx[0]);
+    			add_location(div4, file$1, 35, 0, 1124);
+    		},
+    		l: function claim(nodes) {
+    			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, div0, anchor);
+    			insert_dev(target, t0, anchor);
+    			mount_component(result, target, anchor);
+    			insert_dev(target, t1, anchor);
+    			insert_dev(target, div4, anchor);
+    			mount_component(board, div4, null);
+    			append_dev(div4, t2);
+    			append_dev(div4, div3);
+    			append_dev(div3, div1);
+    			mount_component(playertab0, div1, null);
+    			append_dev(div1, t3);
+    			mount_component(playertab1, div1, null);
+    			append_dev(div1, t4);
+    			mount_component(playertab2, div1, null);
+    			append_dev(div1, t5);
+    			mount_component(playertab3, div1, null);
+    			append_dev(div1, t6);
+    			mount_component(addplayer, div1, null);
+    			append_dev(div3, t7);
+    			append_dev(div3, div2);
+    			if_block.m(div2, null);
+    			current = true;
+    		},
+    		p: function update(ctx, [dirty]) {
+    			const result_changes = {};
+    			if (dirty & /*started*/ 4) result_changes.started = /*started*/ ctx[2];
+    			result.$set(result_changes);
+    			const playertab0_changes = {};
+    			if (dirty & /*started*/ 4) playertab0_changes.started = /*started*/ ctx[2];
+    			playertab0.$set(playertab0_changes);
+    			const playertab1_changes = {};
+    			if (dirty & /*started*/ 4) playertab1_changes.started = /*started*/ ctx[2];
+    			playertab1.$set(playertab1_changes);
+    			const playertab2_changes = {};
+    			if (dirty & /*started*/ 4) playertab2_changes.started = /*started*/ ctx[2];
+    			playertab2.$set(playertab2_changes);
+    			const playertab3_changes = {};
+    			if (dirty & /*started*/ 4) playertab3_changes.started = /*started*/ ctx[2];
+    			playertab3.$set(playertab3_changes);
+    			const addplayer_changes = {};
+    			if (dirty & /*started*/ 4) addplayer_changes.started = /*started*/ ctx[2];
+    			addplayer.$set(addplayer_changes);
+
+    			if (current_block_type === (current_block_type = select_block_type(ctx)) && if_block) {
+    				if_block.p(ctx, dirty);
+    			} else {
+    				if_block.d(1);
+    				if_block = current_block_type(ctx);
+
+    				if (if_block) {
+    					if_block.c();
+    					if_block.m(div2, null);
+    				}
+    			}
+
+    			if (dirty & /*mobileView*/ 1) {
+    				toggle_class(div4, "mobile-view", /*mobileView*/ ctx[0]);
+    			}
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(result.$$.fragment, local);
+    			transition_in(board.$$.fragment, local);
+    			transition_in(playertab0.$$.fragment, local);
+    			transition_in(playertab1.$$.fragment, local);
+    			transition_in(playertab2.$$.fragment, local);
+    			transition_in(playertab3.$$.fragment, local);
+    			transition_in(addplayer.$$.fragment, local);
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(result.$$.fragment, local);
+    			transition_out(board.$$.fragment, local);
+    			transition_out(playertab0.$$.fragment, local);
+    			transition_out(playertab1.$$.fragment, local);
+    			transition_out(playertab2.$$.fragment, local);
+    			transition_out(playertab3.$$.fragment, local);
+    			transition_out(addplayer.$$.fragment, local);
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(div0);
+    			if (detaching) detach_dev(t0);
+    			destroy_component(result, detaching);
+    			if (detaching) detach_dev(t1);
+    			if (detaching) detach_dev(div4);
+    			destroy_component(board);
+    			destroy_component(playertab0);
+    			destroy_component(playertab1);
+    			destroy_component(playertab2);
+    			destroy_component(playertab3);
+    			destroy_component(addplayer);
+    			if_block.d();
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_fragment$1.name,
+    		type: "component",
+    		source: "",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    function instance$1($$self, $$props, $$invalidate) {
+    	let { $$slots: slots = {}, $$scope } = $$props;
+    	validate_slots('GamePage', slots, []);
+    	let mobileView = false;
+    	let canDisplayResultBtn = false;
+    	let started = engine.started;
+    	engine.on('start', () => $$invalidate(2, started = true));
+    	engine.on('canDisplayResults', () => $$invalidate(1, canDisplayResultBtn = true));
+
+    	engine.on('end', () => {
+    		$$invalidate(1, canDisplayResultBtn = true);
+    		engine.emit('displayResult');
+    	});
+
+    	function gamePageResponsiveHandler() {
+    		let wrapElement = document.getElementById('wrap');
+    		$$invalidate(0, mobileView = wrapElement.clientWidth < wrapElement.clientHeight * 2);
+    	}
+
+    	onMount(() => {
+    		gamePageResponsiveHandler();
+    		window.addEventListener('resize', gamePageResponsiveHandler);
+    	});
+
+    	const writable_props = [];
+
+    	Object.keys($$props).forEach(key => {
+    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<GamePage> was created with unknown prop '${key}'`);
+    	});
+
+    	const click_handler = async () => {
+    		if (hasSaved && !confirm('Are you sure? Your old game data might be deleted!')) return;
+    		let success = await engine.start(true);
+    		if (!success) engine.alert('Minimum two players are required.', 1000);
+    	};
+
+    	const click_handler_1 = () => engine.startFromSaved();
+    	const click_handler_2 = () => engine.emit('displayResult');
+    	const click_handler_3 = () => engine.emit('diceRoll');
+    	const click_handler_4 = () => engine.save();
+
+    	const click_handler_5 = () => {
+    		if (confirm('Are you sure? Your old game data might be deleted!')) {
+    			engine.clearSaved();
+    			window.location.href = "?game";
+    		}
+    	};
+
+    	$$self.$capture_state = () => ({
+    		onMount,
+    		Board: Index$2,
+    		PlayerTab: Index$1,
+    		AddPlayer: Add,
+    		Result: Index,
+    		engine,
+    		hasSaved,
+    		mobileView,
+    		canDisplayResultBtn,
+    		started,
+    		gamePageResponsiveHandler
+    	});
+
+    	$$self.$inject_state = $$props => {
+    		if ('mobileView' in $$props) $$invalidate(0, mobileView = $$props.mobileView);
+    		if ('canDisplayResultBtn' in $$props) $$invalidate(1, canDisplayResultBtn = $$props.canDisplayResultBtn);
+    		if ('started' in $$props) $$invalidate(2, started = $$props.started);
+    	};
+
+    	if ($$props && "$$inject" in $$props) {
+    		$$self.$inject_state($$props.$$inject);
+    	}
+
+    	return [
+    		mobileView,
+    		canDisplayResultBtn,
+    		started,
+    		click_handler,
+    		click_handler_1,
+    		click_handler_2,
+    		click_handler_3,
+    		click_handler_4,
+    		click_handler_5
+    	];
+    }
+
+    class GamePage extends SvelteComponentDev {
+    	constructor(options) {
+    		super(options);
+    		init(this, options, instance$1, create_fragment$1, safe_not_equal, {});
+
+    		dispatch_dev("SvelteRegisterComponent", {
+    			component: this,
+    			tagName: "GamePage",
+    			options,
+    			id: create_fragment$1.name
+    		});
+    	}
+    }
+
+    /* src\App.svelte generated by Svelte v3.44.3 */
+    const file = "src\\App.svelte";
+
+    // (12:0) {:else}
+    function create_else_block(ctx) {
+    	let div;
+    	let h1;
+    	let t1;
+    	let p0;
+    	let t3;
+    	let a0;
+    	let t5;
+    	let p1;
+    	let t6;
+    	let a1;
+
+    	const block = {
+    		c: function create() {
+    			div = element("div");
+    			h1 = element("h1");
+    			h1.textContent = "Ludo";
+    			t1 = space();
+    			p0 = element("p");
+    			p0.textContent = "A site built in svelte to play singleplayer ludo for fun even with bots!";
+    			t3 = space();
+    			a0 = element("a");
+    			a0.textContent = "Lets play!";
+    			t5 = space();
+    			p1 = element("p");
+    			t6 = text("Made by ");
+    			a1 = element("a");
+    			a1.textContent = "scientific-dev";
+    			attr_dev(h1, "class", "m-0 svelte-1qrebkq");
+    			add_location(h1, file, 13, 2, 257);
+    			attr_dev(p0, "class", "m-0 svelte-1qrebkq");
+    			add_location(p0, file, 14, 2, 286);
+    			attr_dev(a0, "href", "?game");
+    			attr_dev(a0, "class", "cover-btn svelte-1qrebkq");
+    			add_location(a0, file, 16, 2, 383);
+    			attr_dev(a1, "href", "https://github.com/scientific-dev");
+    			attr_dev(a1, "class", "svelte-1qrebkq");
+    			add_location(a1, file, 17, 33, 466);
+    			attr_dev(p1, "class", "credits m-0 svelte-1qrebkq");
+    			add_location(p1, file, 17, 2, 435);
+    			attr_dev(div, "class", "cover svelte-1qrebkq");
+    			add_location(div, file, 12, 1, 234);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, div, anchor);
+    			append_dev(div, h1);
+    			append_dev(div, t1);
+    			append_dev(div, p0);
+    			append_dev(div, t3);
+    			append_dev(div, a0);
+    			append_dev(div, t5);
+    			append_dev(div, p1);
+    			append_dev(p1, t6);
+    			append_dev(p1, a1);
+    		},
+    		i: noop,
+    		o: noop,
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(div);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_else_block.name,
+    		type: "else",
+    		source: "(12:0) {:else}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (10:0) {#if isGame}
+    function create_if_block(ctx) {
+    	let gamepage;
+    	let current;
+    	gamepage = new GamePage({ $$inline: true });
+
+    	const block = {
+    		c: function create() {
+    			create_component(gamepage.$$.fragment);
+    		},
+    		m: function mount(target, anchor) {
+    			mount_component(gamepage, target, anchor);
+    			current = true;
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(gamepage.$$.fragment, local);
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(gamepage.$$.fragment, local);
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			destroy_component(gamepage, detaching);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block.name,
+    		type: "if",
+    		source: "(10:0) {#if isGame}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    function create_fragment(ctx) {
+    	let div;
+    	let t;
+    	let current_block_type_index;
+    	let if_block;
+    	let if_block_anchor;
+    	let current;
+    	const if_block_creators = [create_if_block, create_else_block];
+    	const if_blocks = [];
+
+    	function select_block_type(ctx, dirty) {
+    		if (/*isGame*/ ctx[0]) return 0;
+    		return 1;
+    	}
+
+    	current_block_type_index = select_block_type(ctx);
+    	if_block = if_blocks[current_block_type_index] = if_block_creators[current_block_type_index](ctx);
+
+    	const block = {
+    		c: function create() {
+    			div = element("div");
+    			t = space();
+    			if_block.c();
+    			if_block_anchor = empty();
+    			attr_dev(div, "class", "bg-cover svelte-1qrebkq");
+    			add_location(div, file, 7, 0, 168);
+    		},
+    		l: function claim(nodes) {
+    			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, div, anchor);
+    			insert_dev(target, t, anchor);
+    			if_blocks[current_block_type_index].m(target, anchor);
+    			insert_dev(target, if_block_anchor, anchor);
+    			current = true;
+    		},
+    		p: noop,
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(if_block);
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(if_block);
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(div);
+    			if (detaching) detach_dev(t);
+    			if_blocks[current_block_type_index].d(detaching);
+    			if (detaching) detach_dev(if_block_anchor);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_fragment.name,
+    		type: "component",
+    		source: "",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    function instance($$self, $$props, $$invalidate) {
+    	let { $$slots: slots = {}, $$scope } = $$props;
+    	validate_slots('App', slots, []);
+    	const queries = new URLSearchParams(window.location.search);
+    	let isGame = queries.has('game');
+    	const writable_props = [];
+
+    	Object.keys($$props).forEach(key => {
+    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<App> was created with unknown prop '${key}'`);
+    	});
+
+    	$$self.$capture_state = () => ({ GamePage, queries, isGame });
+
+    	$$self.$inject_state = $$props => {
+    		if ('isGame' in $$props) $$invalidate(0, isGame = $$props.isGame);
+    	};
+
+    	if ($$props && "$$inject" in $$props) {
+    		$$self.$inject_state($$props.$$inject);
+    	}
+
+    	return [isGame];
+    }
+
+    class App extends SvelteComponentDev {
+    	constructor(options) {
+    		super(options);
+    		init(this, options, instance, create_fragment, safe_not_equal, {});
+
+    		dispatch_dev("SvelteRegisterComponent", {
+    			component: this,
+    			tagName: "App",
+    			options,
+    			id: create_fragment.name
+    		});
+    	}
+    }
+
+    var main = new App({ target: document.body });
+
+    return main;
+
+})();

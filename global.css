@@ -8,6 +8,9 @@
 	--green-player: #00cc00;
 	--wood: #BA8C63;
 	--dark-wood: #945b29;
+	--darker-wood: #724722;
+	--step-color: white;
+	--dark-step-color: rgb(212, 212, 212);
 	--cell-size: 0px;
 }
 
@@ -98,7 +101,7 @@ body {
 }
 
 /** Global CSS */
-.coin, .prison-inner, .step, .player-tab, .result-tab {
+.coin, .prison-inner, .step, .player-tab, .result-tab, .game-home {
 	box-shadow: -3px 3px 0px 0px rgba(0,0,0,0.13);
 	-webkit-box-shadow: -3px 3px 0px 0px rgba(0,0,0,0.13);
 	-moz-box-shadow: -3px 3px 0px 0px rgba(0,0,0,0.13);
