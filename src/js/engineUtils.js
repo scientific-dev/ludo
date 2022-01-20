@@ -67,7 +67,8 @@ export class LudoPlayer {
 
         pl.cors = json.cors.map(x => x == 'null' ? NaN : x);
         pl.kills = json.kills;
-        
+
+        if (json.color) pl.color = json.color;
         if (json.rank) pl.rank = json.rank;
         if (json.bot) pl.isBot = json.bot;
 

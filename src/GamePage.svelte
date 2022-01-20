@@ -64,14 +64,6 @@
                         on:click={() => engine.startFromSaved()}
                     >Resume Game</a>
                 {/if}
-
-                {#if canDisplayResultBtn}
-                    <a 
-                        class="player-tab-btn" 
-                        href="#wrap" 
-                        on:click={() => engine.emit('displayResult')}
-                    >Results</a>
-                {/if}
             {:else}
                 <a 
                     class="player-tab-btn" 
@@ -95,6 +87,14 @@
                         }
                     }}
                 >New Game</a>
+            {/if}
+
+            {#if canDisplayResultBtn}
+                <a 
+                    class="player-tab-btn" 
+                    href="#wrap" 
+                    on:click={() => engine.emit('displayResult')}
+                >Results</a>
             {/if}
         </div>
     </div>

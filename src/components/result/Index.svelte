@@ -19,7 +19,7 @@
 
         <h5>Rankings</h5>
         <div class="result-players-tab">
-            {#each engine.ranks as player, i}
+            {#each engine.ranks as player}
                 <PlayerTab 
                     color={player.color} 
                     editable={false} 
