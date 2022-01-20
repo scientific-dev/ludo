@@ -337,7 +337,7 @@ export default class LudoEngine extends TinyEmitter {
     getRandomBotChoice (current, is6) {
         window.kek = current;
         return is6 && getRandom(2)
-            ? 'house'
+            ? 'prison'
             : [current.activeCoinsIndices.random() + 1];
     }
 
