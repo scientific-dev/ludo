@@ -143,7 +143,7 @@ export default class LudoEngine extends TinyEmitter {
     async startTurns () {
         let isBonusRoll = false;
 
-        while (!this.ended) {
+        while (!await this.checkForCompletion()) {
             let current = this.currentTurnPlayer;
             let isPlayer = !current.isBot;
             this.save(); // Autosaves the progress so you don't mess up later!
@@ -184,7 +184,7 @@ export default class LudoEngine extends TinyEmitter {
                     
                     if (gameOver) break;
                     isBonusRoll = isBonusRoll || condition;
-                    if (!isNaN(newStep)) isBonusRoll = (await this.killCoins(current, x)) || isBonusRoll;
+                    if (!isNaN(newStep)) isBonusRoll = (await this.killCoins(current, newStep)) || isBonusRoll;
                 }
 
                 if (is6) this.emit(`${current.color}PrisonSelectable`);
