@@ -28,10 +28,12 @@
         <meta name="twitter:card" content="summary_large_image">
 
         <link href="https://fonts.googleapis.com/css?family=Changa:wght@800|Titillium+Web" rel="stylesheet"/>
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css"/>
 
-        <script src="https://use.fontawesome.com/releases/v5.10.2/js/all.js"></script>
         <script defer src='./build/bundle.js'></script>
+        <script>
+            if ((window.location.protocol == "http:") && !window.location.origin.includes('localhost'))
+                window.location.href = window.location.href.replace('http', 'https');
+        </script>
     </head>
 
     <body></body>
