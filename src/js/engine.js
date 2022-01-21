@@ -236,7 +236,7 @@ export default class LudoEngine extends TinyEmitter {
             else this.nextTurn();
         }
 
-        this.end;
+        this.end();
         return true;
     }
 
