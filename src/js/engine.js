@@ -1,6 +1,6 @@
-import { TinyEmitter } from 'tiny-emitter';
 import { DICE_HTML_SIDES, NULL_POINTS, PLAYER_PATHS, START_POINTS } from "./constants";
 import { LudoAlert, LudoPlayer } from './engineUtils';
+import { TinyEmitter } from "tiny-emitter";
 
 Array.prototype.random = function () {
     return this[Math.floor(Math.random() * this.length)];
@@ -45,10 +45,6 @@ export default class LudoEngine extends TinyEmitter {
         yellow: LudoPlayer.NULL_PLAYER,
         blue: LudoPlayer.NULL_PLAYER
     };
-
-    constructor () {
-        super();
-    }
 
     get playersArray () {
         return Object.values(this.players);
@@ -121,12 +117,10 @@ export default class LudoEngine extends TinyEmitter {
 
     async start () {
         if (this.started) return false;
-        this.activePlayers = [];
 
+        this.activePlayers = [];
         Object.entries(this.players)
-            .forEach(x => {
-                if (!x[1].isNull) this.activePlayers.push(x[1]);
-            });
+            .forEach(x => !x[1].isNull ? this.activePlayers.push(x[1]) : null);
 
         if (this.activePlayers.length < 2) return false;
 
@@ -186,7 +180,7 @@ export default class LudoEngine extends TinyEmitter {
                 }
 
                 // Makes the prison selectable...
-                if (is6) this.emit(`${current.color}PrisonSelectable`);
+                if (is6 && isPlayer) this.emit(`${current.color}PrisonSelectable`);
 
                 // If it is a player, it awaits for a decision.
                 // If it is a bot, it calculates moments and returns a decision.
@@ -227,7 +221,7 @@ export default class LudoEngine extends TinyEmitter {
                 }
 
                 // Makes the prison selectable.
-                if (is6) this.emit(`${current.color}PrisonSelectable`);
+                if (is6 && isPlayer) this.emit(`${current.color}PrisonSelectable`);
             }
 
             // If it is a bonus roll, it displays a screen that it is rolling again
@@ -341,37 +335,41 @@ export default class LudoEngine extends TinyEmitter {
             this.on(evt, event);
         });
     }
-    
-    getForwardStep (x, color, offset) {
-        // This function has no use.
-        // Still kept for future purpose.
-        let playerPath = PLAYER_PATHS[color];
-        return playerPath[playerPath.indexOf(x) + offset + 1];
-    }
 
     getBotChoice (current, diceNumber, hasCoinsInPrison) {
+        // The brain of a very poor ai...
         let indices = current.activeCoinsIndices;
 
         return (
             !indices.length || 
             (diceNumber == 6 && hasCoinsInPrison && getRandom(2))
-        ) ? 'prison' : [indices.random() + 1];
+        ) ? 'prison' : [this.getBotCoinChoice(current, indices, diceNumber) + 1];
+    }
 
-        // This can be a stress runtime.
-        // But in future, this can be upgraded.
+    getBotCoinChoice (current, indices, diceNumber) {
+        let playerPath = PLAYER_PATHS[current.color];
+        let futureCors = [];
 
-        // let futureCors = current.cors
-        //     .map(x => !x && isNaN(x) ? NaN : this.getForwardStep(x, current.color, diceNumber));
-            
-        // for (let i = 0; i < this.activePlayers.length; i++) {
-        //     let player = this.activePlayers[i];
-        //     for (let i = 0; i < player.cors.length; i++) {
-        //         let cor = futureCors.findIndex(x => x == player.cors[i]);
-        //         if (cor != -1) {
-        //             return [cor];
-        //         };
-        //     }
-        // }
+        for (let i = 0; i < current.cors.length; i++) {
+            let cor = current.cors[i];
+            if (isNaN(cor)) futureCors.push(NaN);
+            else {
+                let fc = playerPath[cor + diceNumber];
+                if (!fc) return i;
+                futureCors.push(fc);
+            };
+        }
+
+        for (let i = 0; i < this.activePlayers.length; i++) {
+            let player = this.activePlayers[i];
+            for (let i = 0; i < player.cors.length; i++) {
+                let c = player.cors[i];
+                let x = futureCors.findIndex(c1 => typeof c1 == "number" && c1 == c);
+                if (x != -1) return x;
+            }
+        }
+
+        return indices.random();
     }
 
     async checkForCompletion () {

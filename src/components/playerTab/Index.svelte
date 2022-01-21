@@ -38,8 +38,8 @@
             <p class="inline-block strong">Coins Outside: </p>
             <p class="inline-block">{player.coinsOutside}</p><br/>
 
-            <p class="inline-block strong">Coins At Start: </p>
-            <p class="inline-block">{player.coinsAtStart}</p><br/>
+            <p class="inline-block strong">Coins At Prison: </p>
+            <p class="inline-block">{player.coinsAtPrison}</p><br/>
 
             <p class="inline-block strong">Coins Reached: </p>
             <p class="inline-block">{player.coinsReached}</p><br/>

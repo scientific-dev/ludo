@@ -79,7 +79,7 @@ export class LudoPlayer {
         return this.cors.filter(x => isNaN(x)).length;
     }
 
-    get coinsAtStart () {
+    get coinsAtPrison () {
         // Because null is object and others are number including NaN.
         return this.cors.filter(x => typeof x == "object").length;
     }
