@@ -1,6 +1,6 @@
 # Ludo
 
-A site built in svelte to play singleplayer ludo for fun with bots! Visit the [site](https://scientific-dev.github.io/ludo/).
+An awesome site to play singleplayer ludo for fun with bots! Visit the [site](https://scientific-dev.github.io/ludo/).
 
 ## What is Ludo?
 

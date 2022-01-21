@@ -12,7 +12,7 @@
 {:else}	
 	<div class="cover">
 		<h1 class="m-0">Ludo</h1>
-		<p class="m-0">A site built in svelte to play singleplayer ludo for fun even with bots!</p>
+		<p class="m-0">An awesome site to play ludo singleplayer for fun even with bots!</p>
 
 		<a href="?game" class="cover-btn">Lets play!</a>
 		<p class="credits m-0">Made by <a href="https://github.com/scientific-dev">scientific-dev</a></p>
