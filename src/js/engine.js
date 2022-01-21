@@ -175,7 +175,7 @@ export default class LudoEngine extends TinyEmitter {
 
                 // If there is a number other than 6 but no coins outside the prison
                 // then the turn is skipped...
-                if (!current.coinsOutside) {
+                if (!(is6 && current.coinsOutside)) {
                     isBonusRoll = false;
                     await this.alert('Unfortunate! No coins to move!', 1200);
                     this.nextTurn();
@@ -385,7 +385,7 @@ export default class LudoEngine extends TinyEmitter {
         else {
             // This can stress runtime.
             // But in future, this can be upgraded.
-            
+
             let futureCors = current.cors
                 .map(x => !x && isNaN(x) ? NaN : this.getForwardStep(x, current.color, diceNumber));
             
