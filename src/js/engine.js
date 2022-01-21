@@ -172,7 +172,7 @@ export default class LudoEngine extends TinyEmitter {
                 if (isPlayer) {
                     await this.alert('Select your move...', 1100);
                     type = await this.waitForEvent(`${current.color}Select`)
-                } else type = this.getRandomBotChoice(current, is6);
+                } else type = this.getBotChoice(current, diceNumber);
 
                 if (type == 'prison') {
                     let x = coinsInside.random();
@@ -340,11 +340,28 @@ export default class LudoEngine extends TinyEmitter {
         });
     }
 
-    getRandomBotChoice (current, is6) {
+    getForwardStep (x, color, offset) {
+        let playerPath = PLAYER_PATHS[color];
+        return playerPath[playerPath.indexOf(x) + offset + 1];
+    }
+
+    getBotChoice (current, diceNumber) {
         // The brain of a very poor ai...
-        return is6 && getRandom(2)
-            ? 'prison'
-            : [current.activeCoinsIndices.random() + 1];
+        if ((diceNumber == 6) && getRandom(2)) return 'prison';
+        else {
+            let futureCors = current.cors
+                .map(x => !x && isNaN(x) ? NaN : this.getForwardStep(x, current.color, diceNumber));
+            
+            for (let i = 0; i < this.activePlayers.length; i++) {
+                let player = this.activePlayers[i];
+                for (let i = 0; i < player.cors.length; i++) {
+                    let cor = futureCors.findIndex(x => x == player.cors[i]);
+                    if (cor != -1) return [cor];
+                }
+            }
+
+            return [current.activeCoinsIndices.random() + 1];
+        }
     }
 
     async checkForCompletion () {
