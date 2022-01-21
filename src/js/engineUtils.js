@@ -65,7 +65,7 @@ export class LudoPlayer {
     static fromJSON (json) {
         let pl = new LudoPlayer(json.name, json.color);
 
-        pl.cors = json.cors.map(x => x == 'null' ? NaN : x);
+        pl.cors = json.cors.map(x => x == 'nan' ? NaN : x);
         pl.kills = json.kills;
 
         if (json.color) pl.color = json.color;
@@ -89,7 +89,10 @@ export class LudoPlayer {
     }
 
     get completed () {
-        return this.coinsReached == 4;
+        for (let i = 0; i < this.cors.length; i++)
+            if (!isNaN(this.cors[i])) return false;
+
+        return true;
     }
 
     get startPoint () {

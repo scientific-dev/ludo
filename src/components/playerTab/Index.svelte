@@ -1,7 +1,7 @@
 <script>
     import { engine, nthString } from "../../js/engine";
 
-    export let color, started;
+    export let color, started, ended;
     export let editable = true;
 
     let player = engine.players[color];
@@ -47,14 +47,18 @@
             <p class="inline-block strong">Kills: </p>
             <p class="inline-block">{player.kills}</p><br/>
 
-            {#if !started && editable}
-                <a href="#wrap" on:click={removePlayer}>Remove {player.type.toProperCase()}?</a>
+            <p class="sub-label">{player.type.toUpperCase()}</p>
+
+            {#if !ended}
+                {#if !started && editable}
+                    <a href="#wrap" on:click={removePlayer}>Remove {player.type.toProperCase()}?</a>
+                {:else if isTurn}
+                    <p class="sub-label">CURRENT TURN</p>
+                {/if}
             {/if}
 
-            {#if isTurn}
-                <p class="turn-label">CURRENT TURN</p>
-            {:else if player.rank}
-                <p class="turn-label">{nthString(player.rank)} Place</p>
+            {#if player.rank}
+                <p class="sub-label">{nthString(player.rank)} Place</p>
             {/if}
         </div>
     </div>
@@ -128,7 +132,7 @@
     	font-family: "Titillium Web";
     }
 
-    .turn-label {
+    .sub-label {
 	    font-weight: bold;
 	    border-radius: 3px;
 	    text-align: center;

@@ -9,11 +9,13 @@
     let mobileView = false;
     let canDisplayResultBtn = false;
     let started = engine.started;
+    let ended = engine.ended;
 
     engine.on('start', () => started = true);
     engine.on('canDisplayResults', () => canDisplayResultBtn = true);
     engine.on('end', () => {
         canDisplayResultBtn = true;
+        ended = true;
         engine.emit('displayResult');
     });
 
@@ -38,10 +40,10 @@
 
     <div class="players-tab">
         <div class="flex flex-wrap">
-            <PlayerTab color="red" {started}/>
-            <PlayerTab color="yellow" {started}/>
-            <PlayerTab color="blue" {started}/> 
-            <PlayerTab color="green" {started}/>
+            <PlayerTab color="red" {started} {ended}/>
+            <PlayerTab color="yellow" {started} {ended}/>
+            <PlayerTab color="blue" {started} {ended}/> 
+            <PlayerTab color="green" {started} {ended}/>
             <AddPlayer {started}/>
         </div>
 
@@ -52,12 +54,12 @@
                     href="#wrap" 
                     on:click={async () => {
                         if (hasSaved && !confirm('Are you sure? Your old game data might be deleted!')) return;
-                        let success = await engine.start(true);
+                        let success = await engine.start();
                         if (!success) engine.alert('Minimum two players are required.', 1000);
                     }}
                 >New Game</a>
 
-                {#if hasSaved}
+                {#if hasSaved && !ended}
                     <a 
                         class="player-tab-btn" 
                         href="#wrap" 

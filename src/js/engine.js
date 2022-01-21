@@ -48,9 +48,6 @@ export default class LudoEngine extends TinyEmitter {
 
     constructor () {
         super();
-
-        this.on('start', () => this.activeBots = this.activePlayers.filter(x => x.isBot));
-        this.on('end', () => this.ended = true);
     }
 
     get playersArray () {
@@ -122,23 +119,23 @@ export default class LudoEngine extends TinyEmitter {
         this.emit(`${color}Update`);
     }
 
-    async start (toAlert = false) {
+    async start () {
         if (this.started) return false;
         this.activePlayers = [];
 
         Object.entries(this.players)
             .forEach(x => {
-                if (!x[1].isNull) 
-                    this.activePlayers.push(x[1]);
+                if (!x[1].isNull) this.activePlayers.push(x[1]);
             });
 
         if (this.activePlayers.length < 2) return false;
 
         this.started = true;
         this.emit('start');
+        this.activeBots = this.activePlayers.filter(x => x.isBot)
         this.clearSaved();
 
-        if (toAlert) await this.alert('The game has started...', 1000);
+        await this.alert('The game has started...', 1000);
         return this.startTurns();
     }
 
@@ -147,14 +144,20 @@ export default class LudoEngine extends TinyEmitter {
         // or one coin reached a house.
         let isBonusRoll = false;
 
-        while (!await this.checkForCompletion()) {
+        while (!(await this.checkForCompletion())) {
             let current = this.currentTurnPlayer;
             let isPlayer = !current.isBot;
             this.save(); // Autosaves the progress so you don't mess up later!
+            
+            if (current.completed) {
+                // Sometimes ranks may not appear...
+                if (!this.ranks.includes(current)) await this.pushRank(current);
+                this.nextTurn();
+                continue;
+            }
 
             // If it isn't a bonus roll, it would consider as a new turn
             if (!isBonusRoll) {
-                if (current.completed) continue;
                 this.emit(`turn`, current.color);
                 if (isPlayer) await this.waitForEvent('diceRoll');
             }
@@ -175,7 +178,7 @@ export default class LudoEngine extends TinyEmitter {
 
                 // If there is a number other than 6 but no coins outside the prison
                 // then the turn is skipped...
-                if (!(is6 && current.coinsOutside)) {
+                if (!is6 && !current.coinsOutside) {
                     isBonusRoll = false;
                     await this.alert('Unfortunate! No coins to move!', 1200);
                     this.nextTurn();
@@ -190,7 +193,7 @@ export default class LudoEngine extends TinyEmitter {
                 if (isPlayer) {
                     await this.alert('Select your move...', 1100);
                     type = await this.waitForEvent(`${current.color}Select`)
-                } else type = this.getBotChoice(current, diceNumber);
+                } else type = this.getBotChoice(current, coinsInside.length, diceNumber);
 
                 if (type == 'prison') {
                     // The type 'prison' means the decision maker is asking
@@ -208,15 +211,19 @@ export default class LudoEngine extends TinyEmitter {
                     let { 
                         bonusRoll, // Boolean stating that this move got a bonus roll or not.
                         newStep, // Returns the new step id.
-                        gameOver // Boolean stating if the game got over with this move.
+                        gameOver, // Boolean stating if the game got over with this move.
+                        playerCompleted // Boolean stating if the player has completed the game with this move.
                     } = await this.moveCoinInPath(current.color, type[0], current, diceNumber);
                     
                     if (gameOver) break;
-                    isBonusRoll = isBonusRoll || bonusRoll;
-
-                    // If the new step exists, it checks coins which can be killed...
-                    if (!isNaN(newStep)) 
-                        isBonusRoll = (await this.killCoins(current, newStep)) || isBonusRoll;
+                    // If the player has completed his game, then there is no need of bonus rolls...
+                    if (playerCompleted) isBonusRoll = false;
+                    else {
+                        isBonusRoll = isBonusRoll || bonusRoll;
+                        // If the new step exists, it checks coins which can be killed...
+                        if (!isNaN(newStep)) 
+                            isBonusRoll = (await this.killCoins(current, newStep)) || isBonusRoll;
+                    }
                 }
 
                 // Makes the prison selectable.
@@ -229,48 +236,39 @@ export default class LudoEngine extends TinyEmitter {
             else this.nextTurn();
         }
 
-        this.emit('end');
+        this.end;
         return true;
     }
 
-    async alert (message, waitTill = 2000) {
-        let alrt = await new LudoAlert()
-            .setParent(document.querySelector('.board-wrapper'))
-            .setInnerHTML(`<p>${message}</p>`)
-            .display(0);
-        
-        await sleep(waitTill);
-        await alrt.undisplay()
-    }
+    async moveCoinInPath (color, id, player, toAdd) {
+        let coinID = `coin-${color}-${id}`;
+        let cor = player.cors[id - 1] + toAdd;
+        let newStep = PLAYER_PATHS[color][cor];
 
-    async diceRoll (userName = 'Your', result = getRandom(6)) {
-        let pElement = document.createElement('p');
-        pElement.innerHTML = `${userName} Turn`;
+        if (!newStep) {
+            player.cors[id - 1] = NaN;
+            
+            let coinElement = document.getElementById(coinID);
+            let playerCompleted = player.completed;
 
-        let diceElement = document.createElement('div');
-        diceElement.className = 'dice';
-        diceElement.innerHTML = this.getRandomDiceSideHTML();
+            coinElement.parentElement.removeChild(coinElement);
+            await this.alert(`${player.name}'s coin has reached the house!`, 1100);
 
-        let alrt = await new LudoAlert()
-            .appendChildren(pElement, diceElement)
-            .setParent(document.querySelector('.board-wrapper'))
-            .display();
+            if (playerCompleted) await this.pushRank(player, true, false);
+            this.emit(`${color}Update`);
 
-        for (let i = 0; i < 4; i++) {
-            await sleep(i * 50);
-            diceElement.innerHTML = this.getRandomDiceSideHTML();
+            return { 
+                bonusRoll: true, 
+                newStep: NaN, 
+                gameOver: await this.checkForCompletion(),
+                playerCompleted
+            };
         }
 
-        await sleep(200);
-        diceElement.innerHTML = this.getDiceSideHTML(result);
-        await sleep(400);
-        diceElement.style.transform = 'scale(1.2)';
-        await sleep(250);
-        diceElement.style.transform = 'scale(1)';
-        await sleep(750);
-        await alrt.undisplay();
+        player.cors[id - 1] = cor;
+        await this.moveCoin(color, id, newStep);
 
-        return result;
+        return { bonusRoll: false, newStep };
     }
 
     async killCoins (currentPlayer, step) {
@@ -318,40 +316,9 @@ export default class LudoEngine extends TinyEmitter {
         await sleep(400);
     }
 
-    async moveCoinInPath(color, id, player, toAdd) {
-        let coinID = `coin-${color}-${id}`;
-        let cor = player.cors[id - 1] + toAdd;
-        let newStep = PLAYER_PATHS[color][cor];
-
-        if (!newStep) {
-            let coinElement = document.getElementById(coinID);
-            coinElement.parentElement.removeChild(coinElement);
-            player.cors[id - 1] = NaN;
-            await this.alert(`${player.name}'s coin has reached the house!`, 1100);
-
-            if (player.completed) {
-                this.ranks.push(player);
-                await this.alert(`${player.name} has won the ${nthString(this.ranks.length)} place!`, 1100);
-                player.rank = this.ranks.length;
-                this.emit('canDisplayResults');
-            }
-
-            this.emit(`${color}Update`);
-            return { 
-                bonusRoll: true, 
-                newStep: NaN, 
-                gameOver: await this.checkForCompletion() 
-            };
-        }
-
-        player.cors[id - 1] = cor;
-        await this.moveCoin(color, id, newStep);
-        return { bonusRoll: false, newStep };
-    }
-
     async moveCoinToPrison (color, n) {
         let coinElement = document.getElementById(`coin-${color}-${n}`);
-        let stepElement = coinElement.parentElement; // Since the coin is active one
+        let stepElement = coinElement.parentElement;
         let clonedCoin = coinElement.cloneNode();
         
         coinElement.classList.add('coin-exit');
@@ -374,41 +341,44 @@ export default class LudoEngine extends TinyEmitter {
             this.on(evt, event);
         });
     }
-
+    
     getForwardStep (x, color, offset) {
+        // This function has no use.
+        // Still kept for future purpose.
         let playerPath = PLAYER_PATHS[color];
         return playerPath[playerPath.indexOf(x) + offset + 1];
     }
 
-    getBotChoice (current, diceNumber) {
-        if ((diceNumber == 6) && getRandom(2)) return 'prison';
-        else {
-            // This can stress runtime.
-            // But in future, this can be upgraded.
+    getBotChoice (current, diceNumber, hasCoinsInPrison) {
+        let indices = current.activeCoinsIndices;
 
-            let futureCors = current.cors
-                .map(x => !x && isNaN(x) ? NaN : this.getForwardStep(x, current.color, diceNumber));
+        return (
+            !indices.length || 
+            (diceNumber == 6 && hasCoinsInPrison && getRandom(2))
+        ) ? 'prison' : [indices.random() + 1];
+
+        // This can be a stress runtime.
+        // But in future, this can be upgraded.
+
+        // let futureCors = current.cors
+        //     .map(x => !x && isNaN(x) ? NaN : this.getForwardStep(x, current.color, diceNumber));
             
-            for (let i = 0; i < this.activePlayers.length; i++) {
-                let player = this.activePlayers[i];
-                for (let i = 0; i < player.cors.length; i++) {
-                    let cor = futureCors.findIndex(x => x == player.cors[i]);
-                    if (cor != -1) return [cor];
-                }
-            }
-
-            return [current.activeCoinsIndices.random() + 1];
-        }
+        // for (let i = 0; i < this.activePlayers.length; i++) {
+        //     let player = this.activePlayers[i];
+        //     for (let i = 0; i < player.cors.length; i++) {
+        //         let cor = futureCors.findIndex(x => x == player.cors[i]);
+        //         if (cor != -1) {
+        //             return [cor];
+        //         };
+        //     }
+        // }
     }
 
     async checkForCompletion () {
         if (this.ranks.length == 3) {
             // This might look not the most efficient but the maximum array size would
             // be 4 so it should not be a problem...
-            let lastPlayer = this.activePlayers.find(x => !this.ranks.includes(x));
-            this.ranks.push(lastPlayer);
-
-            await this.alert(`${lastPlayer.name} has won the ${nthString(this.ranks.length)} place!`, 1100);
+            await this.pushRank(this.activePlayers.find(x => !this.ranks.includes(x)))
             return true;
         }
 
@@ -419,8 +389,20 @@ export default class LudoEngine extends TinyEmitter {
 
         // There might be chances that there are some bots still alive
         // even if all players are eliminated...
-        this.ranks.push(...this.activeBots.filter(x => !x.completed));
+        for (let i = 0; i < this.activeBots.length; i++) {
+            let bot = this.activeBots[i];
+            if (!bot.completed) await this.pushRank(bot, false);
+        }
+
         return true;
+    }
+
+    async pushRank (player, toAlert = true, toUpdate = true) {
+        this.ranks.push(player);
+        player.rank = this.ranks.length;
+        if (toAlert) await this.alert(`${player.name} has won the ${nthString(this.ranks.length)} place!`, 1100);
+        this.emit('canDisplayResults')
+        if (toUpdate) this.emit(`${player.color}Update`);
     }
 
     getRandomDiceSideHTML () {
@@ -453,37 +435,104 @@ export default class LudoEngine extends TinyEmitter {
         let data = JSON.parse(localStorage.getItem('ludo_data') || '{}');
         let promises = [];
 
-        if (data.started) {
-            this.started = true;
-            this.currentTurn = data.currentTurn;
-            this.activePlayers = data.players.map(LudoPlayer.fromJSON);
-            this.players.red = LudoPlayer.NULL_PLAYER;
+        this.started = false;
+        this.ended = false;
+        this.currentTurn = data.currentTurn;
+        this.activeBots = []
+        this.activePlayers = data.players.map(LudoPlayer.fromJSON);
+        this.activeBots = this.activePlayers.filter(x => x.isBot)
+        this.ranks = [];
+        this.players = {
+            red: LudoPlayer.NULL_PLAYER,
+            green: LudoPlayer.NULL_PLAYER,
+            yellow: LudoPlayer.NULL_PLAYER,
+            blue: LudoPlayer.NULL_PLAYER
+        };
 
-            for (let i = 0; i < this.activePlayers.length; i++) {
-                let player = this.activePlayers[i];
-                let path = PLAYER_PATHS[player.color];
+        for (let i = 0; i < this.activePlayers.length; i++) {
+            let player = this.activePlayers[i];
+            let path = PLAYER_PATHS[player.color];
 
-                this.players[player.color] = player;
-                this.emit(`${player.color}Update`);
+            this.players[player.color] = player;
+            this.emit(`${player.color}Update`);
 
-                for (let i = 0; i < player.cors.length; i++) {
-                    let n = player.cors[i];
-                    if (!isNaN(n) && typeof n == "number")
-                        promises.push(this.moveCoin(player.color, i + 1, path[n]));
-                }
+            for (let i = 0; i < player.cors.length; i++) {
+                let n = player.cors[i];
+
+                if (isNaN(n)) {
+                    let coinElement = document.getElementById(`coin-${player.color}-${i + 1}`);
+                    coinElement.parentElement.removeChild(coinElement);
+                } else if (typeof n == "number")
+                    promises.push(this.moveCoin(player.color, i + 1, path[n]));
             }
-
-            for (let i = 0; i < data.ranks.length; i++) 
-                this.ranks.push(this.players[data.ranks[i]]);
         }
 
-        this.emit('start');
+        for (let i = 0; i < data.ranks.length; i++) {
+            let player = this.players[data.ranks[i]];
+            player.rank = i + 1;
+            this.ranks.push(player);
+        }
+
+        if (this.ranks.length) this.emit('canDisplayResults');
+        if (data.ended) this.end().emit('displayResult');
+        else if (data.started) {
+            this.started = true;
+            this.emit('start');
+        }
+
         await Promise.all(promises);
-        
         if (data.started) {
             await this.alert('The game has resumed...', 1000);
             await this.startTurns();
-        } else if (data.ended) this.emit('displayResult');
+        }
+    }
+
+    async alert (message, waitTill = 2000) {
+        let alrt = await new LudoAlert()
+            .setParent(document.querySelector('.board-wrapper'))
+            .setInnerHTML(`<p>${message}</p>`)
+            .display(0);
+        
+        await sleep(waitTill);
+        await alrt.undisplay()
+    }
+
+    async diceRoll (userName = 'Your', result = getRandom(6)) {
+        let pElement = document.createElement('p');
+        pElement.innerHTML = `${userName} Turn`;
+
+        let diceElement = document.createElement('div');
+        diceElement.className = 'dice';
+        diceElement.innerHTML = this.getRandomDiceSideHTML();
+
+        let alrt = await new LudoAlert()
+            .appendChildren(pElement, diceElement)
+            .setParent(document.querySelector('.board-wrapper'))
+            .display();
+
+        for (let i = 0; i < 4; i++) {
+            await sleep(i * 50);
+            diceElement.innerHTML = this.getRandomDiceSideHTML();
+        }
+
+        await sleep(200);
+        diceElement.innerHTML = this.getDiceSideHTML(result);
+        await sleep(400);
+        diceElement.style.transform = 'scale(1.2)';
+        await sleep(250);
+        diceElement.style.transform = 'scale(1)';
+        await sleep(750);
+        await alrt.undisplay();
+
+        return result;
+    }
+
+    end () {
+        this.started = false;
+        this.ended = true;
+        this.save(); // A final save...
+        this.emit('end');
+        return this;
     }
 
 }

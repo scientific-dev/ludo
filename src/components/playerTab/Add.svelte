@@ -3,8 +3,11 @@
 
     export let started;
 
+    const updateToDislplay = () => toDisplay = engine.playerCount != 4;
     let toDisplay = engine.playerCount != 4;
-    engine.on('playerCountUpdate', () => toDisplay = engine.playerCount != 4);
+
+    engine.on('playerCountUpdate', updateToDislplay);
+    engine.on('end', updateToDislplay); // Sometimes it messes up in the "end" event.
 </script>
 
 {#if !started && toDisplay}
