@@ -71,6 +71,8 @@ export default class LudoEngine extends TinyEmitter {
     }
 
     onWindowLoad () {
+        // These things can be done directly through svelte but 
+        // still I prefer to do it like this...
         let styleElement = document.createElement('style');
 
         styleElement.innerHTML = 
@@ -141,6 +143,8 @@ export default class LudoEngine extends TinyEmitter {
     }
 
     async startTurns () {
+        // A bonus roll when if the die is rolled at 6, killed a coin
+        // or one coin reached a house.
         let isBonusRoll = false;
 
         while (!await this.checkForCompletion()) {
@@ -148,6 +152,7 @@ export default class LudoEngine extends TinyEmitter {
             let isPlayer = !current.isBot;
             this.save(); // Autosaves the progress so you don't mess up later!
 
+            // If it isn't a bonus roll, it would consider as a new turn
             if (!isBonusRoll) {
                 if (current.completed) continue;
                 this.emit(`turn`, current.color);
@@ -156,7 +161,7 @@ export default class LudoEngine extends TinyEmitter {
 
             let diceNumber = (await this.diceRoll(current.name + '\'s')) + 1;
             let coinsInside = current.coinsInsideIndices;
-            let is6 = diceNumber == 6;
+            let is6 = diceNumber == 6; // Just to reduce some code...
             isBonusRoll = is6;
 
             if (coinsInside.length == 4) {
@@ -168,29 +173,59 @@ export default class LudoEngine extends TinyEmitter {
             } else {
                 let type;
 
+                // If there is a number other than 6 but no coins outside the prison
+                // then the turn is skipped...
+                if (!current.coinsOutside) {
+                    isBonusRoll = false;
+                    await this.alert('Unfortunate! No coins to move!', 1200);
+                    this.nextTurn();
+                    continue;
+                }
+
+                // Makes the prison selectable...
                 if (is6) this.emit(`${current.color}PrisonSelectable`);
+
+                // If it is a player, it awaits for a decision.
+                // If it is a bot, it calculates moments and returns a decision.
                 if (isPlayer) {
                     await this.alert('Select your move...', 1100);
                     type = await this.waitForEvent(`${current.color}Select`)
                 } else type = this.getBotChoice(current, diceNumber);
 
                 if (type == 'prison') {
-                    let x = coinsInside.random();
+                    // The type 'prison' means the decision maker is asking
+                    // to release a coin from the prison.
+
+                    let x = coinsInside.random(); // Takes a random coin to release from prison
                     current.cors[x] = 0;
                     await this.moveCoin(current.color, x + 1, current.startPoint);
                     this.emit(`${current.color}Update`);
                 } else if (typeof type[0] == "number") {
-                    let { condition, newStep, gameOver } = await this.moveCoinInPath(current.color, type[0], current, diceNumber);
+                    // If the decision is returned in [number] format then it 
+                    // is asking to move that paticular coin.
+                    // It is in the format [number] for future purposes...
+
+                    let { 
+                        bonusRoll, // Boolean stating that this move got a bonus roll or not.
+                        newStep, // Returns the new step id.
+                        gameOver // Boolean stating if the game got over with this move.
+                    } = await this.moveCoinInPath(current.color, type[0], current, diceNumber);
                     
                     if (gameOver) break;
-                    isBonusRoll = isBonusRoll || condition;
-                    if (!isNaN(newStep)) isBonusRoll = (await this.killCoins(current, newStep)) || isBonusRoll;
+                    isBonusRoll = isBonusRoll || bonusRoll;
+
+                    // If the new step exists, it checks coins which can be killed...
+                    if (!isNaN(newStep)) 
+                        isBonusRoll = (await this.killCoins(current, newStep)) || isBonusRoll;
                 }
 
+                // Makes the prison selectable.
                 if (is6) this.emit(`${current.color}PrisonSelectable`);
             }
 
-            if ((diceNumber == 6) || isBonusRoll) await this.alert('Rolling again...', 750);
+            // If it is a bonus roll, it displays a screen that it is rolling again
+            // else moves to next turn.
+            if (isBonusRoll) await this.alert('Rolling again...', 750);
             else this.nextTurn();
         }
 
@@ -303,7 +338,7 @@ export default class LudoEngine extends TinyEmitter {
 
             this.emit(`${color}Update`);
             return { 
-                condition: true, 
+                bonusRoll: true, 
                 newStep: NaN, 
                 gameOver: await this.checkForCompletion() 
             };
@@ -311,7 +346,7 @@ export default class LudoEngine extends TinyEmitter {
 
         player.cors[id - 1] = cor;
         await this.moveCoin(color, id, newStep);
-        return { condition: false, newStep };
+        return { bonusRoll: false, newStep };
     }
 
     async moveCoinToPrison (color, n) {
@@ -346,9 +381,11 @@ export default class LudoEngine extends TinyEmitter {
     }
 
     getBotChoice (current, diceNumber) {
-        // The brain of a very poor ai...
         if ((diceNumber == 6) && getRandom(2)) return 'prison';
         else {
+            // This can stress runtime.
+            // But in future, this can be upgraded.
+            
             let futureCors = current.cors
                 .map(x => !x && isNaN(x) ? NaN : this.getForwardStep(x, current.color, diceNumber));
             
