@@ -35,6 +35,8 @@
         </div>
 
         <div class="foot">
+            <p class="sub-label type" style="color: var(--{color}-player)">{player.type.toProperCase()}</p>
+
             <p class="inline-block strong">Coins Outside: </p>
             <p class="inline-block">{player.coinsOutside}</p><br/>
 
@@ -46,8 +48,6 @@
 
             <p class="inline-block strong">Kills: </p>
             <p class="inline-block">{player.kills}</p><br/>
-
-            <p class="sub-label">{player.type.toUpperCase()}</p>
 
             {#if !ended}
                 {#if !started && editable}
@@ -81,8 +81,8 @@
 	    background-color: white;
     	border-bottom-left-radius: 4px;
 	    border-bottom-right-radius: 4px;
-    	padding: 5px 10px;
 	    height: calc(100% - 50px);
+        padding: 5px 10px;
     }
 
     :global(.player-tab .head) {
@@ -136,5 +136,12 @@
 	    font-weight: bold;
 	    border-radius: 3px;
 	    text-align: center;
+    }
+
+    .type { 
+        text-align: left!important;; 
+        text-transform: uppercase;
+        text-align: center;
+        font-weight: bold;
     }
 </style>
