@@ -48,7 +48,7 @@ export const PLAYER_PATHS =
             let x = LUDO_PATH.indexOf(START_POINTS[color]);
             let sliced = LUDO_PATH.slice(x, x + 51);
             if (sliced.length != 51) sliced = sliced.concat(LUDO_PATH.slice(0, 51 - sliced.length))
-            return [color, sliced.concat(HOME_PATHS[color])]
+            return [color, [...sliced, ...HOME_PATHS[color], Infinity]]
         })
     )
 

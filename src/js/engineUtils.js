@@ -1,6 +1,14 @@
 import { START_POINTS } from "./constants";
 import { sleep } from "./engine";
 
+Array.prototype.count = function (func) {
+    let x = 0;
+    for (let i = 0; i < this.length; i++) 
+        if (func(this[i])) x += 1;
+
+    return x;
+} 
+
 export class LudoAlert {
 
     constructor () {
@@ -60,6 +68,7 @@ export class LudoPlayer {
         this.name = name;
         this.color = color;
         if (isBot) this.isBot = true;
+        this.updateProps();
     }
 
     static fromJSON (json) {
@@ -72,34 +81,30 @@ export class LudoPlayer {
         if (json.rank) pl.rank = json.rank;
         if (json.bot) pl.isBot = json.bot;
 
-        return pl;
+        return pl.updateProps();
     }
 
-    get coinsReached () {
-        return this.cors.filter(x => isNaN(x)).length;
+    updateProps () {
+        this.coinsReached = this.cors.count(isNaN);
+        this.coinsAtPrison = this.cors.count(x => typeof x == "object");
+        this.coinsOutside = this.cors.count(x => !isNaN(x) && typeof x == "number");
+        return this;
     }
 
-    get coinsAtPrison () {
-        // Because null is object and others are number including NaN.
-        return this.cors.filter(x => typeof x == "object").length;
-    }
-
-    get coinsOutside () {
-        return this.cors.filter(x => !isNaN(x) && typeof x == "number").length;
+    cor(x, y) {
+        this[x] = y;
+        return this.updateProps();
     }
 
     get completed () {
-        for (let i = 0; i < this.cors.length; i++)
-            if (!isNaN(this.cors[i])) return false;
-
-        return true;
+        return this.cors.every(x => !isNaN(x));
     }
 
     get startPoint () {
         return START_POINTS[this.color];
     }
 
-    get activeCoinsIndices () {
+    get activeCoinIndices () {
         let coins = [];
 
         for (let i = 0; i < this.cors.length; i++) {
@@ -112,6 +117,7 @@ export class LudoPlayer {
 
     get coinsInsideIndices () {
         let coins = [];
+
         for (let i = 0; i < this.cors.length; i++)
             if (typeof this.cors[i] == "object") coins.push(i);
 

@@ -54,10 +54,6 @@ export default class LudoEngine extends TinyEmitter {
         return this.playersArray.filter(x => !x.isNull).length;
     }
 
-    get currentTurnPlayer () {
-        return this.activePlayers[this.currentTurn];
-    }
-
     nextTurn () {
         let x = this.activePlayers.length - 1;
         this.currentTurn += (this.currentTurn == x) ? -x : 1;
@@ -137,16 +133,20 @@ export default class LudoEngine extends TinyEmitter {
         // A bonus roll when if the die is rolled at 6, killed a coin
         // or one coin reached a house.
         let isBonusRoll = false;
+        let repeatedDiceNumber = 0;
 
         while (!(await this.checkForCompletion())) {
-            let current = this.currentTurnPlayer;
-            let isPlayer = !current.isBot;
+            this.current = this.activePlayers[this.currentTurn];
             this.save(); // Autosaves the progress so you don't mess up later!
-            
+
+            let current = this.current; // To shorten code in this function...
+            let isPlayer = !current.isBot;
+
             if (current.completed) {
                 // Sometimes ranks may not appear...
                 if (!this.ranks.includes(current)) await this.pushRank(current);
                 this.nextTurn();
+                repeatedDiceNumber = 0;
                 continue;
             }
 
@@ -156,27 +156,38 @@ export default class LudoEngine extends TinyEmitter {
                 if (isPlayer) await this.waitForEvent('diceRoll');
             }
 
-            let diceNumber = (await this.diceRoll(current.name + '\'s')) + 1;
+            let diceNumber = repeatedDiceNumber || (await this.diceRoll(current.name + '\'s')) + 1;
             let coinsInside = current.coinsInsideIndices;
             let is6 = diceNumber == 6; // Just to reduce some code...
             isBonusRoll = is6;
 
             if (coinsInside.length == 4) {
                 if (is6) {
-                    current.cors[0] = 0;
+                    current.cor(0, 0);
                     await this.moveCoin(current.color, 1, current.startPoint);
                     this.emit(`${current.color}Update`);
                 } else await this.alert('Unfortunate!', 1200);
             } else {
-                let type;
+                let type, expectedNumber;
 
-                // If there is a number other than 6 but no coins outside the prison
-                // then the turn is skipped...
-                if (!is6 && !current.coinsOutside) {
-                    isBonusRoll = false;
-                    await this.alert('Unfortunate! No coins to move!', 1200);
-                    this.nextTurn();
-                    continue;
+                // If there is a number other than 6...
+                if (!is6) {
+                    // If there is no coin outside to move...
+                    if (!current.coinsOutside) {
+                        isBonusRoll = false;
+                        repeatedDiceNumber = 0;
+                        await this.alert('Unfortunate! No coins to move!', 1200);
+                        this.nextTurn();
+                        continue;
+                    }
+
+                    // If the coin moves out of range...
+                    if (expectedNumber = this.expectOutOfRange(diceNumber)) {
+                        repeatedDiceNumber = 0;
+                        await this.alert(`Unforturnate! Needed ${expectedNumber} to reach the house.`);
+                        this.nextTurn();
+                        continue;
+                    }
                 }
 
                 // Makes the prison selectable...
@@ -187,14 +198,14 @@ export default class LudoEngine extends TinyEmitter {
                 if (isPlayer) {
                     await this.alert('Select your move...', 1100);
                     type = await this.waitForEvent(`${current.color}Select`)
-                } else type = this.getBotChoice(current, coinsInside.length, diceNumber);
+                } else type = await this.getBotChoice(coinsInside.length, diceNumber);
 
                 if (type == 'prison') {
                     // The type 'prison' means the decision maker is asking
                     // to release a coin from the prison.
 
                     let x = coinsInside.random(); // Takes a random coin to release from prison
-                    current.cors[x] = 0;
+                    current.cor(x, 0);
                     await this.moveCoin(current.color, x + 1, current.startPoint);
                     this.emit(`${current.color}Update`);
                 } else if (typeof type[0] == "number") {
@@ -206,8 +217,19 @@ export default class LudoEngine extends TinyEmitter {
                         bonusRoll, // Boolean stating that this move got a bonus roll or not.
                         newStep, // Returns the new step id.
                         gameOver, // Boolean stating if the game got over with this move.
-                        playerCompleted // Boolean stating if the player has completed the game with this move.
-                    } = await this.moveCoinInPath(current.color, type[0], current, diceNumber);
+                        playerCompleted, // Boolean stating if the player has completed the game with this move.
+                        outOfRange // Boolean stating if the decision selected makes the coin go out of range.
+                    } = await this.moveCoinInPath(type[0], diceNumber);
+
+                    if (outOfRange) {
+                        if (isPlayer) {
+                            repeatedDiceNumber = diceNumber;
+                            continue;
+                        }
+                        // If bots cause the out of range error then it means 
+                        // there is only once coin that too reaches out of 
+                        // range in future.
+                    }
                     
                     if (gameOver) break;
                     // If the player has completed his game, then there is no need of bonus rolls...
@@ -216,9 +238,13 @@ export default class LudoEngine extends TinyEmitter {
                         isBonusRoll = isBonusRoll || bonusRoll;
                         // If the new step exists, it checks coins which can be killed...
                         if (!isNaN(newStep)) 
-                            isBonusRoll = (await this.killCoins(current, newStep)) || isBonusRoll;
+                            isBonusRoll = (await this.killCoins(newStep)) || isBonusRoll;
                     }
-                }
+                } 
+                
+                // Other types like "skip" does not do anything so
+                // there is no need for separate else if block for
+                // other types.
 
                 // Makes the prison selectable.
                 if (is6 && isPlayer) this.emit(`${current.color}PrisonSelectable`);
@@ -228,19 +254,22 @@ export default class LudoEngine extends TinyEmitter {
             // else moves to next turn.
             if (isBonusRoll) await this.alert('Rolling again...', 750);
             else this.nextTurn();
+
+            repeatedDiceNumber = 0;
         }
 
         this.end();
         return true;
     }
 
-    async moveCoinInPath (color, id, player, toAdd) {
-        let coinID = `coin-${color}-${id}`;
+    async moveCoinInPath (id, toAdd) {
+        let player = this.current;
+        let coinID = `coin-${player.color}-${id}`;
         let cor = player.cors[id - 1] + toAdd;
-        let newStep = PLAYER_PATHS[color][cor];
+        let newStep = PLAYER_PATHS[player.color][cor];
 
-        if (!newStep) {
-            player.cors[id - 1] = NaN;
+        if (newStep == Infinity) {
+            player.cor(id - 1, NaN);
             
             let coinElement = document.getElementById(coinID);
             let playerCompleted = player.completed;
@@ -249,7 +278,7 @@ export default class LudoEngine extends TinyEmitter {
             await this.alert(`${player.name}'s coin has reached the house!`, 1100);
 
             if (playerCompleted) await this.pushRank(player, true, false);
-            this.emit(`${color}Update`);
+            this.emit(`${player.color}Update`);
 
             return { 
                 bonusRoll: true, 
@@ -257,37 +286,40 @@ export default class LudoEngine extends TinyEmitter {
                 gameOver: await this.checkForCompletion(),
                 playerCompleted
             };
+        } else if (!newStep) {
+            await this.alert(`Unfortunate! Needed ${56 - player.cors[id - 1]} to reach the house...`);
+            return { outOfRange: true, newStep: NaN };
         }
 
-        player.cors[id - 1] = cor;
-        await this.moveCoin(color, id, newStep);
+        player.cor(id - 1, cor);
+        await this.moveCoin(player.color, id, newStep);
 
         return { bonusRoll: false, newStep };
     }
 
-    async killCoins (currentPlayer, step) {
+    async killCoins (step) {
         if (NULL_POINTS.includes(step)) return;
 
         // Find a better way to do this thing...
         for (let i = 0; i < this.activePlayers.length; i++) {
             let player = this.activePlayers[i];
-            if (player == currentPlayer) continue;
+            if (player == this.current) continue;
 
             let path = PLAYER_PATHS[player.color];
             let kills = 0;
 
             for (let i = 0; i < player.cors.length; i++) {
                 if (path[player.cors[i]] == step) {
-                    player.cors[i] = null;
+                    player.cor(i, null);
                     kills += 1;
                     await this.moveCoinToPrison(player.color, i + 1);
                 }
             }
 
             if (kills) {
-                currentPlayer.kills += kills;
+                this.current.kills += kills;
                 this.emit(`${player.color}Update`)
-                    .emit(`${currentPlayer.color}Update`);
+                    .emit(`${this.current.color}Update`);
 
                 return true;
             }
@@ -336,40 +368,52 @@ export default class LudoEngine extends TinyEmitter {
         });
     }
 
-    getBotChoice (current, diceNumber, hasCoinsInPrison) {
-        // The brain of a very poor ai...
-        let indices = current.activeCoinsIndices;
+    getBotChoice (diceNumber, hasCoinsInPrison) {
+        let indices = this.current.activeCoinIndices;
 
+        // The brain of a very poor ai...
         return (
             !indices.length || 
             (diceNumber == 6 && hasCoinsInPrison && getRandom(2))
-        ) ? 'prison' : [this.getBotCoinChoice(current, indices, diceNumber) + 1];
+        ) ? 'prison' : this.getBotCoinChoice(indices, diceNumber);
     }
 
-    getBotCoinChoice (current, indices, diceNumber) {
-        let playerPath = PLAYER_PATHS[current.color];
+    getBotCoinChoice (indices, diceNumber) {
+        let playerPath = PLAYER_PATHS[this.current.color];
         let futureCors = [];
 
-        for (let i = 0; i < current.cors.length; i++) {
-            let cor = current.cors[i];
+        // Creating an array of cors which will be the future positions
+        // of the coins.
+        for (let i = 0; i < this.current.cors.length; i++) {
+            let cor = this.current.cors[i];
             if (isNaN(cor)) futureCors.push(NaN);
             else {
                 let fc = playerPath[cor + diceNumber];
-                if (!fc) return i;
+                // Returning if the coin will reach its house...
+                if (fc == Infinity) return [i + 1];
                 futureCors.push(fc);
             };
         }
 
+        // Finding if there is a coin which might kill other player/bot's
+        // coin in its future position...
+        //
+        // Maximum possible iterations: 4 * 4 * 4 = 64
+        // Minimum possible iterations: 2 * 4 * 1 = 8
         for (let i = 0; i < this.activePlayers.length; i++) {
             let player = this.activePlayers[i];
+            let playerPath = PLAYER_PATHS[player.color];
+
             for (let i = 0; i < player.cors.length; i++) {
-                let c = player.cors[i];
+                let c = playerPath[player.cors[i]];
                 let x = futureCors.findIndex(c1 => typeof c1 == "number" && c1 == c);
-                if (x != -1) return x;
+                if (x != -1) return [x + 1];
             }
         }
 
-        return indices.random();
+        // If it fails to find some coin which can increase the bot's
+        // winning chance, then it would move to a random decision!
+        return [indices.random() + 1];
     }
 
     async checkForCompletion () {
@@ -401,6 +445,21 @@ export default class LudoEngine extends TinyEmitter {
         if (toAlert) await this.alert(`${player.name} has won the ${nthString(this.ranks.length)} place!`, 1100);
         this.emit('canDisplayResults')
         if (toUpdate) this.emit(`${player.color}Update`);
+    }
+
+    expectOutOfRange (diceNumber) {
+        if (this.current.coinsOutside == 1) {
+            let playerPath = PLAYER_PATHS[this.current.color];
+
+            for (let i = 0; i < this.current.cors.length; i++) {
+                let cor = this.current.cors[i];
+                if (
+                    !isNaN(cor) && 
+                    typeof cor == "number" &&
+                    !playerPath[cor + diceNumber]
+                ) return 56 - cor;
+            }
+        }
     }
 
     getRandomDiceSideHTML () {
