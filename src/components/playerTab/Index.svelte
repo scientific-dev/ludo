@@ -1,7 +1,8 @@
 <script>
     import { engine, nthString } from "../../js/engine";
 
-    export let color, started, ended;
+    export let color, started;
+    export let ended = false;
     export let editable = true;
 
     let player = engine.players[color];

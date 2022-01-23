@@ -115,12 +115,20 @@ export default class LudoEngine extends TinyEmitter {
         if (this.started) return false;
 
         this.activePlayers = [];
+        this.ranks = [];
+
         Object.entries(this.players)
-            .forEach(x => !x[1].isNull ? this.activePlayers.push(x[1]) : null);
+            .forEach(x => {
+                if (!x[1].isNull) {
+                    this.activePlayers.push(x[1].refresh());
+                    this.emit(`${x[1].color}Turn`); // Just in case, if it is not edited...
+                }
+            });
 
         if (this.activePlayers.length < 2) return false;
 
         this.started = true;
+        this.ended = false;
         this.emit('start');
         this.activeBots = this.activePlayers.filter(x => x.isBot)
         this.clearSaved();
@@ -156,7 +164,7 @@ export default class LudoEngine extends TinyEmitter {
                 if (isPlayer) await this.waitForEvent('diceRoll');
             }
 
-            let diceNumber = repeatedDiceNumber || (await this.diceRoll(current.name + '\'s')) + 1;
+            let diceNumber = repeatedDiceNumber || (await this.diceRoll(current.name + '\'s', 5)) + 1;
             let coinsInside = current.coinsInsideIndices;
             let is6 = diceNumber == 6; // Just to reduce some code...
             isBonusRoll = is6;
@@ -169,26 +177,23 @@ export default class LudoEngine extends TinyEmitter {
                 } else await this.alert('Unfortunate!', 1200);
             } else {
                 let type, expectedNumber;
+                let usePrison = current.coinsAtPrison && is6;
 
-                // If there is a number other than 6...
-                if (!is6) {
-                    // If there is no coin outside to move...
-                    if (!current.coinsOutside) {
-                        isBonusRoll = false;
-                        repeatedDiceNumber = 0;
-                        await this.alert('Unfortunate! No coins to move!', 1200);
-                        this.nextTurn();
-                        continue;
-                    }
-
-                    // If the coin moves out of range...
-                    if (expectedNumber = this.expectOutOfRange(diceNumber)) {
-                        repeatedDiceNumber = 0;
-                        await this.alert(`Unforturnate! Needed ${expectedNumber} to reach the house.`);
-                        this.nextTurn();
-                        continue;
-                    }
+                // If there is a number other than 6 and there are no coins outside to move...
+                if (!is6 && !current.coinsOutside) {
+                    isBonusRoll = false, repeatedDiceNumber = 0;
+                    await this.alert('Unfortunate! No coins to move!', 1200);
+                    this.nextTurn();
+                    continue;
                 }
+
+                // If the decision results in out of range error...
+                if ((expectedNumber = this.expectOutOfRange(diceNumber)) && !usePrison) {
+                    isBonusRoll = false, repeatedDiceNumber = 0;
+                    await this.alert(`Unforturnate! Needed ${expectedNumber} to reach the house.`, 1200);
+                    this.nextTurn();
+                    continue;
+                } else usePrison = false;
 
                 // Makes the prison selectable...
                 if (is6 && isPlayer) this.emit(`${current.color}PrisonSelectable`);
@@ -198,7 +203,7 @@ export default class LudoEngine extends TinyEmitter {
                 if (isPlayer) {
                     await this.alert('Select your move...', 1100);
                     type = await this.waitForEvent(`${current.color}Select`)
-                } else type = await this.getBotChoice(coinsInside.length, diceNumber);
+                } else type = usePrison ? 'prison' : await this.getBotChoice(diceNumber, coinsInside.length);
 
                 if (type == 'prison') {
                     // The type 'prison' means the decision maker is asking
@@ -221,14 +226,11 @@ export default class LudoEngine extends TinyEmitter {
                         outOfRange // Boolean stating if the decision selected makes the coin go out of range.
                     } = await this.moveCoinInPath(type[0], diceNumber);
 
-                    if (outOfRange) {
-                        if (isPlayer) {
-                            repeatedDiceNumber = diceNumber;
-                            continue;
-                        }
-                        // If bots cause the out of range error then it means 
-                        // there is only once coin that too reaches out of 
-                        // range in future.
+                    // Out of range errors can be only caused by players so
+                    // they will be given another chance...
+                    if (outOfRange && isPlayer) {
+                        repeatedDiceNumber = diceNumber, isBonusRoll = true;
+                        continue;
                     }
                     
                     if (gameOver) break;
@@ -369,7 +371,7 @@ export default class LudoEngine extends TinyEmitter {
     }
 
     getBotChoice (diceNumber, hasCoinsInPrison) {
-        let indices = this.current.activeCoinIndices;
+        let indices = this.current.activeCoinIndices(diceNumber);
 
         // The brain of a very poor ai...
         return (
@@ -402,6 +404,7 @@ export default class LudoEngine extends TinyEmitter {
         // Minimum possible iterations: 2 * 4 * 1 = 8
         for (let i = 0; i < this.activePlayers.length; i++) {
             let player = this.activePlayers[i];
+            if (this.current == player) continue;
             let playerPath = PLAYER_PATHS[player.color];
 
             for (let i = 0; i < player.cors.length; i++) {

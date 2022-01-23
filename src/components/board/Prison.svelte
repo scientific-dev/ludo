@@ -1,12 +1,12 @@
 <script>
     import Coin from './Coin.svelte';
     import { engine } from '../../js/engine';
-import { HOUSE_SIDES } from '../../js/constants';
+    import { HOUSE_SIDES } from '../../js/constants';
 
-    export let code, cellSize, prisonSize, prisonSelectable;
+    export let code, cellSize, prisonSize;
     engine.on(`${code}PrisonSelectable`, () => prisonSelectable = !prisonSelectable);
 
-    let innerPrisonSize, prisonInnerMargin;
+    let innerPrisonSize, prisonInnerMargin, prisonSelectable;
 
     $: {
         innerPrisonSize = (4 * cellSize) + 4;

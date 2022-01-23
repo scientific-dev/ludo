@@ -10,8 +10,14 @@
     let canDisplayResultBtn = false;
     let started = engine.started;
     let ended = engine.ended;
+    let boardKey = {};
 
-    engine.on('start', () => started = true);
+    engine.on('start', () => {
+        started = true
+        if (ended) boardKey = {};
+        ended = false;
+    });
+
     engine.on('canDisplayResults', () => canDisplayResultBtn = true);
     engine.on('end', () => {
         canDisplayResultBtn = true;
@@ -36,7 +42,9 @@
 <Result {started}/>
 
 <div class="flex" class:mobile-view={mobileView}>
-    <Board/> 
+    {#key boardKey}
+        <Board/> 
+    {/key}
 
     <div class="players-tab">
         <div class="flex flex-wrap">

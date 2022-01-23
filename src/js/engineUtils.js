@@ -1,4 +1,4 @@
-import { START_POINTS } from "./constants";
+import { PLAYER_PATHS, START_POINTS } from "./constants";
 import { sleep } from "./engine";
 
 Array.prototype.count = function (func) {
@@ -91,25 +91,37 @@ export class LudoPlayer {
         return this;
     }
 
+    refresh () {
+        delete this.rank;
+
+        this.cors = [null, null, null, null];
+        this.kills = 0;
+
+        return this.updateProps();
+    }
+
     cor(x, y) {
-        this[x] = y;
+        this.cors[x] = y;
         return this.updateProps();
     }
 
     get completed () {
-        return this.cors.every(x => !isNaN(x));
+        return this.cors.every(isNaN);
     }
 
     get startPoint () {
         return START_POINTS[this.color];
     }
 
-    get activeCoinIndices () {
+    activeCoinIndices (y) {
         let coins = [];
+        let playerPath = PLAYER_PATHS[this.color];
 
         for (let i = 0; i < this.cors.length; i++) {
             let x = this.cors[i];
-            if (!isNaN(x) && typeof x == "number") coins.push(i);
+            if (!isNaN(x) && typeof x == "number") {
+                if (typeof playerPath[x + y] == "number") coins.push(i)
+            }
         }
 
         return coins;
