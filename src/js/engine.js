@@ -176,6 +176,12 @@ export default class LudoEngine extends TinyEmitter {
                     this.emit(`${current.color}Update`);
                 } else await this.alert('Unfortunate!', 1200);
             } else {
+                // Make the prison selectable..
+                const togglePrisonSelectable =
+                    is6 && isPlayer
+                        ? () => this.emit(`${current.color}PrisonSelectable`)
+                        : () => null;
+
                 let type, expectedNumber;
                 let usePrison = current.coinsAtPrison && is6;
 
@@ -189,14 +195,13 @@ export default class LudoEngine extends TinyEmitter {
 
                 // If the decision results in out of range error...
                 if ((expectedNumber = this.expectOutOfRange(diceNumber)) && !usePrison) {
-                    isBonusRoll = false, repeatedDiceNumber = 0;
+                    repeatedDiceNumber = 0;
                     await this.alert(`Unforturnate! Needed ${expectedNumber} to reach the house.`, 1200);
-                    this.nextTurn();
+                    if (!is6) this.nextTurn();
                     continue;
                 } else usePrison = false;
 
-                // Makes the prison selectable...
-                if (is6 && isPlayer) this.emit(`${current.color}PrisonSelectable`);
+                togglePrisonSelectable();
 
                 // If it is a player, it awaits for a decision.
                 // If it is a bot, it calculates moments and returns a decision.
@@ -208,8 +213,14 @@ export default class LudoEngine extends TinyEmitter {
                 if (type == 'prison') {
                     // The type 'prison' means the decision maker is asking
                     // to release a coin from the prison.
-
                     let x = coinsInside.random(); // Takes a random coin to release from prison
+                    if (!x) {
+                        await this.alert('No more coins left in prison...', 1100);
+                        repeatedDiceNumber = diceNumber, isBonusRoll = true;
+                        togglePrisonSelectable();
+                        continue;
+                    }
+
                     current.cor(x, 0);
                     await this.moveCoin(current.color, x + 1, current.startPoint);
                     this.emit(`${current.color}Update`);
@@ -230,6 +241,7 @@ export default class LudoEngine extends TinyEmitter {
                     // they will be given another chance...
                     if (outOfRange && isPlayer) {
                         repeatedDiceNumber = diceNumber, isBonusRoll = true;
+                        togglePrisonSelectable();
                         continue;
                     }
                     
@@ -248,8 +260,7 @@ export default class LudoEngine extends TinyEmitter {
                 // there is no need for separate else if block for
                 // other types.
 
-                // Makes the prison selectable.
-                if (is6 && isPlayer) this.emit(`${current.color}PrisonSelectable`);
+                togglePrisonSelectable();
             }
 
             // If it is a bonus roll, it displays a screen that it is rolling again
