@@ -164,7 +164,7 @@ export default class LudoEngine extends TinyEmitter {
                 if (isPlayer) await this.waitForEvent('diceRoll');
             }
 
-            let diceNumber = repeatedDiceNumber || (await this.diceRoll(current.name + '\'s', 5)) + 1;
+            let diceNumber = repeatedDiceNumber || (await this.diceRoll(current.name + '\'s')) + 1;
             let coinsInside = current.coinsInsideIndices;
             let is6 = diceNumber == 6; // Just to reduce some code...
             isBonusRoll = is6;
