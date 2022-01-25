@@ -1,5 +1,6 @@
 <script>
 	import GamePage from './GamePage.svelte';
+	import './styles/global.css';
 
 	const queries = new URLSearchParams(window.location.search);
 	let isGame = queries.has('game');
